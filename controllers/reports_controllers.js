@@ -1,4 +1,4 @@
-const connector = require("../modules/db_sql/connector2");
+//const connector = require("../modules/db_sql/connector2");
 const db = require("../modules/db");
 var moment = require('moment');
 var log = require("../modules/log");
@@ -6,7 +6,7 @@ var _ = require('lodash');
 var entityReports = require('../modules/entity_manager/reports_entity');
 var entityReports2 = require('../modules/entity_manager/campaign_totals_entity');
 var entityReportGroup = require('../modules/entity_manager/campaign_total_group');
-var entityUser = require('../modules/entity_manager/users_entity');
+//var entityUser = require('../modules/entity_manager/users_entity');
 const ExcelJS = require('exceljs');
 
 /**
@@ -28,8 +28,9 @@ var reportsClick = function (params) {
       const StatusID = params.statusid;
 
       // Valido Usuario 
-      const User = await entityUser.getUser(AccessToken);
-      var UserID = 0;
+      const User = {};// Userawait entityUser.getUser(AccessToken);
+      User.UserTypeID = 'USR';
+      var UserID = 1;
       if (User.UserTypeID == 'ENT') {
         reject(`Error User Invalid`);
       } else if (User.UserTypeID == 'ACM') {
@@ -72,8 +73,11 @@ var reportsDashBoard = function (params) {
       if (AccessToken=="") AccessToken = _.get(params, "accesstoken", "");
 
       // Valido Usuario 
-      const User = await entityUser.getUser(AccessToken);
-      var UserID = 0;
+      //const User = await entityUser.getUser(AccessToken);
+      //var UserID = 0;
+      const User = {};// Userawait entityUser.getUser(AccessToken);
+      User.UserTypeID = 'USR';
+      var UserID = 1;
       var UserName = "";
       if (User.UserTypeID == 'ENT') {
         reject(`Error User Invalid`);
@@ -127,8 +131,11 @@ var reportsBLSource = function (params) {
       if (AccessToken=="") AccessToken = _.get(params, "accesstoken", "");
 
       // Valido Usuario 
-      const User = await entityUser.getUser(AccessToken);
-      var UserID = 0;
+      //const User = await entityUser.getUser(AccessToken);
+      //var UserID = 0;
+      const User = {};// Userawait entityUser.getUser(AccessToken);
+      User.UserTypeID = 'USR';
+      var UserID = 1;
       var UserName = "";
       if (User.UserTypeID == 'ENT') {
         reject(`Error User Invalid`);
@@ -180,8 +187,11 @@ var reportsBLSourceTotals = function (params) {
       if (AccessToken=="") AccessToken = _.get(params, "accesstoken", "");
 
       // Valido Usuario 
-      const User = await entityUser.getUser(AccessToken);
-      var UserID = 0;
+      //const User = await entityUser.getUser(AccessToken);
+      //var UserID = 0;
+      const User = {};// Userawait entityUser.getUser(AccessToken);
+      User.UserTypeID = 'USR';
+      var UserID = 1;
       var UserName = "";
       if (User.UserTypeID == 'ENT') {
         reject(`Error User Invalid`);
@@ -239,8 +249,11 @@ var reportsDateDetails = function (params) {
       if (AccessToken=="") AccessToken = _.get(params, "accesstoken", "");
 
       // Valido Usuario 
-      const User = await entityUser.getUser(AccessToken);
-      var UserID = 0;
+      //const User = await entityUser.getUser(AccessToken);
+      //var UserID = 0;
+      const User = {};// Userawait entityUser.getUser(AccessToken);
+      User.UserTypeID = 'USR';
+      var UserID = 1;
       if (User.UserTypeID == 'ENT') {
         reject(`Error User Invalid`);
       } else if (User.UserTypeID == 'ACM') {
@@ -296,8 +309,11 @@ var reportsDateDetailsSubPub = function (params) {
       if (AccessToken=="") AccessToken = _.get(params, "accesstoken", "");
 
       // Valido Usuario 
-      const User = await entityUser.getUser(AccessToken);
-      var UserID = 0;
+      //const User = await entityUser.getUser(AccessToken);
+      //var UserID = 0;
+      const User = {};// Userawait entityUser.getUser(AccessToken);
+      User.UserTypeID = 'USR';
+      var UserID = 1;
       if (User.UserTypeID == 'ENT') {
         reject(`Error User Invalid`);
       } else if (User.UserTypeID == 'ACM') {
@@ -348,8 +364,11 @@ var reportsClickSubPub = function (params) {
       const StatusID = params.statusid;
 
       // Valido Usuario 
-      const User = await entityUser.getUser(AccessToken);
-      var UserID = 0;
+      //const User = await entityUser.getUser(AccessToken);
+      //var UserID = 0;
+      const User = {};// Userawait entityUser.getUser(AccessToken);
+      User.UserTypeID = 'USR';
+      var UserID = 1;
       if (User.UserTypeID == 'ENT') {
         reject(`Error User Invalid`);
       } else if (User.UserTypeID == 'ACM') {
@@ -383,8 +402,11 @@ var reportsTracking = function (params) {
       const DateTo = moment(params.dateto, "YYYY-MM-DD").add(23, 'hours').add(59, 'minutes');
 
       // Valido Usuario 
-      const User = await entityUser.getUser(AccessToken);
-      var UserID = 0;
+      //const User = await entityUser.getUser(AccessToken);
+      //var UserID = 0;
+      const User = {};// Userawait entityUser.getUser(AccessToken);
+      User.UserTypeID = 'USR';
+      var UserID = 1;
       if (User.UserTypeID == 'ENT') {
         reject(`Error User Invalid`);
       } else if (User.UserTypeID == 'ACM') {
@@ -556,8 +578,11 @@ var trackingDetails = function (params) {
       if (AccessToken=="") AccessToken = _.get(params, "accesstoken", "");
 
       // Valido Usuario 
-      const User = await entityUser.getUser(AccessToken);
-      var UserID = 0;
+      //const User = await entityUser.getUser(AccessToken);
+      //var UserID = 0;
+      const User = {};// Userawait entityUser.getUser(AccessToken);
+      User.UserTypeID = 'USR';
+      var UserID = 1;
       if (User.UserTypeID == 'ENT') {
         reject(`Error User Invalid`);
       } else if (User.UserTypeID == 'ACM') {
@@ -690,8 +715,11 @@ var reportsCampaignTotal = function (params) {
       if (AccessToken=="") AccessToken = _.get(params, "accesstoken", "");
 
       // Valido Usuario 
-      const User = await entityUser.getUser(AccessToken);
-      var UserID = 0;
+      //const User = await entityUser.getUser(AccessToken);
+      //var UserID = 0;
+      const User = {};// Userawait entityUser.getUser(AccessToken);
+      User.UserTypeID = 'USR';
+      var UserID = 1;
       if (User.UserTypeID == 'ENT') {
         reject(`Error User Invalid`);
       } else if (User.UserTypeID == 'ACM') {

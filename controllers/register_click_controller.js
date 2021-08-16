@@ -5,7 +5,7 @@ const c = require('../modules/constants');
 var _ = require('lodash');
 var hash = require('object-hash');
 let performance = require('perf_hooks').performance;
-var CrearOffer = require('./offers_controllers');
+//var CrearOffer = require('./offers_controllers');
 
 function stringToHash(str) {
     var hash = 0, i, chr;
@@ -47,7 +47,7 @@ var registerClick = async function (params) {
 
         if (!offer) {
             // Si no existe, debo enviar al rotador. CREO OFFERTA
-            CrearOffer.registerOffersGuid(params.offerguid);
+            //CrearOffer.registerOffersGuid(params.offerguid);
             
             resolve(
                 {

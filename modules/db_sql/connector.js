@@ -41,8 +41,6 @@ let execute = function (requestString) {
       console.log(err);
     }
     
-    
-    
     const request = new Request(requestString, function (err) {
       if (err) {
         connection.release();
@@ -64,7 +62,6 @@ let execute = function (requestString) {
     connection.execSql(request);
   });
 }
-
 
 module.exports = {
   getConnection: getConnection,

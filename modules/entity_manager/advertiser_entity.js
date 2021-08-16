@@ -1,4 +1,4 @@
-var connector = require("../../modules/db_sql/connector2");
+//var connector = require("../../modules/db_sql/connector2");
 var _ = require('lodash');
 var updateAdvertiserPrePay = async function (param, Revenue) {
   return new Promise(async (resolve, reject) => {
@@ -11,7 +11,7 @@ var updateAdvertiserPrePay = async function (param, Revenue) {
     const AdvertiserID = _.get(param, "context.offer.Advertiser.AdvertiserID");
 
     try {
-      if (PrePay) {
+      /*if (PrePay) {
         if (AdvertiserID) {
           PrepayTerms = PrepayTerms - Revenue;
           results1 = await connector.execute(`UPDATE [dbo].[Advertisers] SET [PrepayTerms] = ${PrepayTerms} WHERE [AdvertiserID] = ${AdvertiserID};`);
@@ -32,7 +32,7 @@ var updateAdvertiserPrePay = async function (param, Revenue) {
         } else {
           throw Error('CampaignHeadCanNotBeUndefined');
         }
-      }
+      }*/
       return true;
     } catch (error) {
       log('Error ' + error + ' rows');

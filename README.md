@@ -23,7 +23,7 @@ npm run test-db
 npm run dev
 
 Ejemplo 
-curl -X GET 'http://localhost:1338/offers?offers=2324294 --&param=2324286
+curl -X GET 'http://localhost:1350/offers?offers=2324294 --&param=2324286
 
 https://<TBD>/click?
 offerguid=52D1099E-C15F-E911-B49E-2818780ED032
@@ -38,11 +38,11 @@ Ejemplo Click
 
 Ejemplo Blackilist Insert por Offert
 
-curl -X GET 'http://localhost:1338/blacklist?offerid=24808'  
+curl -X GET 'http://localhost:1350/blacklist?offerid=24808'  
 
-curl -X GET 'http://localhost:1338/blacklist?offerid=2519960'  
+curl -X GET 'http://localhost:1350/blacklist?offerid=2519960'  
 
-curl -X GET 'http://localhost:1338/advertiser?advertiserid=1843'  
+curl -X GET 'http://localhost:1350/advertiser?advertiserid=1843'  
 
 ##Starting APP
 
@@ -53,39 +53,39 @@ node bin/start_server.js
 
 ## Examples queries:
 # Simple request: localhost
-curl -H "User-Agent:Safari 3.15" "http://localhost:1338/click?offerguid=3D7DEE00-463C-E911-85B3-2818780EF331&ClickID=test_TEST-REDIRECCIONAMIENTO-POR-DEVICE_20190604&Android_AdID=test20190604&subpubid=99999"
+curl -H "User-Agent:Safari 3.15" "http://localhost:1350/click?offerguid=3D7DEE00-463C-E911-85B3-2818780EF331&ClickID=test_TEST-REDIRECCIONAMIENTO-POR-DEVICE_20190604&Android_AdID=test20190604&subpubid=99999"
 
 
 ## Examples Click iOS
-curl -H "User-Agent:Mozilla/5.0 (iPhone; CPU iPhone OS 12_1_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16D57" "http://localhost:1338/click?offerguid=0ABB35DB-44DE-E911-BCD0-2818786C1ADD&ClickID=1test_TEST-REDIRECCIONAMIENTO-POR-DEVICE_20190604&Android_AdID=test20190604&subpubid=99999"
+curl -H "User-Agent:Mozilla/5.0 (iPhone; CPU iPhone OS 12_1_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16D57" "http://localhost:1350/click?offerguid=0ABB35DB-44DE-E911-BCD0-2818786C1ADD&ClickID=1test_TEST-REDIRECCIONAMIENTO-POR-DEVICE_20190604&Android_AdID=test20190604&subpubid=99999"
 
 ## Examples Click Android
-curl -H "Mozilla/5.0 (Linux; Android 9; SM-G960F Build/PPR1.180610.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/74.0.3729.157 Mobile Safari/537.36" "http://localhost:1338/click?offerguid=0ABB35DB-44DE-E911-BCD0-2818786C1ADD&ClickID=1test_TEST-REDIRECCIONAMIENTO-POR-DEVICE_20190604&Android_AdID=test20190604&subpubid=99999"
+curl -H "Mozilla/5.0 (Linux; Android 9; SM-G960F Build/PPR1.180610.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/74.0.3729.157 Mobile Safari/537.36" "http://localhost:1350/click?offerguid=0ABB35DB-44DE-E911-BCD0-2818786C1ADD&ClickID=1test_TEST-REDIRECCIONAMIENTO-POR-DEVICE_20190604&Android_AdID=test20190604&subpubid=99999"
 
 ## Simple request: SERVER PROD
 curl -H "User-Agent:Safari 3.15" "http://click.laikad.com/click?offerguid=3D7DEE00-463C-E911-85B3-2818780EF331&ClickID=test_TEST-REDIRECCIONAMIENTO-POR-DEVICE_20190604&Android_AdID=test20190604&subpubid=99999"
 
 
 ## Inserto Oferta
-curl -X GET 'http://localhost:1338/offers?offerid=2519960' 
+curl -X GET 'http://localhost:1350/offers?offerid=2519960' 
 
 ## WhiteLits por Ofertas
-curl -H "User-Agent:Safari 3.15 "http://localhost:1338/offers_whitelist?offerid=2519960" 
+curl -H "User-Agent:Safari 3.15 "http://localhost:1350/offers_whitelist?offerid=2519960" 
 
 ## Update PrePay
-curl -H "User-Agent:Safari 3.15" "http://localhost:1338/advertiser_prepay?AdvertiserID=1861&Prepay=99"
+curl -H "User-Agent:Safari 3.15" "http://localhost:1350/advertiser_prepay?AdvertiserID=1861&Prepay=99"
 
 #Insert BlackList
-curl -H "User-Agent:Safari 3.15" "http://localhost:1338/blacklist?offerid=12121" 
+curl -H "User-Agent:Safari 3.15" "http://localhost:1350/blacklist?offerid=12121" 
 
 #Debug enabled
-curl -H "User-Agent:Safari 3.15" "http://localhost:1338/click?offerguid=3D7DEE00-463C-E911-85B3-2818780EF331&enableDebug=true&ClickID=test_TEST-REDIRECCIONAMIENTO-POR-DEVICE_20190604&Android_AdID=test20190604&subpubid=99999"
+curl -H "User-Agent:Safari 3.15" "http://localhost:1350/click?offerguid=3D7DEE00-463C-E911-85B3-2818780EF331&enableDebug=true&ClickID=test_TEST-REDIRECCIONAMIENTO-POR-DEVICE_20190604&Android_AdID=test20190604&subpubid=99999"
 
 #Insert AppsNames
-curl -H GET "http://localhost:1338/appsnames?CountryCode=AR&Device=Android" 
+curl -H GET "http://localhost:1350/appsnames?CountryCode=AR&Device=Android" 
 
 #GGet status page
-curl -H GET "http://localhost:1338/server_status" 
+curl -H GET "http://localhost:1350/server_status" 
 
 
 
@@ -119,7 +119,7 @@ curl -H GET "http://localhost:1338/server_status"
 ```
 RUN_SINGLE_INSTANCE=true
 SERVER_THREAD_NUMS=2
-SERVER_LISTENING_PORT=1338
+SERVER_LISTENING_PORT=1350
 MAX_UPLOAD_SIZE=3mb
 MAX_REQUESTS_PER_IP=10000
 
