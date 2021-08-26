@@ -57,5 +57,6 @@ module.exports = {
     MONGO_DB_POOL_SIZE: "MONGO Max pool size, default = 100",
     IGNORED_VALIDATORS: "Valor separado por comas de los validadores a ignorar. p ex: Country,Device",
     APM_AGENT_TRANSACTION_SAMPLE_RATE:"Que porcentaje debe apm enviar como sample rate? si esta variable es 1, entonces se envia el 100%. Un buen valor es: 0.01",
-    APM_AGENT_CAPTURE_SPAN_STACK_TRACES:"Set this option to false to disable capture of stack traces for measured spans during instrumentation."
+    APM_AGENT_CAPTURE_SPAN_STACK_TRACES:"Set this option to false to disable capture of stack traces for measured spans during instrumentation.",
+    MONGO_CONNECTION_STRING:"Mongo string connection"
 }
