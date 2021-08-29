@@ -152,7 +152,7 @@ var getChartsDate = function (DateFrom, DateTo, AdvertiserID, SupplierID, Campai
               //StatusID: { $first: "$StatusID" },
 
               /*
-,{
+              ,{
                     $group: {
                         _id: {
                             CreationDate: "$CreationDate",

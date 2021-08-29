@@ -6,6 +6,9 @@ var getUser = async function (AccessToken) {
   return new Promise(async (resolve, reject) => {
 
     try {
+      
+      //return _.get(total[0], "Total",0);
+
       const querySelect = `SELECT UserTypeID, SupplierID, AdvertiserID, Name, Logon, 
                           CASE UserTypeID WHEN 'ACM' THEN UserID ELSE 0 END AS filtroAccountADV,
                           CASE UserTypeID WHEN 'ACM' THEN UserID ELSE 0 END AS filtroAccountSUP
@@ -14,7 +17,11 @@ var getUser = async function (AccessToken) {
       var retorno = { UserID: 0, UserTypeID: 'ENT', SupplierID: 0, AdvertiserID: 0 };
       const lOk = false
       if (AccessToken != "") {
-
+        /*let total = await db.connection().collection('Users').find(
+          {
+            UserID: 
+          }
+        ).toArray();*/
         results1 = await connector.execute(`SELECT ISNULL(UserID,0) AS UserID FROM [dbo].[FN_VALIDATE_UserByAccessToken] ('${AccessToken}')`);
         if (results1.length > 0) {
           retorno.UserID = results1[0].UserID;

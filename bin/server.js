@@ -21,7 +21,7 @@ if (config.APM_ENABLED == "true") {
 		stackTraceLimit: 0,		
 		captureBody:false,
 		instrument:true,
-		disableInstrumentations:["redis","mysql","mongodb"],
+		disableInstrumentations:["redis","mongodb"],
 		transactionMaxSpans:0,
 		apiRequestTime:"10s",
 		apiRequestSize:"1024kb"

@@ -1,4 +1,4 @@
-var connector = require("../../modules/db_sql/connector2");
+//var connector = require("../../modules/db_sql/connector2");
 var _ = require('lodash');
 var log = require("../../modules/log");
 
@@ -106,7 +106,7 @@ var updateApiCampaign = async function ( ForeignCampaignID, AdvertiserID, Campai
 
     try {
 
-        const results1 = await connector.execute( querySelect );
+       /* const results1 = await connector.execute( querySelect );
         if (results1 != undefined && results1.length > 0) {
           ApiCampaignAvailableID =results1[0].ApiCampaignAvailableID ;
           const results2 = await connector.execute( queryUpdate );
@@ -115,7 +115,7 @@ var updateApiCampaign = async function ( ForeignCampaignID, AdvertiserID, Campai
           const results3 = await connector.execute( queryInsert );
           const results4 = await connector.execute( queryID );
           retorno = 'Insert';
-        }
+        }*/
 
         resolve({retorno});
 
@@ -131,7 +131,7 @@ var deleteApiCampaign = async function ( AdvertiserID ) {
   return new Promise(async (resolve, reject) => {
     try {
     const querySelect = `DELETE FROM [dbo].[ApiCampaignAvailable] WHERE  [AdvertiserID] = ${AdvertiserID} AND [isPortal] = 0;`
-    const results1 = await connector.execute( querySelect );
+    //const results1 = await connector.execute( querySelect );
     resolve({retorno: 'Delete'});
   } catch (error) {
     log('Error ' + error + ' rows');
