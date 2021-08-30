@@ -1,7 +1,7 @@
 const MongoClient = require("mongodb").MongoClient;
 const Logger = require('mongodb').Logger;
 const config = require('../../modules/config');
-const connString = config.MONGO_DB_STRING;
+const connString = config.MONGO_CONNECTION_STRING;;
 var log = require("../log");
 
 //const connString = `mongodb://${config.MONGO_DB_USERNAME}:${config.MONGO_DB_PRIMARY}@${config.MONGO_DB_HOST}:${config.MONGO_DB_PORT}/?ssl=true`; //&sslverifycertificate=false

@@ -1,4 +1,26 @@
-require('dotenv').config();
+const fs = require('fs')
+let path;
+
+try{
+    path = process.argv[2];
+}catch(e){
+    path = undefined;
+}
+
+if(path == undefined){
+    console.log("Loaded from .env on project folder: ");
+    require('dotenv').config();
+}else if(fs.existsSync(path)){
+    require('dotenv').config({ path:  path });
+    console.log("Loaded config from: ", path)
+}else{
+    console.log("Can not load from config from: ", path);
+    console.log("Exiting process now.");
+    process.exit();
+}
+
+
+
 var doc = require('./configDoc');
 var pe = process.env;
 
@@ -65,6 +87,7 @@ var config = {
     MAX_IPs: getConfig("MAX_IPs", 2),
     MONGO_DB_POOL_SIZE: getConfig("MONGO_DB_POOL_SIZE", 100),
     IGNORED_VALIDATORS: getConfig("IGNORED_VALIDATORS", ""),
+    MONGO_CONNECTION_STRING: getConfig("MONGO_CONNECTION_STRING", `mongodb://localhost:27017`),
 };
 
 function getConfig(name, defValue) {
