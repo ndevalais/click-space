@@ -4,6 +4,7 @@ const collection = 'Offers';
 
 module.exports = {
   Offers: function (request, response) {
+    /*
     let debug = '</br>';
     debug = debug + 'Obtengo parametros --------------------------------------</br>';
 
@@ -178,14 +179,10 @@ module.exports = {
     response.setHeader('Content-Type', 'application/json');
     response.status(200);
     response.end(JSON.stringify({ a: debug }, null, 3));
-    
+    */
     return true;
   },
 
-  getOffer2: function(request, response, OfferGUID) {
-    console.log(`offers.getOffer: Buscar la Oferta ${OfferGUID}.`);
-    return 12345;
-  },
   getOffer: function(request, response, OfferGUID) {
     console.log('offers.getOffer *******************************');
     console.log(`offers.getOffer: Buscar la Oferta ${OfferGUID}.`);

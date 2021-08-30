@@ -10,7 +10,6 @@ var helmet = require('helmet');
 var rateLimit = require('express-rate-limit');
 var config = require('../modules/config');
 const mongoDB = require('../modules/db');
-//const sqlConnector = require('../modules/db_sql/connector');
 let entityManager = require('../modules/entity_manager');
 let appRoutes = require('../routes/index');
 module.exports = async function (app) {

@@ -1,6 +1,7 @@
-var connector = require("../../modules/db_sql/connector2");
+var db = require('../db/index');
 var _ = require('lodash');
 var { saveCampaignStatus } = require('./offer_entity');
+const COLLECTION_NAME = "Campaigns";
 
 var campaignsStatus = async function (CampaignID, StatusID ) {
   return new Promise(async (resolve, reject) => {
@@ -9,14 +10,12 @@ var campaignsStatus = async function (CampaignID, StatusID ) {
 
     try {
       // Actualizo El estado de la campaña en SQL Server
-      if (StatusID=='I') {
-        Status = 'Paused';
-        sql = `UPDATE dbo.Campaigns SET StatusID = '${StatusID}', Featured = 0, UpdateDate = GETUTCDATE()  WHERE CampaignID = ${CampaignID};`;
-      } else  {
-        sql = `UPDATE dbo.Campaigns SET StatusID = '${StatusID}', UpdateDate = GETUTCDATE() WHERE CampaignID = ${CampaignID}`;
-      }
-      const results1 = await connector.execute(sql);
-
+      const dataSet = { "StatusID": StatusID, UpdateDate: new Date()} ;
+      if (StatusID=='I') dataSet.Featured = 0;
+      const results1 = await db.connection().collection(COLLECTION_NAME).update(
+        { "CampaignID": CampaignID },
+        { $set: dataSet }
+      );
       // Actualizo Estado de Offers.Campaign
       const results2 = await saveCampaignStatus(CampaignID, StatusID, Status);
       //result2.modifiedCount

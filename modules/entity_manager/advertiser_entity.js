@@ -1,4 +1,3 @@
-//var connector = require("../../modules/db_sql/connector2");
 var _ = require('lodash');
 var updateAdvertiserPrePay = async function (param, Revenue) {
   return new Promise(async (resolve, reject) => {
@@ -33,7 +32,8 @@ var updateAdvertiserPrePay = async function (param, Revenue) {
           throw Error('CampaignHeadCanNotBeUndefined');
         }
       }*/
-      return true;
+      throw Error('CampaignHeadCanNotBeUndefined');
+      //return true;
     } catch (error) {
       log('Error ' + error + ' rows');
       reject({ status: 'Advertiser_PrePay_does_not_exist' });

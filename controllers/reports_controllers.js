@@ -1,4 +1,3 @@
-//const connector = require("../modules/db_sql/connector2");
 const db = require("../modules/db");
 var moment = require('moment');
 var log = require("../modules/log");

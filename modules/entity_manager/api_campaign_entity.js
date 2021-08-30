@@ -1,4 +1,3 @@
-//var connector = require("../../modules/db_sql/connector2");
 var _ = require('lodash');
 var log = require("../../modules/log");
 

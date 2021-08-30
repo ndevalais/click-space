@@ -5,6 +5,5 @@ module.exports = {
     campaigns: require("./campaign_status_controllers.js"),
     reports: require("./reports_controllers.js"),
     processes: require("./processes_controllers.js"),
-    charts: require("./charts_controllers.js"),
     customers: require("./customers_controllers.js")
 }
