@@ -7,6 +7,7 @@ module.exports = {
    ClickID: '<%= context.click.ClickID %>',
    IP: '<%= param.SourceIP %>',
    Android_AdID: '<%= param.android_adid %>',
+   GAID: '<%= param.android_adid %>',
    Android_ID: '<%= param.android_id %>',
    IDFA: '<%= param.idfa %>',
    IDFA: '<%= param.tr_sub2 %>',

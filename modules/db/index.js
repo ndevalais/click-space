@@ -41,7 +41,7 @@ module.exports = {
           db = await client.db(config.MONGO_DB_NAME);
           db.
           isConnected=true;
-          console.log("Mongo DB, Connection READY!");          
+          console.log(`Mongo DB, Connection READY! - ${config.MONGO_DB_NAME}`);
           resolve(db)
         }catch(e){
           isConnected=false;          
