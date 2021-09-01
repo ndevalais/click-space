@@ -75,7 +75,7 @@ function createNewClickStructFromInput(params, context, validatorsResult){
     let clickStructure = _.clone(structure);
     const isFraude = _.get(context, 'offer.Campaign.isFraude', false);
     
-    clickStructure.OfferID = _.get(context, 'offer.id');
+    clickStructure.OfferID = _.get(context, 'offer.OfferID');
     clickStructure.OfferGUID = _.get(params, 'offerguid');
     clickStructure.SubPubID = _.get(params, 'subpubid');
     clickStructure.SubPubHash = _.get(params, 'subpubhash');
