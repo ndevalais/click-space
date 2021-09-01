@@ -1,6 +1,7 @@
 //TODO: Make configurable from mongo too
 module.exports = {
    CampaignClickGUID: '<%= param.insertedClickId %>',  // the ObjectID Of the last succesfully inserted CLICK
+   campaignclickguid: '<%= param.insertedClickId %>', 
    SubPubID: '<%= param.subpubid %>',
    SubPubHash: '<%= param.subpubhash %>',
    HashPubId: '<%= context.offer.Supplier.SupplierID %>',
