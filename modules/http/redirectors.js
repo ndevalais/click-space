@@ -75,6 +75,7 @@ function allValidatorsOKRedirector(response, params){
 }
 
 module.exports = {
+    parseURLFromContext:parseURLFromContext,
     allValidatorsOKRedirector:allValidatorsOKRedirector 
 }
 
