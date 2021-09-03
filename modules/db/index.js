@@ -29,7 +29,7 @@ module.exports = {
             console.log("Returning connection:");
             resolve (db);
           }
-          console.log("Connecting Mongo DB....");
+          console.log(`Connecting Mongo DB usando: ${connString}`);
           client = await MongoClient.connect(connString, options);
           
           Logger.setLevel(config.MONGO_DEBUG_LEVEL);  
