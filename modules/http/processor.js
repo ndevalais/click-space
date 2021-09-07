@@ -104,6 +104,10 @@ function needRedirect(controllerResult) {
     return _.get(controllerResult, "redirect");
 }
 
+function needNoRedirect(controllerResult) {
+    return _.get(controllerResult, "noredirect");
+}
+
 /**
  * Evaluates if request chain needs to be callback url Suppplier.
  * 
@@ -142,6 +146,8 @@ let onControllerFinalized = function (res, err, controllerResult) {
             } else {
                 redirectors.allValidatorsOKRedirector(res, controllerResult);
             }
+        } else if(needNoRedirect(controllerResult)){
+            helpers.send500Error(res);
         } else if(needPostack(controllerResult)){
             // Valido si la URL viene vacia
             const url = _.get(controllerResult,'param.PostBackURL','');

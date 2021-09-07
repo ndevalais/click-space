@@ -6,7 +6,7 @@
     if (@DeviceCampaign = 'IOS' OR @DeviceCampaign = 'BTH') AND UPPER(@OSfamily) = 'IOS'
     if (@DeviceCampaign = 'NON')
 */
-const NAME = "Device Identifier";
+const NAME = "DeviceIdentifier";
 const log = require('../../../log');
 let validClick = require('../../utils')
 var _ = require('lodash');
@@ -23,7 +23,7 @@ var validator = {
                 const IDFA = _.get(objectToValidate, "idfa");
                 const DeviceIdentifier = _.get(contextToValidateWith, "offer.Campaign.DeviceIdentifier", '');
                 let lOK = false;
-                var DeviceID;
+                var DeviceID = '';
 
                 // /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test('01234567-9ABC-DEF0-1234-56789ABCDEF0');
 
@@ -41,18 +41,18 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido - ${NAME} - DeviceID = ${DeviceID} - Family = ${OSfamily}`);
+                    log(`-- Valido 10-${NAME}: DeviceID = ${DeviceID} - Family = ${OSfamily}`);
                     resolve({
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     });
                 } else {
-                    log(`** ERROR - ${NAME} - DeviceID = ${DeviceID} - Family = ${OSfamily}`);
+                    log(`** ERROR 10-${NAME}: DeviceID = ${DeviceID} - Family = ${OSfamily}`);
                     reject({
                         name: NAME,
                         rotator: true,
-                        rotatorReason: `${NAME} - Invalid - DeviceID = ${DeviceID} - Family = ${OSfamily}`
+                        rotatorReason: `10-${NAME}: Invalid - DeviceID = ${DeviceID} - Family = ${OSfamily}`
                     });
                 }
             } catch (e) {

@@ -45,7 +45,7 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido - ${NAME} - countBlackList = ${countBlackList} - countBlackListSubPubID = ${countBlackListSubPubID}`);
+                    log(`-- Valido 04-${NAME}: countBlackList = ${countBlackList} - countBlackListSubPubID = ${countBlackListSubPubID}`);
                     resolve({
                         name: NAME,
                         balcklist: false,

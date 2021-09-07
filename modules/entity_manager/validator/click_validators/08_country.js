@@ -22,7 +22,7 @@ var validator = {
                 const RegionName = _.get(objectToValidate, "AdditionalIPInfo.RegionName", '');
                 const CityName = _.get(objectToValidate, "AdditionalIPInfo.CityName", '');
                 const CitiesTypes = _.get(contextToValidateWith, "offer.Campaign.CitiesTypes");
-                const mensaje = `${NAME} - Campaign Country = ${Countrys} - CitiesTypes = ${CitiesTypes} | Click CountryCode = ${CountryCode}-${RegionName}-${CityName}`;
+                const mensaje = `08-${NAME}: Campaign Country = ${Countrys} - CitiesTypes = ${CitiesTypes} | Click CountryCode = ${CountryCode}-${RegionName}-${CityName}`;
                 let lOK = false;
                 let isCities = true;
 
@@ -43,7 +43,7 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido - ${mensaje}`);
+                    log(`-- Valido ${mensaje}`);
                     resolve({
                         name: NAME,
                         rotator: false,

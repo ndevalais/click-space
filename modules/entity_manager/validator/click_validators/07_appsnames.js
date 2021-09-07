@@ -51,7 +51,7 @@ var validator = {
     doValidate: function (objectToValidate, contextToValidateWith) {
         return new Promise(async function (resolve, reject) {
             try {
-                const isAppsNames = _.get(contextToValidateWith, `offer.Campaign.isAppName`, 0);
+                var isAppsNames = _.get(contextToValidateWith, `offer.Campaign.isAppName`, 0);
                 var DeviceID = _.get(contextToValidateWith, "offer.Campaign.DeviceID");
                 var CountryCode = _.get(objectToValidate, "AdditionalIPInfo.CountryCode", '');
                 var tr_sub3 = _.get(objectToValidate, "tr_sub3","");
@@ -74,7 +74,9 @@ var validator = {
                 AppsNamesBL.forEach(value => {
                     AppsNamesBL1.push(value.AppID);
                 })
-          
+                
+                // ELIMINO VALIDADOR *********************************************
+                isAppsNames =0;
                 if (isAppsNames == 1) {
                     // Busco Si Existe una WL y filtro por Pais
                     if (AppsNamesWL.length > 0) {
@@ -97,7 +99,7 @@ var validator = {
                     objectToValidate.tr_sub4 = tr_sub4;
                 }
 
-                log(`-- Valido - ${NAME} - AppsNames WhiteList = ${AppsNamesWL.length} - BlackList = ${AppsNamesBL.length} - tr_sub3 = ${tr_sub3} - tr_sub4 = ${tr_sub4}`);
+                log(`-- Valido 07-${NAME}: AppsNames WhiteList = ${AppsNamesWL.length} - BlackList = ${AppsNamesBL.length} - tr_sub3 = ${tr_sub3} - tr_sub4 = ${tr_sub4}`);
                 resolve({
                     name: NAME,
                     rotator: false,

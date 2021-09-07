@@ -22,18 +22,18 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido - ${NAME} - VPNCheck = ${VPNCheck} - VPNProxyType = ${VPNProxyType}`);
+                    log(`-- Valido 12-${NAME}: VPNCheck = ${VPNCheck} - VPNProxyType = ${VPNProxyType}`);
                     resolve({
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     });
                 } else {
-                    log(`** ERROR - ${NAME} - VPNCheck = ${VPNCheck} - VPNProxyType = ${VPNProxyType}`);
+                    log(`** ERROR 12-${NAME}: VPNCheck = ${VPNCheck} - VPNProxyType = ${VPNProxyType}`);
                     reject({
                         name: NAME,
                         rotator: true,
-                        rotatorReason: `${NAME} - Invalid - VPNCheck = ${VPNCheck} - VPNProxyType = ${VPNProxyType}`
+                        rotatorReason: `12-${NAME}: Invalid - VPNCheck = ${VPNCheck} - VPNProxyType = ${VPNProxyType}`
                     });
                 }
 

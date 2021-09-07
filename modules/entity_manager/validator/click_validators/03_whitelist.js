@@ -40,16 +40,16 @@ var validator = {
                 } else lOK = true;
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
-
+                lOK = true; // ELIMINO VALIDADOR
                 if (lOK) {
-                    log(`-- Valido - ${NAME} - countWhiteList = ${countWhiteList} - countWhiteListSubPubID = ${countWhiteListSubPubID} `);
+                    log(`-- Valido 03-${NAME}: countWhiteList = ${countWhiteList} - countWhiteListSubPubID = ${countWhiteListSubPubID} `);
                     resolve({
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     });
                 } else {
-                    log(`** ERROR - ${NAME} - countWhiteList = ${countWhiteList} - countWhiteListSubPubID = ${countWhiteListSubPubID}`);
+                    log(`** ERROR - ${NAME}: countWhiteList = ${countWhiteList} - countWhiteListSubPubID = ${countWhiteListSubPubID}`);
                     reject({
                         name: NAME,
                         rotator: true,

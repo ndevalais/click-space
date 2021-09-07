@@ -2,6 +2,9 @@
 module.exports = {
    CampaignClickGUID: '<%= param.insertedClickId %>',  // the ObjectID Of the last succesfully inserted CLICK
    campaignclickguid: '<%= param.insertedClickId %>', 
+   click_uuid: '<%= param.insertedClickId %>', 
+   Click_UUID: '<%= param.insertedClickId %>', 
+   Click_ID: '<%= param.insertedClickId %>', 
    SubPubID: '<%= param.subpubid %>',
    SubPubHash: '<%= param.subpubhash %>',
    HashPubId: '<%= context.offer.Supplier.SupplierID %>',

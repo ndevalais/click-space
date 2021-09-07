@@ -39,7 +39,7 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido - ${NAME} - count BlackList Supplier = ${SupplierID} - ${countBlackList} - SubPubID = ${SubPubID}`);
+                    log(`-- Valido 16-${NAME}: count BlackList Supplier = ${SupplierID} - ${countBlackList} - SubPubID = ${SubPubID}`);
                     resolve({
                         name: NAME,
                         balcklist: false,
@@ -65,11 +65,11 @@ var validator = {
                         SubPubID: SubPubID,
                         p2: p2
                     };
-                    log(`** ERROR - ${NAME} - count BlackList Supplier = ${SupplierID} - ${countBlackList} - SubPubID = ${SubPubID}`);
+                    log(`** ERROR 16-${NAME}: count BlackList Supplier = ${SupplierID} - ${countBlackList} - SubPubID = ${SubPubID}`);
                     reject({
                         name: NAME,
                         rotator: true,
-                        rotatorReason: `${NAME} - count BlackList Supplier = ${SupplierID} - ${countBlackList} - SubPubID = ${SubPubID}`
+                        rotatorReason: `16-${NAME}: count BlackList Supplier = ${SupplierID} - ${countBlackList} - SubPubID = ${SubPubID}`
                     });
                     entityManager.emitEvent(c.EVENTS_KEY_NAMES.NEW_BLACKLIST_REGISTERED, blacklist);    
                 }

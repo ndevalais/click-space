@@ -37,11 +37,11 @@ var validator = {
                         rotatorReason: `** ERROR - ${NAME} Offer - Not Active = ${CampaignStatusID} `
                     });
                 } else {
-                    log(`-- Status Offer ${NAME} - Active`)
+                    log(`-- Status Offer 14-${NAME}: Active`)
                     resolve({
                         name: NAME,
                         rotator: false,
-                        rotatorReason: `Status Offer ${NAME} - Active`
+                        rotatorReason: `Status Offer 14-${NAME}: Active`
                     });
                 }
             } catch (e) {

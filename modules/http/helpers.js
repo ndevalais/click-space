@@ -60,7 +60,7 @@ var send400Error = function (res, ...params) {
     res.flush();
 }
 
-var send500Error = function (res, ...params) {
+var send500Error = function (res, body) {
     res.writeHead(500);
     res.end();
     res.flush();

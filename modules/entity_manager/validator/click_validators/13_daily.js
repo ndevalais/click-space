@@ -21,7 +21,7 @@ var validator = {
                 const CampaignID = _.get(contextToValidateWith, "offer.Campaign.CampaignID");
                 
                 const MargenDaily = parseFloat(_.get(config, "MARGEN_DAILY", 1));
-                const CampaignTypeID = _.get(contextToValidateWith, "offer.Campaign.CampaignTypeID", '');
+                const CampaignTypeID = _.get(contextToValidateWith, "offer.CampaignHead.CampaignTypeID", '');
                 const DailyQuantity = _.get(contextToValidateWith, "offer.Campaign.DailyQuantity", 0);
                 const DailyAmount = _.get(contextToValidateWith, "offer.Campaign.DailyAmount", 0);
                 const DailyQuantityHead = _.get(contextToValidateWith, "offer.CampaignHead.DailyQuantity", 0);
@@ -55,26 +55,26 @@ var validator = {
                 // Primero valido DailyQuantity de la campaña 
                 if (DailyQuantity > 0) {
                     if (CountCampaign > (DailyQuantity * MargenDaily) ) lOK = false;
-                    mensaje = `${CampaignTypeID} - Daily Quantity - DailyQuantity ${DailyQuantity} * MargenDaily ${MargenDaily} - CountCampaign = ${CountCampaign}.`
+                    mensaje = `13-${NAME}: ${CampaignTypeID} - Daily Quantity - DailyQuantity ${DailyQuantity} * MargenDaily ${MargenDaily} - CountCampaign = ${CountCampaign}.`
                 } else  if (DailyAmount > 0) {
                     if (RevenueCampaign > (DailyAmount * MargenDaily) ) lOK = false;
-                    mensaje = `${CampaignTypeID} - Daily Amount - DailyAmount ${DailyAmount} * MargenDaily ${MargenDaily} - RevenueCampaign = ${RevenueCampaign}.`
+                    mensaje = `13-${NAME}: ${CampaignTypeID} - Daily Amount - DailyAmount ${DailyAmount} * MargenDaily ${MargenDaily} - RevenueCampaign = ${RevenueCampaign}.`
                 }
 
                 // Si esta todo OK, valido DailyQuantity HEAD  NECESITO EL TOTAL POR HEAD
                 if (lOK) {
                     if (DailyQuantityHead> 0) {
                         if (CountCampaignHead > (DailyQuantityHead * MargenDaily) ) lOK = false;
-                        mensaje = `${CampaignTypeID} - Daily Quantity - DailyQuantityHead ${DailyQuantityHead} * MargenDaily ${MargenDaily} - CountCampaignHead = ${CountCampaignHead}.`
+                        mensaje = `13-${NAME}: ${CampaignTypeID} - Daily Quantity - DailyQuantityHead ${DailyQuantityHead} * MargenDaily ${MargenDaily} - CountCampaignHead = ${CountCampaignHead}.`
                     } else  if (DailyAmountHead > 0) {
                         if (RevenueCampaignHead > (DailyAmountHead * MargenDaily) )lOK = false;
-                        mensaje = `${CampaignTypeID} - Daily Amount - DailyAmountHead ${DailyAmountHead} * MargenDaily ${MargenDaily} - RevenueCampaignHead = ${RevenueCampaignHead}.`
+                        mensaje = `13-${NAME}: ${CampaignTypeID} - Daily Amount - DailyAmountHead ${DailyAmountHead} * MargenDaily ${MargenDaily} - RevenueCampaignHead = ${RevenueCampaignHead}.`
                     }
                 }
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido - ${mensaje}`)
+                    log(`-- Valido ${mensaje}`)
                     resolve({ 
                         name: NAME,
                         rotator: false,

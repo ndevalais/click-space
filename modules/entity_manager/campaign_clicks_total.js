@@ -193,7 +193,7 @@ function getOffer(offer) {
   const Status = _.get(offer, "Status", "");
   const Device = _.get(offer, "Campaign.DeviceID", "");
   const Category = _.get(offer, "CampaignHead.CampaignCategory", "");
-  const CampaignTypeID = _.get(offer, "Campaign.CampaignTypeID", "");
+  const CampaignTypeID = _.get(offer, "CampaignHead.CampaignTypeID", "");
   const DailyCap = parseInt(_.get(offer, "Campaign.BudgetQuantity", 0));
   const Countries = _.get(offer, "Campaign.Countrys", "");
   let Proxy = parseInt(_.get(offer, "Proxy", 0));
@@ -276,7 +276,7 @@ var addOneInstall = async function (param, offer) {
     let IP2Long = parseInt(_.get(param, "context.click.LocationInfo.IP2Long"));
     let TrackingProxy = _.get(param, "context.params.TrackingProxy", false);
     let TrackingTime = parseInt(_.get(param, "context.params.TrackingTime", 0));
-    //const CampaignTypeID = _.get(param,"context.offer.Campaign.CampaignTypeID");
+    //const CampaignTypeID = _.get(param,"context.offer.CampaignHead.CampaignTypeID");
 
     let CampaignTypeID = _.get(param, "context.click.CampaignTypeID");
     let Revenue = _.get(param, "context.click.Revenue", 0);
@@ -412,7 +412,7 @@ var addOneEvents = async function (params, offer) {
       "context.offer.CampaignHead.CampaignHeadID"
     );
     const CampaignID = parseInt(_.get(params, "context.click.CampaignID"));
-    //const CampaignTypeID = _.get(params,"context.offer.Campaign.CampaignTypeID");
+    //const CampaignTypeID = _.get(params,"context.offer.CampaignHead.CampaignTypeID");
     const OfferID = parseInt(_.get(params, "context.click.OfferID"));
     //const SubPubID = _.get(params, "context.click.SubPubID");
     const SubPubHash = _.get(params, "context.click.SubPubHash");
@@ -648,7 +648,7 @@ var addOneTotalGroupInstall = async function (param, offer) {
   let TrackingProxy = _.get(param, "context.params.TrackingProxy", false);
   let TrackingTime = parseInt(_.get(param, "context.params.TrackingTime", 0));
 
-  let CampaignTypeID = _.get(param, "context.offer.Campaign.CampaignTypeID");
+  let CampaignTypeID = _.get(param, "context.offer.CampaignHead.CampaignTypeID");
   let Revenue = _.get(param, "context.click.Revenue", 0);
   let Cost = _.get(param, "context.click.Cost", 0);
   let Profit = 0;
@@ -718,7 +718,7 @@ var addOneTotalGroupEvents = async function (param, offer) {
   const p2hash = _.get(param, "context.click.p2hash", "");
 
   let TrackingProxy = _.get(param, "context.params.TrackingProxyEvent", false);
-  let CampaignTypeID = _.get(param, "context.offer.Campaign.CampaignTypeID");
+  let CampaignTypeID = _.get(param, "context.offer.CampaignHead.CampaignTypeID");
   let Revenue = parseFloat(
     _.get(param, "context.click.TrackingCost.Revenue", 0)
   );

@@ -15,13 +15,13 @@ var validator = {
     doValidate: function (objectToValidate, contextToValidateWith){
         return new Promise(async function(resolve, reject){
             try {
-                const DeviceID = _.get(contextToValidateWith, "offer.Campaign.DeviceID");
+                const DeviceID = _.get(contextToValidateWith, "offer.CampaignHead.Device");
                 const OSfamily = _.get(objectToValidate, "AdditionalUserAgentInfo.os.family");
                 const OSVersionClick  = _.get(objectToValidate, "AdditionalUserAgentInfo.os.major") + 
                     _.get(objectToValidate, "AdditionalUserAgentInfo.os.minor") + 
                     _.get(objectToValidate, "AdditionalUserAgentInfo.os.patch"); 
                 const DeviceVersion = _.get(contextToValidateWith, "offer.Campaign.DeviceVersion", 0);
-                const mensaje = `${NAME} - DeviceID Campaign = ${DeviceID} - DeviceVersion = ${DeviceVersion} | Click OSfamily = ${OSfamily} - OSVersionClick = ${OSVersionClick}`;
+                const mensaje = `06-${NAME}: DeviceID Campaign = ${DeviceID} - DeviceVersion = ${DeviceVersion} | Click OSfamily = ${OSfamily} - OSVersionClick = ${OSVersionClick}`;
                 let lOK = false;
 
                 if ((DeviceID=='AND' || DeviceID=='BTH' ) && OSfamily.toUpperCase() == 'ANDROID' ) lOK = true;
@@ -35,14 +35,14 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido - ${mensaje}`);
+                    log(`-- Valido ${mensaje}`);
                     resolve({ 
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     }); 
                 } else {
-                    log(`** ERROR - ${mensaje}`);
+                    log(`** ERROR ${mensaje}`);
                     reject({ 
                         name: NAME,
                         rotator: false,

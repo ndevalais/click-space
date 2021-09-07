@@ -27,7 +27,7 @@ var validClickCount = async function (contextToValidateWith, lOK) {
  */
 var eventCost = async function (event, TrackingProxy, offer, existingEventInstall) {
   try {
-    const CampaignTypeID = _.get(offer, "Campaign.CampaignTypeID",'');
+    const CampaignTypeID = _.get(offer, "CampaignHead.CampaignTypeID",'');
     const eventsName1 = _.get(offer, "Campaign.eventsName1", '').toUpperCase();
     const eventsName2 = _.get(offer, "Campaign.eventsName2", '').toUpperCase();
     const eventsName3 = _.get(offer, "Campaign.eventsName3", '').toUpperCase();

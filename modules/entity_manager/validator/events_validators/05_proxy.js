@@ -21,7 +21,7 @@ var validator = {
             const simpleDateYMD = moment().format('YYYYMMDD');
 
             // Obtengo CampaignType y valido solo si es CP2 (para campañas con conversion por eventos)
-            const CampaignTypeID = _.get(objectToValidate, "offer.Campaign.CampaignTypeID",'');
+            const CampaignTypeID = _.get(objectToValidate, "offer.CampaignHead.CampaignTypeID",'');
 
             const DailyQuantity = _.get(contextToValidateWith, "offer.Campaign.DailyQuantity", 0);
             const DailyAmount = _.get(contextToValidateWith, "offer.Campaign.DailyAmount", 0);

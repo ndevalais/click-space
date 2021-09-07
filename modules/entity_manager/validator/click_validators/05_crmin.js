@@ -55,7 +55,7 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido - ${NAME} - CR MIN InstallCount = ${InstallCount} - ClickCountSubPub = ${ClickCountSubPub} - CRMin ${CRMin}`)
+                    log(`-- Valido 05-${NAME}: CR MIN InstallCount = ${InstallCount} - ClickCountSubPub = ${ClickCountSubPub} - CRMin ${CRMin}`)
                     resolve({ 
                         name: NAME,
                         rotator: false,

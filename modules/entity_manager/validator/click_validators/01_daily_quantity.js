@@ -29,18 +29,18 @@ var validator = {
 
                 lOK = await validClick.validClickCount( contextToValidateWith, lOK );
                 if (lOK) {
-                    log(`-- Valido - ${OfferID} ** ${ip} **  Daily Click ${NAME} - DailyQuantityClick = ${DailyQuantityClick} - Total CountDailyClick ${CountDailyClick} by  OfferID / Date`)
+                    log(`-- Valido 01-${NAME}: ${OfferID} ** ip=${ip} ** DailyQuantityClick = ${DailyQuantityClick} - Total CountDailyClick ${CountDailyClick} by OfferID/Date`)
                     resolve({ 
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     });
                 } else {
-                    log(`** ERROR - ${OfferID} ** ${ip} ** Daily Click ${NAME} - DailyQuantityClick = ${DailyQuantityClick} - Total CountDailyClick ${CountDailyClick} by  OfferID / Date`)
+                    log(`** ERROR - ${OfferID} ** ${ip} ** Daily Click ${NAME} - DailyQuantityClick = ${DailyQuantityClick} - Total CountDailyClick ${CountDailyClick} by OfferID/Date`)
                     reject({ 
                         name: NAME,
                         rotator: true,
-                        rotatorReason: `Daily Click ${NAME} - DailyQuantityClick = ${DailyQuantityClick} - Total CountDailyClick ${CountDailyClick} by  OfferID / Date`
+                        rotatorReason: `Daily Click ${NAME} - DailyQuantityClick = ${DailyQuantityClick} - Total CountDailyClick ${CountDailyClick} by OfferID/Date`
                     });
                 }
             } catch (e) {

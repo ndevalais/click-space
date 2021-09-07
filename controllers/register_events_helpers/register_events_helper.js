@@ -13,7 +13,7 @@ var _ = require("lodash");
 var saveEvent = async function (validator, context, params, PROCESAR) {
   let retorno;
   let evento = _.get(params, "event", "").toUpperCase();
-  const CampaignTypeID = _.get(context,"offer.Campaign.CampaignTypeID");
+  const CampaignTypeID = _.get(context,"offer.CampaignHead.CampaignTypeID");
 
   // Ejecuto validadores de los Eventos
   let validatorsResultEvent = await validatorEngine.validate(

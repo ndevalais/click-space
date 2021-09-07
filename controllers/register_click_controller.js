@@ -114,18 +114,26 @@ var registerClick = async function (params) {
             const DeviceID = _.get(params, "AdditionalUserAgentInfo.os.family", '').toUpperCase().substr(0, 3);
             //console.log("Rotador:");
             var rotador = await entityManager.getRotator(SupplierID, DeviceID);
-            params.offerguid = _.get(rotador,"OfferGUID");
-            context.offer = rotador;
-            
-            //Saves click Rotador            
-            resolve({
+            if (rotador) {
+                params.offerguid = _.get(rotador,"OfferGUID");
+                context.offer = rotador;
+                //Saves click Rotador            
+                resolve({
+                        status: 'all_validators_ok',
+                        redirect: true,
+                        param: params,
+                        context: context,
+                        validatorsResult: error
+                }); 
+            } else {
+                resolve({
                     status: 'all_validators_ok',
-                    redirect: true,
+                    noredirect: true,
                     param: params,
                     context: context,
                     validatorsResult: error
-            }); 
-
+                }); 
+            }
             // Debug Click
             if (params.debug) {
                 let click = entityManager.clickEntity.createNewClickStructFromInput(params, context, error);

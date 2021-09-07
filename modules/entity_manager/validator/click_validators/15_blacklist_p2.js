@@ -32,6 +32,7 @@ var validator = {
                 let countBlackListP2 = 0;
                 let lOK = true;
 
+
                 if (p2 != '') {
                     //countBlackListP2 = await entityManager.getBlacklistP2(OfferID, p2);
                     //if (countBlackListP2 == 0) lOK = true;
@@ -41,7 +42,7 @@ var validator = {
                 }
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido - ${NAME} - count BlackList P2 = ${countBlackListP2} - P2 = ${p2}`);
+                    log(`-- Valido 15-${NAME}: count BlackList P2 = ${countBlackListP2} - P2 = ${p2}`);
                     resolve({
                         name: NAME,
                         balcklist: false,
@@ -65,11 +66,11 @@ var validator = {
                         SubPubID: SubPubID,
                         p2: p2
                     };
-                    log(`** ERROR - ${NAME} - count BlackList P2 = ${countBlackListP2} - P2 = ${p2}`)
+                    log(`** ERROR 15-${NAME}: count BlackList P2 = ${countBlackListP2} - P2 = ${p2}`)
                     reject({
                         name: NAME,
                         rotator: true,
-                        rotatorReason: `${NAME} - count BlackList P2 = ${countBlackListP2} - P2 = ${p2}`
+                        rotatorReason: `15-${NAME}: count BlackList P2 = ${countBlackListP2} - P2 = ${p2}`
                     });
                     entityManager.emitEvent(c.EVENTS_KEY_NAMES.NEW_BLACKLIST_REGISTERED, blacklist);    
                 }

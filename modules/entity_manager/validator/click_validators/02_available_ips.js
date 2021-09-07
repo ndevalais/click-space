@@ -23,13 +23,13 @@ var validator = {
                 const MaxIPs = parseInt(_.get(config, "MAX_IPs", 2));
                 // "Offers.${OfferID}.IPs.${IP2Long}.T":1
                 let lOK = true;
-                const mensaje = `${NAME} - IP = ${IP2Long} - CountIPS = ${CountIPS} - Max IP = ${MaxIPs}`;
+                const mensaje = `02-${NAME}: IP = ${IP2Long} - CountIPS = ${CountIPS} - Max IP = ${MaxIPs}`;
                 
                 if (CountIPS >= MaxIPs) lOK = false;
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido - ${mensaje}`);
+                    log(`-- Valido ${mensaje}`);
                     resolve({ 
                         name: NAME,
                         rotator: false,

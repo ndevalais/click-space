@@ -16,7 +16,7 @@ var validator = {
     doValidate: function (objectToValidate, contextToValidateWith) {
         return new Promise(async function (resolve, reject) {
             try {
-                const CampaignTypeID = _.get(contextToValidateWith, "offer.Campaign.CampaignTypeID", '');
+                const CampaignTypeID = _.get(contextToValidateWith, "offer.CampaignHead.CampaignTypeID", '');
                 const CarriersTypes = _.get(contextToValidateWith, "offer.Campaign.CarriersTypes", '');
                 const MobileBrand = _.get(objectToValidate, "AdditionalIPInfo.MobileBrand", '').toUpperCase();
                 const CountryCode = _.get(objectToValidate, "AdditionalIPInfo.CountryCode", '');
@@ -34,18 +34,18 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido - ${NAME} - CampaignTypeID = ${CampaignTypeID} - CarriersTypes = ${CarriersTypes} - MobileBrand = ${CountryCode} ${MobileBrand}`);
+                    log(`-- Valido 11-${NAME}: CampaignTypeID = ${CampaignTypeID} - CarriersTypes = ${CarriersTypes} - MobileBrand = ${CountryCode} ${MobileBrand}`);
                     resolve({
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     });
                 } else {
-                    log(`** ERROR - ${NAME} - CampaignTypeID = ${CampaignTypeID} - CarriersTypes = ${CarriersTypes} - MobileBrand = ${CountryCode} ${MobileBrand}`);
+                    log(`** ERROR 11-${NAME}: CampaignTypeID = ${CampaignTypeID} - CarriersTypes = ${CarriersTypes} - MobileBrand = ${CountryCode} ${MobileBrand}`);
                     reject({
                         name: NAME,
                         rotator: true,
-                        rotatorReason: `${NAME} - CampaignTypeID = ${CampaignTypeID} - CarriersTypes = ${CarriersTypes} - MobileBrand = ${CountryCode} ${MobileBrand}`
+                        rotatorReason: `11-${NAME}: CampaignTypeID = ${CampaignTypeID} - CarriersTypes = ${CarriersTypes} - MobileBrand = ${CountryCode} ${MobileBrand}`
                     });
                 }
             } catch (e) {

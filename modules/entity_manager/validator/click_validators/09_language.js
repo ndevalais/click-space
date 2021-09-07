@@ -32,18 +32,18 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido - ${NAME} - CodeLanguage = ${CodeLanguage} - Headers Language = ${Language}`);
+                    log(`-- Valido 09-${NAME}: CodeLanguage = ${CodeLanguage} - Headers Language = ${Language}`);
                     resolve({
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     });
                 } else {
-                    log(`** ERROR - ${NAME} - Invalid CodeLanguage = ${CodeLanguage} - Headers Language = ${Language}`);
+                    log(`** ERROR 09-${NAME}: Invalid CodeLanguage = ${CodeLanguage} - Headers Language = ${Language}`);
                     reject({
                         name: NAME,
                         rotator: true,
-                        rotatorReason: `${NAME} - Invalid - CodeLanguage = ${CodeLanguage} - Headers Language = ${Language}`
+                        rotatorReason: `09-${NAME}: - Invalid - CodeLanguage = ${CodeLanguage} - Headers Language = ${Language}`
                     });
                 }
             } catch (e) {
