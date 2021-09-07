@@ -147,7 +147,9 @@ let onControllerFinalized = function (res, err, controllerResult) {
                 redirectors.allValidatorsOKRedirector(res, controllerResult);
             }
         } else if(needNoRedirect(controllerResult)){
-            helpers.send500Error(res);
+            const debug = _.get(controllerResult,'param.debug',false);
+            if (debug) helpers.sendJSONResponse(res, controllerResult);
+            else helpers.send500Error(res);
         } else if(needPostack(controllerResult)){
             // Valido si la URL viene vacia
             const url = _.get(controllerResult,'param.PostBackURL','');
