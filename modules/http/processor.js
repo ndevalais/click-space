@@ -140,7 +140,8 @@ let onControllerFinalized = function (res, err, controllerResult) {
         
         //Call the redirect logic 
         if (needRedirect(controllerResult)) {
-            if (_.get(controllerResult,'param.debug',false)) {
+            const debug = _.get(controllerResult,'param.debug',false);
+            if (debug) {
                 controllerResult.url_redirect = redirectors.parseURLFromContext(controllerResult);
                 helpers.sendJSONResponse(res, controllerResult);
             } else {
