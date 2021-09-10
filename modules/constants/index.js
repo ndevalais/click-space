@@ -19,28 +19,29 @@ module.exports = {
 
     P_NAMES:{
         click:{
-            P2:"p2",
-            SUBPUBID:"spi",
-            OFFER_GUID:"og",
+            SUBPUBID:"subpub_id",
+            OFFER_GUID:"offer_id",
             SUBPUBHASH:"sph",
+            P2:"p2",
             P2HASH:'p2h',
-            CAMPAIGN_CLICK_GUID:'ccg',
+            CAMPAIGN_CLICK_GUID:'trace_id',
             IDFA:'idfa',
-            CLICKID:'cid',
+            CLICKID:'click_id',
             IP_NUM: "AdditionalIPInfo.IP_No",
-            TR_SUB1:'tr_sub1',
-            TR_SUB2:'tr_sub2',
-            TR_SUB3:'tr_sub3',
-            TR_SUB4:'tr_sub4',
+            TR_SUB1:'ts1',
+            TR_SUB2:'ts2',
+            TR_SUB3:'ts3',
+            TR_SUB4:'ts4',
             P1:'p1',
             P2:'p2',
             P3:'p3',
             P4:'p4',
             P5:'p5',
-            ANDROID_ID:'androidadid',
+            ANDROID_ID:'gaid',
             USER_AGENT:'UserAgent',
             SOURCE_IP:'SourceIP',
-            name:'click'
+            name:'click',
+            EVENT: 'event'
         }        
     }
 }
