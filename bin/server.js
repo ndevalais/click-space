@@ -44,12 +44,14 @@ module.exports.start =async function (port, done) {
 
 	var doneServer = function (error) {
 		if (!error) {
+			console.log(`Server started on port: ${port}` );
 			return done(null, server);
 		} else {
+			console.log(`Erro: ${port}` );
 			return done(error, null);
 		}
 	};
-
+	
 	server.listen(port, null, null, doneServer).on('error', function (e) {
 		if (e.code == 'EADDRINUSE') {
 			console.log('Address in use. Is the server already running?');

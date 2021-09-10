@@ -320,7 +320,7 @@ var getByUUID = function (uuid, SubPubID, IPLong, event ) {
             // Obtengo Oferta
             let Offer = await db.connection().collection(COLLECTION_NAME).find(
                 { 'OfferGUID': uuid }
-            ).toArray();
+            ).toArray();                     
 
             const CampaignHeadID = _.get(Offer[0], "CampaignHead.CampaignHeadID");
 

@@ -3,6 +3,7 @@ const config = require('../../modules/config');
 var _ = require('lodash');
 var db = require('../db/index');
 var mongo = new require('mongodb');
+let c = require("../constants");
 
 const COLLECTION_NAME="CampaignsClicks";
 const structure = {
@@ -76,12 +77,12 @@ function createNewClickStructFromInput(params, context, validatorsResult){
     const isFraude = _.get(context, 'offer.Campaign.isFraude', false);
     
     clickStructure.OfferID = _.get(context, 'offer.OfferID');
-    clickStructure.OfferGUID = _.get(params, 'offerguid');
-    clickStructure.SubPubID = _.get(params, 'subpubid');
-    clickStructure.SubPubHash = _.get(params, 'subpubhash');
-    clickStructure.p2hash = _.get(params, 'p2hash');
-    clickStructure.ClickID = _.get(params, 'clickid');
-    clickStructure.CampaignClickGUID=_.get(params, 'campaignclickguid'); //TODO:Temporal, sacarlo por favor cuando se use el productivo
+    clickStructure.OfferGUID = _.get(params, c.P_NAMES.click.OFFER_GUID);
+    clickStructure.SubPubID = _.get(params, c.P_NAMES.click.SUBPUBID);
+    clickStructure.SubPubHash = _.get(params, c.P_NAMES.click.SUBPUBHASH);
+    clickStructure.p2hash = _.get(params, c.P_NAMES.click.P2HASH);
+    clickStructure.ClickID = _.get(params, c.P_NAMES.click.CLICKID);
+    clickStructure.CampaignClickGUID=_.get(params, c.P_NAMES.click.CAMPAIGN_CLICK_GUID); //TODO:Temporal, sacarlo por favor cuando se use el productivo
     
     clickStructure.Cost = _.get(context, 'offer.Cost');
     clickStructure.CampaignHeadID = _.get(context, 'offer.CampaignHead.CampaignHeadID');
@@ -92,19 +93,19 @@ function createNewClickStructFromInput(params, context, validatorsResult){
     clickStructure.SupplierID = _.get(context, 'offer.Supplier.SupplierID');
     clickStructure.AccountManagerID = _.get(context, 'offer.Supplier.AccountManagerID');
 
-    clickStructure.ExtraParams.tr_sub1 = _.get(params, 'tr_sub1');
-    clickStructure.ExtraParams.tr_sub2 = _.get(params, 'tr_sub2');
-    clickStructure.ExtraParams.tr_sub3 = _.get(params, 'tr_sub3');
-    clickStructure.ExtraParams.tr_sub4 = _.get(params, 'tr_sub4');
-    clickStructure.ExtraParams.p1 = _.get(params, 'p1');
-    clickStructure.ExtraParams.p2 = _.get(params, 'p2');
-    clickStructure.ExtraParams.p3 = _.get(params, 'p3');
-    clickStructure.ExtraParams.p4 = _.get(params, 'p4');
-    clickStructure.ExtraParams.p5 = _.get(params, 'p5');
+    clickStructure.ExtraParams.tr_sub1 = _.get(params, c.P_NAMES.click.TR_SUB1);
+    clickStructure.ExtraParams.tr_sub2 = _.get(params, c.P_NAMES.click.TR_SUB2);
+    clickStructure.ExtraParams.tr_sub3 = _.get(params, c.P_NAMES.click.TR_SUB3);
+    clickStructure.ExtraParams.tr_sub4 = _.get(params, c.P_NAMES.click.TR_SUB4);
+    clickStructure.ExtraParams.p1 = _.get(params, c.P_NAMES.click.P1);
+    clickStructure.ExtraParams.p2 = _.get(params, c.P_NAMES.click.P2);
+    clickStructure.ExtraParams.p3 = _.get(params, c.P_NAMES.click.P3);
+    clickStructure.ExtraParams.p4 = _.get(params, c.P_NAMES.click.P4);
+    clickStructure.ExtraParams.p5 = _.get(params, c.P_NAMES.click.P5);
 
-    clickStructure.IDFA = _.get(params, 'idfa');
-    clickStructure.AndroidAdID = _.get(params, 'androidadid');
-    clickStructure.AndroidID = _.get(params, 'androidid');
+    clickStructure.IDFA = _.get(params, c.P_NAMES.click.IDFA);
+    clickStructure.AndroidAdID = _.get(params, c.P_NAMES.click.ANDROID_ID);
+    clickStructure.AndroidID = _.get(params, c.P_NAMES.click.ANDROID_ID);
 
     // clickStructure.OSInfo.OSfamilyVersion =  _.get(params, 'AdditionalUserAgentInfo.os.version');
     clickStructure.OSInfo.OSfamily =  _.get(params, 'AdditionalUserAgentInfo.os.family');
@@ -127,10 +128,10 @@ function createNewClickStructFromInput(params, context, validatorsResult){
     clickStructure.LocationInfo.VPNProxyType =  _.get(params, 'AdditionalProxyInfo.VPNProxyType');
     clickStructure.LocationInfo.VPNCountryCode =  _.get(params, 'AdditionalProxyInfo.VPNCountryCode');
     clickStructure.LocationInfo.VPNCountryName =  _.get(params, 'AdditionalProxyInfo.VPNCountryName');
-    clickStructure.LocationInfo.ControlIp =  _.get(params, 'SourceIP');
+    clickStructure.LocationInfo.ControlIp =  _.get(params, c.P_NAMES.click.SOURCE_IP);
     clickStructure.LocationInfo.IP2Long =  parseInt( _.get(params, 'AdditionalIPInfo.IP_No',0) );
     // Si es fraude agrego el UserAgent
-    if (isFraude) clickStructure.ua = _.get(params, 'UserAgent', '');
+    if (isFraude) clickStructure.ua = _.get(params, c.P_NAMES.click.USER_AGENT, '');
     
     /**
      *       IP: result.ip,

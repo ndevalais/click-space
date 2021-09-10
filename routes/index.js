@@ -5,7 +5,6 @@ const schemas = require('../controllers/schemas');
 const httpProccessor = require('../modules/http/processor');
 
 // Intercepts the routes with our validators
-console.log("Antes del export");
 module.exports.bindRoutes = app => {
   const files = glob.sync(__dirname + "/**/*.js", { ignore: __dirname +"/**/index.js" })
   files.forEach((routeFile) => {

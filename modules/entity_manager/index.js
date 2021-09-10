@@ -22,7 +22,7 @@ const updateStatus = function () {
 
 }
 
-//Gets and offer. This method is cached.
+//Gets an offer. This method is cached.
 async function getOfferByUUID(uuid, SubPubID, IPLong, event) {
     //Gets the function that call the mongo DB
     var f = async function () {
@@ -30,7 +30,7 @@ async function getOfferByUUID(uuid, SubPubID, IPLong, event) {
         return elem;
     }
     //Tell cache helper to manage this object
-    if (event!='click') {
+    if (event!=c.P_NAMES.click.name) {
         return await oe.getByUUID(uuid, SubPubID, IPLong, event);
     } else {
         return await ch.getObject(uuid, CACHE_TTL, f, CACHE_TTK_ELEMENT_NO_ACTIVITY);

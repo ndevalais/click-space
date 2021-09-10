@@ -24,26 +24,27 @@ var registerClick = async function (params) {
 
         let IPLong;
         let pIP;
-        const p2 = _.get(params, "p2", "");
-        const subpubid = _.get(params,"subpubid","").replace(/\./g, ''); 
+        const p2 = _.get(params, c.P_NAMES.click.P2 , "");
+        const subpubid = _.get(params,c.P_NAMES.click.SUBPUBID,"").replace(/\./g, ''); 
+        const subpubhash = stringToHash( subpubid );
+        const offerguid =  _.get(params, c.P_NAMES.click.OFFER_GUID);
+
         try{
-            pIP = _.get(params, "AdditionalIPInfo.IP_No",0)
+            pIP = _.get(params, params,c.P_NAMES.click.IP_NUM, 0)
             IPLong = parseInt( pIP );
         }catch(e){
             console.log("ERROR: registerClick() - No se reconoce la IP:", pIP);
         }
 
-        // Elimino puntos, no le gustan a mongo en el path.
-        // Y como maximo tomo 30 caracteres.
-        
-        //params.subpubid = params.subpubid.replace(/\./g, '');                
-        params.subpubid = subpubid       
-        params.subpubhash = stringToHash( subpubid );
+        var offer = await entityManager.getOfferByUUID(offerguid, subpubhash, IPLong, c.P_NAMES.click.name);
+
+
+        params.subpubid = subpubid;     
+        params.subpubhash = subpubhash;
         params.p2 = p2;
         params.p2hash = stringToHash( p2 );
-        params.evento = 'click';
-        
-        var offer = await entityManager.getOfferByUUID(params.offerguid, params.subpubhash, IPLong, 'click');
+        params.evento = c.P_NAMES.click.name;
+        params.offerguid = offerguid;
 
         if (!offer) {
             // Si no existe, debo enviar al rotador. CREO OFFERTA
