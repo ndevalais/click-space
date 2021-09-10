@@ -5,7 +5,7 @@ var registerInstall = require("./register_events_helpers/register_install_helper
 var registerEvents = require("./register_events_helpers/register_events_helper");
 
 var log = require("../modules/log");
-const c = require("../modules/constants");
+const c = require('../modules/constants');
 var _ = require("lodash");
 const DEFAULT_EVENT_NAME = "Install";
 
@@ -14,7 +14,7 @@ var processEvents = async function(params) {
     try {
       let retorno;
       let event = _.get(params, "event", DEFAULT_EVENT_NAME);
-      let clickId = _.get(params, "campaignclickguid");
+      let clickId = _.get(params, c.P_NAMES.click.CAMPAIGN_CLICK_GUID ,'');
 
       let click = entityManager.getClickByID(clickId);
       let install = entityManager.getInstallByClickId(clickId);
