@@ -80,6 +80,10 @@ var registerClick = async function (params) {
                 
                 // Adds insertedClickId to params for later use if needed.
                 params.insertedClickId = res.insertedId.toHexString();
+                // Actualizo el  CampaignClickGUID
+                entityManager.clickEntity.updateClick( params.insertedClickId );
+                res.ops[0].CampaignClickGUID = params.insertedClickId;
+
                 resolve({
                     status: 'all_validators_ok',
                     redirect: true,

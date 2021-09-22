@@ -71,6 +71,26 @@ var saveClick = async function (click) {
     }    
 }
 
+var updateClick = async function (ID) {
+    if(ID){
+        let ObjectIDs = mongo.ObjectID(ID);
+        return db.connection().collection(COLLECTION_NAME).findOneAndUpdate(
+            { "_id": ObjectIDs  },
+            {
+                $set: {
+                    CampaignClickGUID: ID
+                }
+            },
+            {
+                upsert: false,
+                maxTimeMS: 150
+            }
+        );    
+    }else{
+        throw Error('ClickCanNotBeUpdate');
+    }    
+}
+
 //Taken input from de controller and trasforms into DBSTructure to save
 function createNewClickStructFromInput(params, context, validatorsResult){
     let clickStructure = _.clone(structure);
@@ -79,16 +99,17 @@ function createNewClickStructFromInput(params, context, validatorsResult){
     clickStructure.OfferID = _.get(context, 'offer.OfferID');
     clickStructure.OfferGUID = _.get(params, c.P_NAMES.click.OFFER_GUID);
     clickStructure.SubPubID = _.get(params, c.P_NAMES.click.SUBPUBID);
-    clickStructure.SubPubHash = _.get(params, c.P_NAMES.click.SUBPUBHASH);
-    clickStructure.p2hash = _.get(params, c.P_NAMES.click.P2HASH);
+    clickStructure.SubPubHash = _.get(params, c.P_NAMES.click.SUBPUBHASH) || _.get(params, 'subpubhash','');
+    clickStructure.p2hash = _.get(params, c.P_NAMES.click.P2HASH) || _.get(params, 'p2hash','');
     clickStructure.ClickID = _.get(params, c.P_NAMES.click.CLICKID);
-    clickStructure.CampaignClickGUID=_.get(params, c.P_NAMES.click.CAMPAIGN_CLICK_GUID); //TODO:Temporal, sacarlo por favor cuando se use el productivo
+    clickStructure.CampaignClickGUID =_.get(params, c.P_NAMES.click.CAMPAIGN_CLICK_GUID); //TODO:Temporal, sacarlo por favor cuando se use el productivo
+    // clickStructure.CampaignClickGUID 
     
     clickStructure.Cost = _.get(context, 'offer.Cost');
     clickStructure.CampaignHeadID = _.get(context, 'offer.CampaignHead.CampaignHeadID');
     clickStructure.CampaignID = _.get(context, 'offer.Campaign.CampaignID');
     clickStructure.CampaignGUID = _.get(context, 'offer.Campaign.CampaignGUID');
-    clickStructure.CampaignTypeID = _.get(context, 'offer.Campaign.CampaignTypeID');
+    clickStructure.CampaignTypeID = _.get(context, 'offer.Campaign.CampaignTypeID') || _.get(context, 'offer.CampaignHead.CampaignTypeID');
     clickStructure.Revenue = _.get(context, 'offer.Campaign.Revenue');
     clickStructure.SupplierID = _.get(context, 'offer.Supplier.SupplierID');
     clickStructure.AccountManagerID = _.get(context, 'offer.Supplier.AccountManagerID');
@@ -164,6 +185,7 @@ var getClickByID = async function (id){
 
 module.exports = {
     saveClick: saveClick,
+    updateClick: updateClick,
     createNewClickStructFromInput: createNewClickStructFromInput,
     getClickByID: getClickByID
 }
