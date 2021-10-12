@@ -3,7 +3,7 @@
     - El install debe existir 1 vez por cada click.
     - Si ya existe un click entonces, dispara el evento de registro de eventos
 */
-const NAME = "KPI Install";
+const NAME = "KPI Install"; // Keep Performance Indicator
 const log = require('../../../log');
 var _ = require('lodash');
 var entityManager = require('../..');
