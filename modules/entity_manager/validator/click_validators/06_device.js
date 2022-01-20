@@ -26,7 +26,7 @@ var validator = {
 
                 if ((DeviceID=='AND' || DeviceID=='BTH' || DeviceID.toUpperCase()=='ANDROID') && OSfamily.toUpperCase() == 'ANDROID' ) lOK = true;
                 if ((DeviceID=='IOS' || DeviceID=='BTH' || DeviceID.toUpperCase()=='IOS' ) && OSfamily.toUpperCase() == 'IOS' ) lOK = true;
-                if (DeviceID=='NON' ) lOK = true;
+                if (DeviceID=='NON' || DeviceID.toUpperCase()=='ALL' ) lOK = true;
 
                 if (DeviceVersion > 0 && lOK) {
                     lOK = false;
