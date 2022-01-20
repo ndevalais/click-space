@@ -406,7 +406,7 @@ var getByUUID = function (uuid, SubPubID, IPLong, event ) {
 }
 
 var getRotator = function (SupplierID, DeviceID) {
-    var arrSuppliersID = [54, 55, 125, 191, 192, 193];
+    var arrSuppliersID = [8]; // AGRAGAR SUPPLIERS PARA ROTADORES
     var pos = arrSuppliersID.indexOf(SupplierID);
     if (pos >= 0) var del = arrSuppliersID.splice(pos, 1)
     return new Promise(function (resolve, reject) {
@@ -416,7 +416,7 @@ var getRotator = function (SupplierID, DeviceID) {
                     "Supplier.SupplierID": { $in: arrSuppliersID },
                     "StatusID": "A",
                     "Campaign.StatusID": "A",
-                    "Campaign.DeviceID": { $in: ['IOS', 'BTH', 'NON'] }
+                    //"Campaign.DeviceID": { $in: ['IOS', 'BTH', 'NON'] }
                 }
             },
             { $sort: { CreationDate: -1 } },
