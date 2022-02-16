@@ -8,6 +8,7 @@ const redirectors = require('./redirectors');
 const callbacks = require('./callbacks');
 const fraude = require('./fraude');
 const excel = require('./excel');
+const PostBackURL = require('../entity_manager/postback_entity');
 let counters = require('../counters');
 let CountryLanguage = require('country-language');
 
@@ -153,15 +154,27 @@ let onControllerFinalized = function (res, err, controllerResult) {
             else helpers.send500Error(res);
         } else if(needPostack(controllerResult)){
             // Valido si la URL viene vacia
-            const url = _.get(controllerResult,'param.PostBackURL','');
+            let url = _.get(controllerResult,'param.PostBackURL','');
             if (url!='') {
                 log(`Redirect --> ${url}`);
                 callbacks.allValidatorsOKCallBack(res, controllerResult);
+                url = callbacks.parseURLFromContext(controllerResult);
             }
+            const post = {};
+            post.SupplierID = _.get(controllerResult,'context.offer.Supplier.SupplierID','');
+            post.OfferID = _.get(controllerResult,'context.offer.OfferID','');
+            post.OfferGUID = _.get(controllerResult,'context.offer.OfferGUID','');
+            post.ClickID = _.get(controllerResult,'context.click.ClickID','');
+            post.SubPubID = _.get(controllerResult,'context.click.SubPubID','');
+            post.SubPubHash = _.get(controllerResult,'context.click.SubPubHash','');
+            post.CampaignClickGUID = _.get(controllerResult,'context.click.CampaignClickGUID','');
+            post.CreationDate = new Date();
+            PostBackURL.insertPostBackURL(post);
+
             helpers.sendOkResponseJSON(res);
-        } else if (needPostack(controllerResult)) {
-            callbacks.allValidatorsOKCallBack(res, controllerResult);
-            helpers.sendOkResponseJSON(res);
+        //} else if(needPostack(controllerResult)){
+        //    callbacks.allValidatorsOKCallBack(res, controllerResult);
+        //    helpers.sendOkResponseJSON(res);
         } else if (needWriteJSON(controllerResult)) {
             helpers.sendJSONResponse(res, controllerResult);
         } else if (needWriteXLS(controllerResult)) {

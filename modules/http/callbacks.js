@@ -76,6 +76,7 @@ function allValidatorsOKCallBack(response, params){
 }
 
 module.exports = {
-    allValidatorsOKCallBack:allValidatorsOKCallBack
+    allValidatorsOKCallBack:allValidatorsOKCallBack,
+    parseURLFromContext:parseURLFromContext
 }
 

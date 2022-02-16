@@ -36,6 +36,7 @@ var processEvents = async function(params) {
       );
 
       //Creates a simple "ContextObject", to send to validator.
+      params.TrackingProxy = true;
       var context = {
         click: result[0],
         install: result[1],
@@ -89,6 +90,7 @@ var processEvents = async function(params) {
       }
 
       context.params.PROCESAR = PROCESAR;
+      context.params.PostBackURL = _.get(context, "offer.Supplier.PostBackURL", "");
 
       //Valido el install contra los validadores
       if (PROCESAR == "INSTALL" || PROCESAR == "AMBOS") {
