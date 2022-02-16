@@ -168,6 +168,7 @@ let onControllerFinalized = function (res, err, controllerResult) {
             post.SubPubID = _.get(controllerResult,'context.click.SubPubID','');
             post.SubPubHash = _.get(controllerResult,'context.click.SubPubHash','');
             post.CampaignClickGUID = _.get(controllerResult,'context.click.CampaignClickGUID','');
+            post.PostBackURL = url;
             post.CreationDate = new Date();
             PostBackURL.insertPostBackURL(post);
 
