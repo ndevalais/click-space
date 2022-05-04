@@ -139,7 +139,7 @@ var registerClick = async function (params) {
                     validatorsResult: error
                 }); 
             }
-
+            /* ESTO LO AGREGO DE FORMA TEMPORAL */
             // AGREGO INSERT DEL CLICK DEL ROTADOR ********
             let click = entityManager.clickEntity.createNewClickStructFromInput(params, context, error);
             entityManager.clickEntity.saveClick(click).then(function (res) {
