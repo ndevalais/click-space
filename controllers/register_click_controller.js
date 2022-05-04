@@ -139,14 +139,43 @@ var registerClick = async function (params) {
                     validatorsResult: error
                 }); 
             }
+
+            // AGREGO INSERT DEL CLICK DEL ROTADOR ********
+            let click = entityManager.clickEntity.createNewClickStructFromInput(params, context, error);
+            entityManager.clickEntity.saveClick(click).then(function (res) {
+                //Informs of new click to EntityManager publishing event
+                res.offer = context.offer;
+                
+                
+                // Adds insertedClickId to params for later use if needed.
+                params.insertedClickId = res.insertedId.toHexString();
+                // Actualizo el  CampaignClickGUID
+                entityManager.clickEntity.updateClick( params.insertedClickId );
+                res.ops[0].CampaignClickGUID = params.insertedClickId;
+                
+                entityManager.emitEvent(c.EVENTS_KEY_NAMES.NEW_CLICK_CREATED, res);                
+                // Debug Click
+                if (params.debug) {
+                    entityManager.emitEvent(c.EVENTS_KEY_NAMES.NEW_DEBUG_CREATED, res);
+                }                            
+            }).catch(function (err) {
+                log(err);
+                reject(
+                    {
+                        status: 'error_saving_click',
+                        params: params
+                    }
+                );
+            });
+            //**** FIN CLICK ROTADOR */
             // Debug Click
-            if (params.debug) {
-                let click = entityManager.clickEntity.createNewClickStructFromInput(params, context, error);
+           /* if (params.debug) {
+                //let click = entityManager.clickEntity.createNewClickStructFromInput(params, context, error);
                 res = {offer: context.offer, click: click, context:context};
                 res.ops = [];
                 res.ops.push( click)
                 entityManager.emitEvent(c.EVENTS_KEY_NAMES.NEW_DEBUG_CREATED, res);
-            }
+            }*/
         })
     });
 }
