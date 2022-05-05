@@ -54,7 +54,7 @@ function reportExcel(res, params) {
           // done
           log("saved");
           res.send(buffer);
-          res.flush();
+          res.flushHeaders();
         })
         .catch((err) => {
           log("err", err);
@@ -65,7 +65,7 @@ function reportExcel(res, params) {
           // done
           log( `Save: ${name}` );
           res.send(buffer);
-          res.flush();
+          res.flushHeaders();
         })
         .catch((err) => {
           log("err", err);
@@ -82,7 +82,7 @@ function reportExcel(res, params) {
   res.send({
     code: 200
   });
-  res.flush();*/
+ res.flushHeaders();*/
   /*
 
 

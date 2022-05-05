@@ -7,7 +7,12 @@ const c = require ('../../../modules/constants');
 const conf = require ('../../../modules/config');
 let OTotal = require('../campaign_clicks_total');
 const { Client } = require('@elastic/elasticsearch')
-const client = new Client({ node: conf.ELASTIC_SEARCH_URL })
+const client = new Client({ node: conf.ELASTIC_SEARCH_URL, 
+    auth: {
+        username: 'nestor.d',
+        password: 'instead-truth-frond'
+    }
+});
 let moment = require("moment");
 var _ = require('lodash');
 let counters = require("../../counters");
@@ -33,10 +38,12 @@ function postToElastic(click){
                 lon : lon
             }
         }
+        const clickLowerCase = ConvertKeysToLowerCase(click);
+
         client.index({
             index: conf.ELASTIC_CLICKS_INDEX_NAME,
             // type: '_doc', // uncomment this line if you are using Elasticsearch ≤ 6
-            body: click
+            body: clickLowerCase
           }).catch(function(err){
               console.log(err);
               reject(err);
@@ -45,6 +52,21 @@ function postToElastic(click){
           });
     });
 }
+
+function ConvertKeysToLowerCase(obj) {
+    var output = {};
+    for (i in obj) {
+        if (Object.prototype.toString.apply(obj[i]) === '[object Object]') {
+           output[i.toLowerCase()] = ConvertKeysToLowerCase(obj[i]);
+        }else if(Object.prototype.toString.apply(obj[i]) === '[object Array]'){
+            output[i.toLowerCase()]=[];
+             output[i.toLowerCase()].push(ConvertKeysToLowerCase(obj[i][0]));
+        } else {
+            output[i.toLowerCase()] = obj[i];
+        }
+    }
+    return output;
+};
 
 function addOneToGlobalCouter(){
     counters.addOneClick();

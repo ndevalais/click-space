@@ -43,7 +43,7 @@ var sendOkResponseJSON = function (res, ...params) {
     res.send({
         code: 200
     });
-    res.flush();
+    res.flushHeaders();
 }
 
 var sendJSONResponse = function (res, body) {
@@ -51,19 +51,20 @@ var sendJSONResponse = function (res, body) {
         code: 200,
         body: body
     });
-    res.flush();
+    //res.flush(); Se reemplaza por res.flushHeaders();
+    res.flushHeaders();
 }
 
 var send400Error = function (res, ...params) {
     res.writeHead(400);
     res.end();
-    res.flush();
+    res.flushHeaders();
 }
 
 var send500Error = function (res, body) {
     res.writeHead(500);
     res.end();
-    res.flush();
+    res.flushHeaders();
 }
 
 var response401 = function (module, moduleError) {
@@ -108,7 +109,7 @@ var httpProccess = function (req, res, next, params, route) {
                     error.module ? error.module : "module.server",
                     error.error ? error.error : "module.server.error.unknow"
                 ))
-                res.flush()
+                res.flushHeaders();
             })
     } else {
         log(isValid);
