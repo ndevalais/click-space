@@ -406,7 +406,7 @@ var getByUUID = function (uuid, SubPubID, IPLong, event ) {
 }
 
 var getRotator = function (SupplierID, DeviceID) {
-    var arrSuppliersID = [8]; // AGRAGAR SUPPLIERS PARA ROTADORES
+    var arrSuppliersID = [19, 8]; // AGRAGAR SUPPLIERS PARA ROTADORES
     var pos = arrSuppliersID.indexOf(SupplierID);
     if (pos >= 0) var del = arrSuppliersID.splice(pos, 1)
     return new Promise(function (resolve, reject) {
