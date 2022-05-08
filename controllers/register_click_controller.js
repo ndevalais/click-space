@@ -172,7 +172,6 @@ var registerClick = async function (params) {
                     }
                 );
             });
-            let x=1;
 
             //**** FIN CLICK ROTADOR */
             // Debug Click
