@@ -1,7 +1,46 @@
 
 let config = require("../../../modules/config");
 let moment = require("moment");
+const nodemailer = require('nodemailer');
 var _ = require('lodash');
+
+/**
+ * crear un objeto transportador reutilizable utilizando el transporte SMTP predeterminado
+ * @param {*} transporter -- Transporte SMTP
+ */
+let transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user: 'laikad2021@gmail.com', //'azure_eb3c91984278980d47747dc396efd21f@azure.com',
+    pass: 'levtcukjxgulozph' //'qwe123123'
+  }
+});
+
+const sendMail = (mailOptions) => new Promise((resolve, reject) => {
+  transporter.sendMail(mailOptions, function (error, info) {
+      if (error) reject(error);
+      else resolve(info);
+  });
+})
+
+/**
+ * 
+ * @param {*} result = {To: <Email Sender>, Subject: <Asunto del Email>, Body: <contenido Email>}
+ * @returns 
+ */
+var sendMailBlackList = async function (result) {
+  const Subject = result.Subject || `BlackList Θ SubPub ✔ (${ (new Date()).toString() })`;
+  const mail = await sendMail({
+      from: 'laikad2021@gmail.com',
+      to: result.To,
+      subject: Subject,
+      text: `
+      \n${result.Body}.`
+  });
+  return true;
+}
 
 /**
  * Valido cantidad de clicks desde los cuales inicio las validaciones
@@ -84,5 +123,6 @@ var eventCost = async function (event, TrackingProxy, offer, existingEventInstal
 
 module.exports = {
   validClickCount: validClickCount,
-  eventCost: eventCost
+  eventCost: eventCost,
+  sendMailBlackList: sendMailBlackList
 }

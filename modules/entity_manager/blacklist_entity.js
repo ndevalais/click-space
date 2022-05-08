@@ -5,6 +5,7 @@ var log = require("../log");
 var _ = require('lodash');
 var db = require("../db");
 var mongo = new require('mongodb');
+var utils = require('./utils');
 const entityTotals = require("./campaign_clicks_total");
 
 const structure = {
@@ -206,7 +207,7 @@ var addBlackListTotal = async function (blacklist) {
             "Totals.${simpleDateYMD}.T":1
         }`);
 
-        db.connection().collection(COLLECTION_NAME).updateOne(
+        let ret = await db.connection().collection(COLLECTION_NAME).updateOne(
             {
                 "ListType": ListType, "OfferID": OfferID, "SubPubID": SubPubID
             },
@@ -220,7 +221,17 @@ var addBlackListTotal = async function (blacklist) {
                 maxTimeMS: 50
             }
         );
-
+        
+        if (  _.get(ret,"result.nModified",1) == 0) {;
+            // ENVIO CORREO DE ERROR
+            let Offer = _.get(blacklist,"offer.Offer",'');
+            utils.sendMailBlackList({
+                To: 'laikad2021@gmail.com', 
+                Subject: `BlackList Θ SubPub ${SubPubID}`,
+                Body: `Offer: ${Offer} \nReason: ${blackListReason}\nDate: ${ (new Date()).toString() }`
+            })
+        }
+        
         // Agrego BL Source a CampaignTotalGroup si la Reason esta completa
         entityTotals.addOneTotalGroupBlackList(blacklist, blacklist.offer);
 

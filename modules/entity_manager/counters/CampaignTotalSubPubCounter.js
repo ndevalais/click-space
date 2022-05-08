@@ -74,7 +74,7 @@ function executeIncsPerCampaignTotalSubPub(OfferGUID, SubPubHash, Date, incs) {
 
     incs.$set = {ExpireAt: ExpireAt};
     //console.log("Escribiendo contadores para CampaignHeadID:", CampaignHeadID);
-    return db.connection().collection(COLLECTION_NAME).update(
+    return db.connection().collection(COLLECTION_NAME).updateOne(
         {
             'OfferGUID': OfferGUID,
             'SubPubHash': SubPubHash,

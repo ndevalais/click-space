@@ -2618,6 +2618,11 @@
     "semver" "^5.3.0"
     "tar" "^4.4.2"
 
+"nodemailer@^6.7.5":
+  "integrity" "sha512-6VtMpwhsrixq1HDYSBBHvW0GwiWawE75dS3oal48VqRhUvKJNnKnJo2RI/bCVQubj1vgrgscMNW4DHaD6xtMCg=="
+  "resolved" "https://registry.npmjs.org/nodemailer/-/nodemailer-6.7.5.tgz"
+  "version" "6.7.5"
+
 "nodemon@^1.18.9":
   "integrity" "sha512-VGPaqQBNk193lrJFotBU8nvWZPqEZY2eIzymy2jjY0fJ9qIsxA0sxQ8ATPl0gZC645gijYEc1jtZvpS8QWzJGQ=="
   "resolved" "https://registry.npmjs.org/nodemon/-/nodemon-1.19.4.tgz"
