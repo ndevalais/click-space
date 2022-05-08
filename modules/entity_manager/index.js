@@ -6,6 +6,7 @@ let db = require("../db");
 let oe = require("./offer_entity");
 var clickEntity = require("./click_entity");
 var installsEntity = require("./events_entity");
+var rotadorEntity = require("./rotador_entity");
 let config = require('../../modules/config');
 let eventsWatchers = require('./events_watchers');
 let eventsBus = require('../events_bus');
@@ -157,6 +158,7 @@ module.exports = {
     updateStatus: updateStatus,
     getOfferByUUID: getOfferByUUID,
     clickEntity: clickEntity,
+    rotadorEntity: rotadorEntity,
     wireEventsWatchers: wireEventsWatchers,
     emitEvent: eventsBus.emitEvent,
     getClickByUUID: getClickByUUID,

@@ -194,7 +194,3 @@ module.exports = {
 function getExpirationDate(){    
     return new Date(moment().add(config.MONGO_DB_CLICK_EXPIRATION_IN_DAYS ,'days'));
 }
-
-
-
-

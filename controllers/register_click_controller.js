@@ -118,9 +118,11 @@ var registerClick = async function (params) {
             const SupplierID = _.get(context, "offer.Supplier.SupplierID", 0);
             const DeviceID = _.get(params, "AdditionalUserAgentInfo.os.family", '').toUpperCase().substr(0, 3);
             //console.log("Rotador:");
+
             var rotador = await entityManager.getRotator(SupplierID, DeviceID);
             if (rotador) {
                 params.offerguid = _.get(rotador,"OfferGUID");
+                context.SourceOffer = context.offer;
                 context.offer = rotador;
                 //Saves click Rotador            
                 resolve({
@@ -145,7 +147,7 @@ var registerClick = async function (params) {
             entityManager.clickEntity.saveClick(click).then(function (res) {
                 //Informs of new click to EntityManager publishing event
                 res.offer = context.offer;
-                
+                res.SourceOffer = context.SourceOffer;
                 
                 // Adds insertedClickId to params for later use if needed.
                 params.insertedClickId = res.insertedId.toHexString();
@@ -153,7 +155,10 @@ var registerClick = async function (params) {
                 entityManager.clickEntity.updateClick( params.insertedClickId );
                 res.ops[0].CampaignClickGUID = params.insertedClickId;
                 
-                entityManager.emitEvent(c.EVENTS_KEY_NAMES.NEW_CLICK_CREATED, res);                
+                entityManager.emitEvent(c.EVENTS_KEY_NAMES.NEW_CLICK_CREATED, res);
+                entityManager.rotadorEntity.saveRotador(res);
+
+                //entityManager.emitEvent(c.EVENTS_KEY_NAMES.NEW_ROTADOR_REGISTERED, res);
                 // Debug Click
                 if (params.debug) {
                     entityManager.emitEvent(c.EVENTS_KEY_NAMES.NEW_DEBUG_CREATED, res);
@@ -167,6 +172,8 @@ var registerClick = async function (params) {
                     }
                 );
             });
+            let x=1;
+
             //**** FIN CLICK ROTADOR */
             // Debug Click
            /* if (params.debug) {

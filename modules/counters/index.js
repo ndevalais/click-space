@@ -10,6 +10,7 @@ let KEY = `${KEY_PREFIX}${WORKER_ID}` ;
 let globalCounters = {
     clickCountSinceUP:0,
     installCountSinceUP:0,
+    rotadorCountSinceUP:0,
     avgClickPerSec:0,
     avgCrudRequestsPerSec:0,
     clickCountSinceLastClean:0,
@@ -63,6 +64,10 @@ let addOneClick=function(){
     globalCounters.clickCountSinceLastClean++;
 }
 
+let addOneRotador=function(){
+    globalCounters.rotadorCountSinceUP++;
+}
+
 let addOneInstall=function(){
     globalCounters.installCountSinceUP++;
 }
@@ -108,18 +113,16 @@ async function getGlobalCounters(){
                     elem = {};
                 }
                 res.push(elem);
-            }
-           
+            }  
         }
-        
         resolve(res);
     });
-
-    
 }
+
 module.exports={
     addOneInstall:addOneInstall,
     addOneClick:addOneClick,
+    addOneRotador:addOneRotador,
     getGlobalCounters:getGlobalCounters,
     addOneCacheElem:addOneCacheElem,
     removeOneCacheElem:removeOneCacheElem,
