@@ -14,6 +14,7 @@ function increaseGlobalcounter() {
     c++;
     if (c >= COUNT_BEFORE_WRITE) {
         c = 0;
+        log("----------------->>>>>>>>> Writing to DB <<<<<<<<<-----------------");
         writeOutToDB();
     }
 }
