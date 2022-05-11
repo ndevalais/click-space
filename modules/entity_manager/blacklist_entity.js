@@ -226,7 +226,7 @@ var addBlackListTotal = async function (blacklist) {
             // ENVIO CORREO DE ERROR
             let Offer = _.get(blacklist,"offer.Offer",'');
             utils.sendMailBlackList({
-                To: 'laikad2021@gmail.com', 
+                To: 'laikad2021@gmail.com;delfina@laikad.com', 
                 Subject: `BlackList Θ SubPub ${SubPubID}`,
                 Body: `Offer: ${Offer} \nReason: ${blackListReason}\nDate: ${ (new Date()).toString() }`
             })
