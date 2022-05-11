@@ -11,6 +11,7 @@ let performance = require('perf_hooks').performance;
 
 function initFlushBufferTimer(){
     setInterval(function(){
+        log("----------------->>>>>>>>> Writing to DB CampaignClicksTotal <<<<<<<<<-----------------");
         writeOutToDB();        
       }, config.WRITE_OUT_TIMER);
 }
