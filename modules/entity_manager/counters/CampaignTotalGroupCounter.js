@@ -10,6 +10,17 @@ let counters = [];
 var hash = require('object-hash');
 const whereTag="whereObject";
 const setTag="setObject";
+
+function initFlushBufferTimer(){
+    setInterval(function(){
+        log("----------------->>>>>>>>> Writing to DB CampaignTotalSubPub <<<<<<<<<-----------------");
+        writeOutToDB();        
+      }, config.WRITE_OUT_TIMER);
+}
+
+initFlushBufferTimer();
+
+/*
 function increaseGlobalcounter() {
     c++;
     if (c >= COUNT_BEFORE_WRITE) {
@@ -17,7 +28,7 @@ function increaseGlobalcounter() {
         log("----------------->>>>>>>>> Writing to DB CampaignTotalGroup <<<<<<<<<-----------------");
         writeOutToDB();
     }
-}
+}*/
 
 let add = async function (whereObject, path, addValue, set) {
     let key = hash(whereObject);
@@ -33,7 +44,7 @@ let add = async function (whereObject, path, addValue, set) {
     _.set(counters, `['#${key}'].${replacedPath}`, obj);
     _.set(counters, `['#${key}'].${whereTag}`, whereObject);
     if(set) _.set(counters, `['#${key}'].${setTag}`, set);
-    increaseGlobalcounter();
+    //increaseGlobalcounter();
 }
 
 
@@ -51,7 +62,7 @@ async function writeOutToDB() {
         if (sets) incs.$set = obj[setTag];
         let where = obj[whereTag];
         //let CampaignHeadID = parseInt(keys[i].replace("#", ""));
-        executeIncsPerObject(where, incs);
+        let q =await executeIncsPerObject(where, incs);
     }
 }
 
