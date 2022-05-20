@@ -28,7 +28,11 @@ module.exports = {
    p4: '<%= context.click.ExtraParams.p4 %>',
    p5: '<%= context.click.ExtraParams.p1 %>',
    Language: '<%= param.Language %>',
-   UserAgent: '<%=  param.UserAgent %>'
+   UserAgent: '<%= param.UserAgent %>',
+   Supplier: '<%= context.offer.Supplier.Supplier %>',
+   SupplierID: '<%= context.offer.Supplier.SupplierID %>',
+   supplier: '<%= context.offer.Supplier.Supplier %>',
+   supplierid: '<%= context.offer.Supplier.SupplierID %>'
 }
 
 
