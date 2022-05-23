@@ -5,6 +5,7 @@ const ejs = require('ejs');
 const Tokenizr = require('tokenizr');
 const HttpRequest = require('request');
 let lexer = new Tokenizr();
+const signature = require('../entity_manager/signature_entity');
 
 function initLexerRule(){
     //Any thing between {} is added as a macro, to the tokeninzr
@@ -25,7 +26,7 @@ initLexerRule();
     The URL is defined in field: 'context.offer.Campaign.URL'
 */
 
-function parseURLFromContext(context){
+async function parseURLFromContext(context){
     let url = _.get(context,'param.PostBackURL');
     let macros = [];
     try{
@@ -43,6 +44,13 @@ function parseURLFromContext(context){
                 }
             }
         })
+
+        // AGREGO LA FIRMA DE APPFLYER
+        if (url.indexOf('app.appsflyer.com')>0){
+            let param = await signature.getSignature();
+            url=url + param;
+            log('URL APPSFLYER: ' + url);
+        }
     }catch(e){
         log(`ERROR: parseURL() - [${e}]`);
     }

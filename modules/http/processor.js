@@ -158,7 +158,7 @@ let onControllerFinalized = async function (res, err, controllerResult) {
             if (url!='') {
                 log(`Redirect --> ${url}`);
                 callbacks.allValidatorsOKCallBack(res, controllerResult);
-                url = callbacks.parseURLFromContext(controllerResult);
+                url = await callbacks.parseURLFromContext(controllerResult);
             }
             const post = {};
             post.SupplierID = _.get(controllerResult,'context.offer.Supplier.SupplierID','');

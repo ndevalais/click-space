@@ -3,7 +3,6 @@ const log = require('../log');
 const macrosConfig = require('./macrosConfig');
 const ejs = require('ejs');
 const Tokenizr = require('tokenizr');
-const SHA256 = require("crypto-js/sha256");
 const util = require('../entity_manager/utils');
 const signature = require('../entity_manager/signature_entity');
 let lexer = new Tokenizr();
