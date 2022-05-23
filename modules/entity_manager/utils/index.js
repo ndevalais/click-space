@@ -3,7 +3,22 @@ let config = require("../../../modules/config");
 let moment = require("moment");
 const nodemailer = require('nodemailer');
 var _ = require('lodash');
+var request = require('request');
 
+let signature = {};
+
+function requestApps(options) {
+  return new Promise((resolve, reject) => {
+      request(options, (error, response, body) => {
+          if (error) reject(error);
+          //Too many active keys
+          if (response.statusCode != 200 && response.statusCode != 429) {
+              reject('Invalid status code <' + response.statusCode + '>');
+          }
+          resolve(body);
+      });
+  });
+}
 /**
  * crear un objeto transportador reutilizable utilizando el transporte SMTP predeterminado
  * @param {*} transporter -- Transporte SMTP
@@ -18,6 +33,11 @@ let transporter = nodemailer.createTransport({
   }
 });
 
+/**
+ * 
+ * @param {*} mailOptions 
+ * @returns 
+ */
 const sendMail = (mailOptions) => new Promise((resolve, reject) => {
   transporter.sendMail(mailOptions, function (error, info) {
       if (error) reject(error);
@@ -57,6 +77,7 @@ var validClickCount = async function (contextToValidateWith, lOK) {
   else 
   return lOK;
 }
+
 /**
  * Calculo el costo del evento
  * @param {*} event                 -- Nombre del Evento
@@ -121,8 +142,73 @@ var eventCost = async function (event, TrackingProxy, offer, existingEventInstal
   }
 }
 
+var signatureAppsflyer = async function () {
+  try{ 
+    const key ='Bearer eyJhbGciOiJBMjU2S1ciLCJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwidHlwIjoiSldUIiwiemlwIjoiREVGIn0.7EgPLtG6tIyZgTQNJ7lV5rAYmopcAZC5tfSGN1Orpz9hd9P-uRTjVw.dMFqbYw1JwbS6oFy.No4E069tos1BN4A09VuEAhFq85rmp4C1TxpIzA9dXF5Ah0uEFoW134oilafS-j1Vw8zSvIhAG5MSZFEW7ItNTvgdUIYhfRWC93My2GeddclzgLXNUd1o2uJJ0ORR9fbRknFqrjSIOLVWIhvZ_P0M2Q6_u8-ysD8q-G4moNpre63ru7IO1QBL3cAVj7yEzNYVwhCO6hQgGmdVa5K6I68F-zoIhIM-jahQQhdCmdnwP8foa8IpNDYq8hVUQh6fkyB2BWuksfhLjTE3hcvk7f0CeyFFvoDbi9IYHc3jqlSuHbypcnKW-Z_r3k_pl5WVqNOe2WRN6ZouhtkVHqBDVkFgt3_a4NjrbeDS-UxD8Udl4AfgO_oN3TL83pHMDvO4me_I158FqZSEmenMPAd7H0dHqbQXzFXq4VBTxi_yejmSWECOv2DUju_DvFabc8ZO1Vn7wtXJKCM4sKCHUDjEZ5-JANXO-OHvs5dKbT9DHk1XtS86P7Ca6aLMuQmJdGy9a61rpIQG7V4rwNNJST9_glM5.osY488-NLBj450rynZnkjQ';
+    var optionsCreate = {
+      'method': 'POST',
+      'url': 'https://hq1.appsflyer.com/api/p360-click-signing/secret?ttlHours=4',
+      'headers': {
+        'Content-Type': 'application/json',
+        'Authorization': key
+      }
+    };
+    var optionsConfig = {
+      'method': 'GET',
+      'url': 'https://hq1.appsflyer.com/api/p360-click-signing/config',
+      'headers': {
+        'Content-Type': 'application/json',
+        'Authorization': key
+      }
+    };
+    if (!signature["secret-key"]) {
+      let temp = await requestApps(optionsCreate);
+      if (temp=='Too many active keys') {
+        // DEBO OCREAR OTRO KEY
+        let temp1 = await requestApps(optionsConfig);
+        temp1 = JSON.parse(temp1);
+        // Elimino las firmas
+        revoca1 = temp1["active-key-ids"][0]["secret-key-id"];
+        revoca2 = temp1["active-key-ids"][1][ "secret-key-id"];
+        var optionsDel1 = {
+          'method': 'DELETE',
+          'url': 'https://hq1.appsflyer.com/api/p360-click-signing/secret/' + revoca1,
+          'headers': {
+            'Content-Type': 'application/json',
+            'Authorization': key
+          }
+        };
+        var optionsDel2 = {
+          'method': 'DELETE',
+          'url': 'https://hq1.appsflyer.com/api/p360-click-signing/secret/' + revoca2,
+          'headers': {
+            'Content-Type': 'application/json',
+            'Authorization': key
+          }
+        };
+        await requestApps(optionsDel1);
+        await requestApps(optionsDel2);
+        // Creo nueva firma
+        temp1 = await requestApps(optionsConfig);
+        temp1 = JSON.parse(temp1);
+      }
+      signature = temp;
+      signature = JSON.parse(signature);
+      /*return signature; = {
+        "secret-key-id": "38e93022-df8c-4fce-9362-66ac5bcc267b",
+        "secret-key": "+IppYJ6aErve7pzVWPIqTWtEI4eXhwe2BWt7mz8mq40=",
+        "expiration": 1653200785
+      }*/
+    }
+    return signature;
+  }  catch (error) {
+    console.log(`Error ${error} `);
+  }
+}
+
 module.exports = {
   validClickCount: validClickCount,
   eventCost: eventCost,
-  sendMailBlackList: sendMailBlackList
+  sendMailBlackList: sendMailBlackList,
+  signatureAppsflyer: signatureAppsflyer
 }

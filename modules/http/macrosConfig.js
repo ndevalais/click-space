@@ -32,7 +32,8 @@ module.exports = {
    Supplier: '<%= context.offer.Supplier.Supplier %>',
    SupplierID: '<%= context.offer.Supplier.SupplierID %>',
    supplier: '<%= context.offer.Supplier.Supplier %>',
-   supplierid: '<%= context.offer.Supplier.SupplierID %>'
+   supplierid: '<%= context.offer.Supplier.SupplierID %>',
+   signature: 'signature'
 }
 
 

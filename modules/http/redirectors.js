@@ -3,6 +3,9 @@ const log = require('../log');
 const macrosConfig = require('./macrosConfig');
 const ejs = require('ejs');
 const Tokenizr = require('tokenizr');
+const SHA256 = require("crypto-js/sha256");
+const util = require('../entity_manager/utils');
+const signature = require('../entity_manager/signature_entity');
 let lexer = new Tokenizr();
 
 function initLexerRule(){
@@ -24,7 +27,7 @@ initLexerRule();
     The URL is defined in field: 'context.offer.Campaign.URL'
 */
 
-function parseURLFromContext(context){
+async function parseURLFromContext(context) {
     let url = _.get(context,'context.offer.Campaign.URL');
     let macros = [];
     try{
@@ -36,23 +39,28 @@ function parseURLFromContext(context){
                 let ejsTemplate = macrosConfig[key]; // with that key, gets from macrosConfig the ejs definition
                 if(ejsTemplate){
                     let result = ejs.render(ejsTemplate, context); // compiles ejs                
-                    url=url.replace(token.value, result);//finally replaces the key by the value compiled on the URL
+                    url=url.replace(token.value, result).replace(' ','_');//finally replaces the key by the value compiled on the URL
                 }else{
                     log(`WARNING: No macro [${key}] defined, but requested on URL: ${url}`);
                 }
             }
         })
-    }catch(e){
+        // AGREGO LA FIRMA DE APPFLYER
+        if (url.indexOf('app.appsflyer.com')>0){
+            let param = await signature.getSignature();
+            url=url + param;
+            log('URL APPSFLYER: ' + url);
+        }
+        return url;
+    } catch(e) {
         log(`ERROR: parseURL() - [${e}]`);
     }
-   return url;
 }
 
 
 /*  Takes an input object (@param) and takes actions acordingly.
     If the object received as a param contains a property
     Object should be like:
-
     {
         status:'all_validators_ok' | 'error_on_validators', 
         param: object

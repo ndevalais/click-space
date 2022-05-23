@@ -134,7 +134,7 @@ function needWriteJSON(controllerResult) {
     return _.get(controllerResult, "write_output");
 }
 
-let onControllerFinalized = function (res, err, controllerResult) {
+let onControllerFinalized = async function (res, err, controllerResult) {
     if (!err) {
         let evento = _.get( controllerResult, "param.evento", "click");
         let isFraude = _.get( controllerResult, "context.offer.Campaign.isFraude", 0);
@@ -143,7 +143,7 @@ let onControllerFinalized = function (res, err, controllerResult) {
         if (needRedirect(controllerResult)) {
             const debug = _.get(controllerResult,'param.debug',false);
             if (debug) {
-                controllerResult.url_redirect = redirectors.parseURLFromContext(controllerResult);
+                controllerResult.url_redirect = await redirectors.parseURLFromContext(controllerResult);
                 helpers.sendJSONResponse(res, controllerResult);
             } else {
                 redirectors.allValidatorsOKRedirector(res, controllerResult);
