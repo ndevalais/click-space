@@ -65,10 +65,10 @@ async function parseURLFromContext(context) {
         param: object
     }
 */
-function allValidatorsOKRedirector(response, params){    
+async function allValidatorsOKRedirector(response, params){    
     try{
         if(params.status == 'all_validators_ok'){        
-            let parsedUrl = parseURLFromContext(params); //Parse URL with macros
+            let parsedUrl = await parseURLFromContext(params); //Parse URL with macros
             log("Redirecting to: " + parsedUrl);
             response.writeHead(
                 302,
