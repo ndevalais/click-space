@@ -49,15 +49,16 @@ var getSignature = async function (){
     try {
         let param = "";
         const uuid = hash( {signature: 'siganature'} );
+        const expiration = new Date().getTime()
         var f = async function () {
             const elem1 = await db.connection().collection(COLLECTION_NAME).findOne({});
             // Si no existe elementos debemos crear uno
             if (!elem1) {
                 const af = await signatureAppsflyer();
                 const elem2 = await saveSignature(af);
-                param = '&expiration=' + elem2.Expiration + '&signature=' + elem2.Signature.toString();
+                param = '&expiration=' + expiration + '&signature=' + elem2.Signature.toString();
             } else {
-                param = '&expiration=' + elem1.Expiration + '&signature=' + elem1.Signature.toString();
+                param = '&expiration=' + expiration + '&signature=' + elem1.Signature.toString();
             }
             return param;
         }
