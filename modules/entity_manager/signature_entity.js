@@ -78,6 +78,7 @@ var getSignature = async function (clickUrl){
         clickUrl += clickUrl + "&signature=" + signingKey.substring(0, signingKey.length -1);
         return clickUrl;
     } catch (error) {
+        log(`Error getSignature ${error} `);
         return "";
     }
 }
@@ -98,6 +99,7 @@ var saveSignature = async function (signature) {
             throw Error('signatureCanNotBeUndefined');
         }
     } catch (error) {
+        log(`Error saveSignature ${error} `);
         return false;
     }
 }
@@ -158,7 +160,7 @@ var signatureAppsflyer = async function () {
         //}
         return temp;
     }  catch (error) {
-        log(`Error ${error} `);
+        log(`Error signatureAppsflyer ${error} `);
         return false;
     }
 }
