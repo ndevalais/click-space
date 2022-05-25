@@ -4,7 +4,7 @@ var _ = require('lodash');
 var db = require('../db/index');
 var mongo = new require('mongodb');
 let c = require("../constants");
-const SHA256 = require("crypto-js/sha256");
+const crypto = require('crypto');
 let CacheHelper = require("./CacheHelper");
 let ch = new CacheHelper();
 var hash = require('object-hash');
@@ -14,10 +14,10 @@ var log = require("../log");
 // Expire the signature horas
 const EXPIRATION_TTL = 24;
 // "Minutos que deben pasar sin consultarse un objeto en la caché antes de olvidarse de el",
-const CACHE_TTK_ELEMENT_NO_ACTIVITY = 60 * EXPIRATION_TTL; // 4 horas
+const CACHE_TTK_ELEMENT_NO_ACTIVITY = 60; // * EXPIRATION_TTL; // 4 horas
 // "Tiempo de refresco de caché para cada elemento, en segundos.",
-const CACHE_TTL = 3600 * EXPIRATION_TTL;
-
+const CACHE_TTL = 3600; //3600 * EXPIRATION_TTL;
+const MINUTES_TTL = 5;
 
 // Clave de la firma Appsflyer
 const key ='Bearer eyJhbGciOiJBMjU2S1ciLCJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwidHlwIjoiSldUIiwiemlwIjoiREVGIn0.7EgPLtG6tIyZgTQNJ7lV5rAYmopcAZC5tfSGN1Orpz9hd9P-uRTjVw.dMFqbYw1JwbS6oFy.No4E069tos1BN4A09VuEAhFq85rmp4C1TxpIzA9dXF5Ah0uEFoW134oilafS-j1Vw8zSvIhAG5MSZFEW7ItNTvgdUIYhfRWC93My2GeddclzgLXNUd1o2uJJ0ORR9fbRknFqrjSIOLVWIhvZ_P0M2Q6_u8-ysD8q-G4moNpre63ru7IO1QBL3cAVj7yEzNYVwhCO6hQgGmdVa5K6I68F-zoIhIM-jahQQhdCmdnwP8foa8IpNDYq8hVUQh6fkyB2BWuksfhLjTE3hcvk7f0CeyFFvoDbi9IYHc3jqlSuHbypcnKW-Z_r3k_pl5WVqNOe2WRN6ZouhtkVHqBDVkFgt3_a4NjrbeDS-UxD8Udl4AfgO_oN3TL83pHMDvO4me_I158FqZSEmenMPAd7H0dHqbQXzFXq4VBTxi_yejmSWECOv2DUju_DvFabc8ZO1Vn7wtXJKCM4sKCHUDjEZ5-JANXO-OHvs5dKbT9DHk1XtS86P7Ca6aLMuQmJdGy9a61rpIQG7V4rwNNJST9_glM5.osY488-NLBj450rynZnkjQ';
@@ -28,9 +28,16 @@ const structure = {
     "SecretKeyID" : undefined,
     "SecretKey" : undefined,
     "Expiration" : undefined,
-    "Signature" : undefined,
     "CreationDate": undefined
 }
+
+String.prototype.getBytes = function () {
+    var bytes = [];
+    for (var i = 0; i < this.length; ++i) {
+      bytes.push(this.charCodeAt(i));//from   w w w . j a va  2 s  . com
+    }
+    return bytes;
+};
 
 function requestApps(options) {
     return new Promise((resolve, reject) => {
@@ -45,26 +52,31 @@ function requestApps(options) {
     });
 }
 
-var getSignature = async function (){
+var getSignature = async function (clickUrl){
     try {
-        let param = "";
-        const uuid = hash( {signature: 'siganature'} );
-        const expiration = new Date().getTime()
+        const uuid = hash( {signature: 'signature'} );
+        let secretKey;
+        let expiration = Date.now() + (60000 * MINUTES_TTL);
+        clickUrl += "&expires=" + expiration;
+        
         var f = async function () {
             const elem1 = await db.connection().collection(COLLECTION_NAME).findOne({});
             // Si no existe elementos debemos crear uno
             if (!elem1) {
                 const af = await signatureAppsflyer();
                 const elem2 = await saveSignature(af);
-                param = '&expiration=' + expiration + '&signature=' + elem2.Signature.toString();
+                secretKey = elem2.SecretKey.toString();
             } else {
-                param = '&expiration=' + expiration + '&signature=' + elem1.Signature.toString();
+                secretKey = elem1.SecretKey.toString();
             }
-            return param;
+            return secretKey;
         }
-        param = await ch.getObject(uuid, CACHE_TTL, f, CACHE_TTK_ELEMENT_NO_ACTIVITY);
-        return param;
+        secretKey = await ch.getObject(uuid, CACHE_TTL, f, CACHE_TTK_ELEMENT_NO_ACTIVITY);
 
+        let secretKeyObj = crypto.createHmac('sha256', secretKey);
+        let signingKey = secretKeyObj.update(clickUrl).digest('base64');
+        clickUrl += clickUrl + "&signature=" + signingKey.substring(0, signingKey.length -1);
+        return clickUrl;
     } catch (error) {
         return "";
     }
@@ -76,8 +88,7 @@ var saveSignature = async function (signature) {
             let signatureStructure = _.clone(structure);  
             signatureStructure.SecretKeyID = _.get(signature, 'secret-key-id');
             signatureStructure.SecretKey = _.get(signature, 'secret-key');
-            signatureStructure.Expiration = _.get(signature, 'expiration',0);// * 1000;
-            signatureStructure.Signature = SHA256( signature['secret-key'] ).toString();
+            signatureStructure.Expiration = _.get(signature, 'expiration',0);
             signatureStructure.CreationDate = new Date();
             signatureStructure.ExpireAt = getExpirationDate();
             //x = new Date((_.get(signature, 'expiration')*1000)+ (1*3600*1000)) //.getTime()
@@ -90,7 +101,6 @@ var saveSignature = async function (signature) {
         return false;
     }
 }
-
 
 var signatureAppsflyer = async function () {
     try{ 
