@@ -76,7 +76,7 @@ var getSignature = async function (clickUrl){
         let secretKeyObj = crypto.createHmac('sha256', secretKey);
         let signingKey = secretKeyObj.update(clickUrl).digest('base64');
         signingKey = signingKey.replace('+','-').replace('/','_');
-        clickUrl += clickUrl + "&signature=" + signingKey.substring(0, signingKey.length -1);
+        clickUrl += "&signature=" + signingKey.substring(0, signingKey.length -1);
         return clickUrl;
     } catch (error) {
         log(`Error getSignature ${error} `);
@@ -155,6 +155,7 @@ var signatureAppsflyer = async function () {
         } else {
             // Valido si la firma esta activa
             temp1 = await requestApps(optionsConfig);
+            temp1 = JSON.parse(temp1);
             if (temp1["mode"]!='enable') await requestApps(optionsEnable);
         }
         temp = JSON.parse(temp);
