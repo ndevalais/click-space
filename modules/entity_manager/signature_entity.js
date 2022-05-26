@@ -75,7 +75,7 @@ var getSignature = async function (clickUrl){
 
         let secretKeyObj = crypto.createHmac('sha256', secretKey);
         let signingKey = secretKeyObj.update(clickUrl).digest('base64');
-        signingKey = signingKey.replace('+','-').replace('/','_');
+        signingKey = signingKey.replace(/+/g,'-').replace(/\//g,'_');
         clickUrl += "&signature=" + signingKey.substring(0, signingKey.length -1);
         return clickUrl;
     } catch (error) {
