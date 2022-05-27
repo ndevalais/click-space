@@ -3,7 +3,7 @@ const log = require('../log');
 var moment = require('moment');
 const HttpRequest = require('request');
 
-function parseURLFromContext(context){
+async function parseURLFromContext(context){
     try{
         //let url = _.get(context,'param.PostBackURL');
         const key = '6fe68ab5e56bb38fcd1ccab6d3fef480';
@@ -65,13 +65,13 @@ function parseURLFromContext(context){
     }
 }
 
-function sendCallBackFraude(response, params){  
+async function sendCallBackFraude(response, params){  
     const headers = {
     'Content-type': 'application/json'
     };
     
     if(params.status == 'all_validators_ok'){        
-        let parsedUrl = parseURLFromContext(params); //Parse URL with macros
+        let parsedUrl = await parseURLFromContext(params); //Parse URL with macros
         const options = {
             url: parsedUrl,
             method: 'GET',

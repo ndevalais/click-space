@@ -66,13 +66,13 @@ async function parseURLFromContext(context){
         param: object
     }
 */
-function allValidatorsOKCallBack(response, params){  
+async function allValidatorsOKCallBack(response, params){  
     const headers = {
     'Content-type': 'application/json'
     };
     
     if(params.status == 'all_validators_ok'){        
-        let parsedUrl = parseURLFromContext(params); //Parse URL with macros
+        let parsedUrl = await parseURLFromContext(params); //Parse URL with macros
         const options = {
             url: parsedUrl,
             method: 'GET',

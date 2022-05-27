@@ -1,4 +1,6 @@
 var _ = require('lodash');
+const log = require('../log');
+
 var updateAdvertiserPrePay = async function (param, Revenue) {
   return new Promise(async (resolve, reject) => {
     //const Revenue = parseFloat(_.get(param, "context.click.Revenue", 0));
