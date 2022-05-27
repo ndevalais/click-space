@@ -16,9 +16,11 @@ let cacheElements = 0;
 let lastAccesedKeys = {};
 let currentlyProcessingKeys = {};
 const redis = require('redis');
+const log = require('../log');
 
 // create and connect redis client to local instance.
 const client = redis.createClient(config.REDIS_PORT, config.REDIS_HOST);
+log('CREO EL CACHE HELPER - Port: ' + config.REDIS_PORT + ' Host: ' +  config.REDIS_HOST);
 
 cache.on("expired", async (key, value) => {
     console.log("Expired");
@@ -162,6 +164,7 @@ module.exports = class CacheHelper {
                     //    writeToPersistentStore(key, value, ttl)
                     //];
                     writeToPersistentStore(key, value, ttl);
+                    log('Escribo en el cache el elemento con key: ' + key + ' - ttl: ' + ttl + ' - value: ' + value);
                     //counters.addOneCacheElem();
                     //cacheElements++;
                     //}
