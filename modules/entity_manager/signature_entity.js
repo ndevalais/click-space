@@ -55,7 +55,7 @@ function requestApps(options) {
 
 var getSignature = async function (clickUrl){
     try {
-        const uuid = hash( {signature: 'signature'} );
+        const uuid = hash( {signature: 'signature_new'} );
         let secretKey;
         let expiration = Date.now() + (60000 * MINUTES_TTL);
         clickUrl += "&expires=" + expiration;
