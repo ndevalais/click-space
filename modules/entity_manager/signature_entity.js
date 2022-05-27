@@ -21,6 +21,15 @@ const MINUTES_TTL = 5;
 
 // Clave de la firma Appsflyer
 const key ='Bearer eyJhbGciOiJBMjU2S1ciLCJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwidHlwIjoiSldUIiwiemlwIjoiREVGIn0.7EgPLtG6tIyZgTQNJ7lV5rAYmopcAZC5tfSGN1Orpz9hd9P-uRTjVw.dMFqbYw1JwbS6oFy.No4E069tos1BN4A09VuEAhFq85rmp4C1TxpIzA9dXF5Ah0uEFoW134oilafS-j1Vw8zSvIhAG5MSZFEW7ItNTvgdUIYhfRWC93My2GeddclzgLXNUd1o2uJJ0ORR9fbRknFqrjSIOLVWIhvZ_P0M2Q6_u8-ysD8q-G4moNpre63ru7IO1QBL3cAVj7yEzNYVwhCO6hQgGmdVa5K6I68F-zoIhIM-jahQQhdCmdnwP8foa8IpNDYq8hVUQh6fkyB2BWuksfhLjTE3hcvk7f0CeyFFvoDbi9IYHc3jqlSuHbypcnKW-Z_r3k_pl5WVqNOe2WRN6ZouhtkVHqBDVkFgt3_a4NjrbeDS-UxD8Udl4AfgO_oN3TL83pHMDvO4me_I158FqZSEmenMPAd7H0dHqbQXzFXq4VBTxi_yejmSWECOv2DUju_DvFabc8ZO1Vn7wtXJKCM4sKCHUDjEZ5-JANXO-OHvs5dKbT9DHk1XtS86P7Ca6aLMuQmJdGy9a61rpIQG7V4rwNNJST9_glM5.osY488-NLBj450rynZnkjQ';
+const header =  {
+    'Content-Type': 'application/json',
+    'Authorization': key
+};
+const optionsCreate = {
+    'method': 'POST',
+    'url': 'https://hq1.appsflyer.com/api/p360-click-signing/secret?ttlHours=24',
+    'headers': header
+};
 
 const COLLECTION_NAME="Signatures";
 
@@ -30,14 +39,6 @@ const structure = {
     "Expiration" : undefined,
     "CreationDate": undefined
 }
-
-String.prototype.getBytes = function () {
-    var bytes = [];
-    for (var i = 0; i < this.length; ++i) {
-      bytes.push(this.charCodeAt(i));//from   w w w . j a va  2 s  . com
-    }
-    return bytes;
-};
 
 function requestApps(options) {
     return new Promise((resolve, reject) => {
@@ -60,14 +61,15 @@ var getSignature = async function (clickUrl){
         clickUrl += "&expires=" + expiration;
         
         var f = async function () {
-            const elem1 = await db.connection().collection(COLLECTION_NAME).findOne({});
+            const elem1 = await db.connection().collection(COLLECTION_NAME).find({}).sort({_id: -1}).limit(1).toArray();
             // Si no existe elementos debemos crear uno
-            if (!elem1) {
+            if (!elem1[0]) {
                 const af = await signatureAppsflyer();
                 const elem2 = await saveSignature(af);
                 secretKey = elem2.SecretKey.toString();
             } else {
-                secretKey = elem1.SecretKey.toString();
+                // Busco y valido la firma , si no existe la creo
+                secretKey = await updateAppsflyer( elem1[0].SecretKey.toString(), elem1[0].SecretKeyID.toString() );
             }
             return secretKey;
         }
@@ -94,8 +96,8 @@ var saveSignature = async function (signature) {
             signatureStructure.CreationDate = new Date();
             signatureStructure.ExpireAt = getExpirationDate();
             //x = new Date((_.get(signature, 'expiration')*1000)+ (1*3600*1000)) //.getTime()
-            const x = await db.connection().collection(COLLECTION_NAME).insertOne(signatureStructure);    
-            return x.ops[0]; // x.insertedCount == 1 si lo inserto
+            const data = await db.connection().collection(COLLECTION_NAME).insertOne(signatureStructure); 
+            return data.ops[0]; // x.insertedCount == 1 si lo inserto
         } else {
             throw Error('signatureCanNotBeUndefined');
         }
@@ -105,67 +107,118 @@ var saveSignature = async function (signature) {
     }
 }
 
-var signatureAppsflyer = async function () {
+var updateAppsflyer = async function (secretKey, SecretKeyID) {
     try{ 
         let temp;
-        let temp1;
-        var header =  {
-            'Content-Type': 'application/json',
-            'Authorization': key
-        };
-        var optionsCreate = {
-            'method': 'POST',
-            'url': 'https://hq1.appsflyer.com/api/p360-click-signing/secret?ttlHours=4',
-            'headers': header
-        };
         var optionsConfig = {
             'method': 'GET',
             'url': 'https://hq1.appsflyer.com/api/p360-click-signing/config',
             'headers': header
         };
-        var optionsEnable = {
-            'method': 'POST',
-            'url': 'https://hq1.appsflyer.com/api/p360-click-signing/config/mode/enabled',
+
+        // Obtengo las firmas creadas
+        temp = await requestApps(optionsConfig);
+        temp = JSON.parse(temp);
+
+        // Valido si existen firmas configuradas
+        let exist = false;
+        for( let i = 0; i < temp["active-key-ids"].length; i++) {
+            if (temp["active-key-ids"][i]["secret-key-id"]== SecretKeyID) exist = true;
+        }
+        if (exist) return secretKey;
+        else await revocaAppsflyer(temp);
+
+        temp = await requestApps(optionsCreate);
+        temp = JSON.parse(temp);
+        await saveSignature(temp);
+        await enableAppsflyer(); 
+        return _.get(temp, 'secret-key');
+
+    } catch (error) {
+        log(`Error validateAppsflyer ${error} `);
+        return false;
+    }
+}
+
+var signatureAppsflyer = async function () {
+    try{ 
+        let temp;
+        let temp1;
+
+        var optionsConfig = {
+            'method': 'GET',
+            'url': 'https://hq1.appsflyer.com/api/p360-click-signing/config',
             'headers': header
         };
+
         temp = await requestApps(optionsCreate);
         // Si no puedo crear nueva firma borro todas las firmas creadas
         if (temp=='Too many active keys') {
           // Elimino las firmas
           temp1 = await requestApps(optionsConfig);
           temp1 = JSON.parse(temp1);
-          revoca1 = temp1["active-key-ids"][0]["secret-key-id"];
-          revoca2 = temp1["active-key-ids"][1][ "secret-key-id"];
-          var optionsDel1 = {
-            'method': 'DELETE',
-            'url': 'https://hq1.appsflyer.com/api/p360-click-signing/secret/' + revoca1,
-            'headers': header
-          };
-          var optionsDel2 = {
-            'method': 'DELETE',
-            'url': 'https://hq1.appsflyer.com/api/p360-click-signing/secret/' + revoca2,
-            'headers': header
-          };
-          await requestApps(optionsDel1);
-          await requestApps(optionsDel2);
+          await revocaAppsflyer(temp1);
           // Creo nueva firma
-          temp = await requestApps(optionsConfig);
+          temp = await requestApps(optionsCreate);
+          temp = JSON.parse(temp);
+          
           // Valido si la firma esta activa
-          if (temp1["mode"]!='enable') await requestApps(optionsEnable);
+          if (temp1["mode"]!='enable') await enableAppsflyer(); 
         } else {
+            temp = JSON.parse(temp);
             // Valido si la firma esta activa
             temp1 = await requestApps(optionsConfig);
             temp1 = JSON.parse(temp1);
             if (temp1["mode"]!='enable') await requestApps(optionsEnable);
         }
-        temp = JSON.parse(temp);
-        //}
+        
         return temp;
     }  catch (error) {
         log(`Error signatureAppsflyer ${error} `);
         return false;
     }
 }
+
+var revocaAppsflyer = async function (temp1) {
+    try{ 
+        let revoca1 = false;
+        let revoca2 = false;
+        if (temp1["active-key-ids"].length>0) revoca1 = temp1["active-key-ids"][0]["secret-key-id"];
+        if (temp1["active-key-ids"].length>1) revoca2 = temp1["active-key-ids"][1][ "secret-key-id"];
+        var optionsDel1 = {
+            'method': 'DELETE',
+            'url': 'https://hq1.appsflyer.com/api/p360-click-signing/secret/' + revoca1,
+            'headers': header
+        };
+        var optionsDel2 = {
+            'method': 'DELETE',
+            'url': 'https://hq1.appsflyer.com/api/p360-click-signing/secret/' + revoca2,
+            'headers': header
+        };
+        if (revoca1) await requestApps(optionsDel1);
+        if (revoca2) await requestApps(optionsDel2);
+
+    }  catch (error) {
+        log(`Error revocaAppsflyer ${error} `);
+        return false;
+    }
+}  
+
+var enableAppsflyer = async function () {
+    try{ 
+        var optionsEnable = {
+            'method': 'POST',
+            'url': 'https://hq1.appsflyer.com/api/p360-click-signing/config/mode/enabled',
+            'headers': header
+        };
+        await requestApps(optionsEnable);
+        return true;
+    }  catch (error) {
+        log(`Error enableAppsflyer ${error} `);
+        return false;
+    }
+}  
+
 
 module.exports = {
     getSignature: getSignature,
