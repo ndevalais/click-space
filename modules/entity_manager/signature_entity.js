@@ -73,11 +73,10 @@ var getSignature = async function (clickUrl){
                 secretKey = await updateAppsflyer( elem1[0].SecretKey.toString(), elem1[0].SecretKeyID.toString() );
                 log('Valido  nueva clave secreta Appsflyer --> ' + secretKey);
             }
-            log('secretKey: ' + secretKey);
             return secretKey;
         }
         secretKey = await ch.getObject(uuid, CACHE_TTL, f, CACHE_TTK_ELEMENT_NO_ACTIVITY);
-
+        log('secretKey: ' + secretKey);
         let secretKeyObj = crypto.createHmac('sha256', secretKey);
         let signingKey = secretKeyObj.update(clickUrl).digest('base64');
         signingKey = signingKey.replace(/\+/g,'-').replace(/\//g,'_');
