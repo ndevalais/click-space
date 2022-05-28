@@ -4,6 +4,7 @@ const macrosConfig = require('./macrosConfig');
 const ejs = require('ejs');
 const Tokenizr = require('tokenizr');
 const util = require('../entity_manager/utils');
+const signingEntity = require('../entity_manager/signings_entity');
 const signature = require('../entity_manager/signature_entity');
 let lexer = new Tokenizr();
 
@@ -55,7 +56,6 @@ async function parseURLFromContext(context) {
     }
 }
 
-
 /*  Takes an input object (@param) and takes actions acordingly.
     If the object received as a param contains a property
     Object should be like:
@@ -68,6 +68,7 @@ async function allValidatorsOKRedirector(response, params){
     try{
         if(params.status == 'all_validators_ok'){        
             let parsedUrl = await parseURLFromContext(params); //Parse URL with macros
+            if (parsedUrl.indexOf('app.appsflyer.com')>0) signingEntity.saveSignings(params, parsedUrl);
             log("Redirecting to: " + parsedUrl);
             response.writeHead(
                 302,

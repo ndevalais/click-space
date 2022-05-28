@@ -7,6 +7,7 @@ let oe = require("./offer_entity");
 var clickEntity = require("./click_entity");
 var installsEntity = require("./events_entity");
 var rotadorEntity = require("./rotador_entity");
+var signingEntity = require("./signings_entity");
 let config = require('../../modules/config');
 let eventsWatchers = require('./events_watchers');
 let eventsBus = require('../events_bus');
@@ -159,6 +160,7 @@ module.exports = {
     getOfferByUUID: getOfferByUUID,
     clickEntity: clickEntity,
     rotadorEntity: rotadorEntity,
+    signingEntity: signingEntity,
     wireEventsWatchers: wireEventsWatchers,
     emitEvent: eventsBus.emitEvent,
     getClickByUUID: getClickByUUID,

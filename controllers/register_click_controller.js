@@ -38,13 +38,13 @@ var registerClick = async function (params) {
 
         var offer = await entityManager.getOfferByUUID(offerguid, subpubhash, IPLong, c.P_NAMES.click.name);
 
-
         params.subpubid = subpubid;     
         params.subpubhash = subpubhash;
         params.p2 = p2;
         params.p2hash = stringToHash( p2 );
         params.evento = c.P_NAMES.click.name;
         params.offerguid = offerguid;
+        params.offerid = offer.OfferID;
 
         if (!offer) {
             // Si no existe, debo enviar al rotador. CREO OFFERTA

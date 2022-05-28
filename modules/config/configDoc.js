@@ -23,6 +23,7 @@ module.exports = {
     MONGO_DB_USERNAME: "laikad-db",
     MONGO_DB_CLICK_EXPIRATION_IN_DAYS: "Dias que el registro creado en Clicks va a durar, valor sugerido[7]",
     MONGO_DB_ROTADOR_EXPIRATION_IN_DAYS: "Dias que el registro creado en Clicks va a durar, valor sugerido[30]",
+    MONGO_DB_SIGNINGS_EXPIRATION_IN_DAYS: "Dias que el registro creado en Clicks va a durar, valor sugerido[90]",
     CACHE_HELPER_STD_TTL: "TTL Para el cache si es que no se especifica uno en el guardado, valor sugerido[100]",
     CACHE_HELPER_CHECK_PERIOD: "Cada cuanto debería nodecache revisar el estado y limpiar?, valor sugerido[5]",
     FILE_DB_CARRIERS_PATH: "Path al archivo de Carriers de IP2",

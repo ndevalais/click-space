@@ -124,8 +124,10 @@ var updateAppsflyer = async function (secretKey, SecretKeyID) {
 
         // Valido si existen firmas configuradas
         let exist = false;
-        for( let i = 0; i < temp["active-key-ids"].length; i++) {
-            if (temp["active-key-ids"][i]["secret-key-id"]== SecretKeyID) exist = true;
+        if (temp["active-key-ids"]!=null) {
+            for( let i = 0; i < temp["active-key-ids"].length; i++) {
+                if (temp["active-key-ids"][i]["secret-key-id"]== SecretKeyID) exist = true;
+            }
         }
         if (exist) return secretKey;
         else await revocaAppsflyer(temp);
