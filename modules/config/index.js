@@ -65,7 +65,7 @@ var config = {
     APM_SERVER_URL: getConfig("APM_SERVER_URL"),
     APM_SERVER_TOKEN: getConfig("APM_SERVER_TOKEN", ''),
     APM_SERVICE_NAME: getConfig("APM_SERVICE_NAME"),
-
+    ELASTIC_APM_API_KEY: getConfig("ELASTIC_APM_API_KEY"),
     //MSSQL_SERVER: getConfig("MSSQL_SERVER"),
     //MSSQL_USER_NAME: getConfig("MSSQL_USER_NAME"),
     //MSSQL_PASSWORD: getConfig("MSSQL_PASSWORD"),

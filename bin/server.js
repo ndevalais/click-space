@@ -7,8 +7,9 @@ if (config.APM_ENABLED == "true") {
 		// Allowed characters: a-z, A-Z, 0-9, -, _, and space
 		serviceName: config.APM_SERVICE_NAME,
 		// Use if APM Server requires a token
-		secretToken: config.APM_SERVER_TOKEN,
+		//secretToken: config.APM_SERVER_TOKEN,
 		serverUrl: config.APM_SERVER_URL,
+		apiKey: config.ELASTIC_APM_API_KEY,
 		transactionSampleRate: config.APM_AGENT_TRANSACTION_SAMPLE_RATE,
 		captureSpanStackTraces:config.APM_AGENT_CAPTURE_SPAN_STACK_TRACES,
 		logLevel: 'error',
