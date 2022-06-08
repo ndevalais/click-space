@@ -655,6 +655,11 @@ var addOneTotalGroupInstall = async function (param, offer) {
   let CountTrackingProxy = 1;
   const hora = moment().format("HH");
 
+  if (CampaignTypeID == "CP2") {
+    Revenue = _.get(offer, "Campaign.eventPayOut1", 0);
+    if (Revenue == 0) Revenue = _.get(offer, "Campaign.eventPayOut2", 0);
+    if (Revenue == 0) Revenue = _.get(offer, "Campaign.eventPayOut3", 0);
+  }
   if (Revenue == null) Revenue = 0;
   Revenue = parseFloat(Revenue);
   if (Cost == null) Cost = 0;
