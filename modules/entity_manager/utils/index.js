@@ -62,6 +62,20 @@ var sendMailBlackList = async function (result) {
   return true;
 }
 
+
+var sendEmailFromAppsFlyer = async function (result) {
+  const Subject = result.Subject || `APPSFLYER blocked ✔ (${ (new Date()).toString() })`;
+  const mail = await sendMail({
+      from:  'laikad2021@gmail.com',
+      to: result.To,
+      cc: 'laikad2021@gmail.com;nestor@diemp.net',
+      subject: Subject,
+      text: `
+      \n${result.Body}.`
+  });
+  return true;
+}
+
 /**
  * Valido cantidad de clicks desde los cuales inicio las validaciones
  * @param {*} contextToValidateWith 
@@ -210,5 +224,6 @@ module.exports = {
   validClickCount: validClickCount,
   eventCost: eventCost,
   sendMailBlackList: sendMailBlackList,
-  signatureAppsflyer: signatureAppsflyer
+  signatureAppsflyer: signatureAppsflyer,
+  sendEmailFromAppsFlyer: sendEmailFromAppsFlyer
 }

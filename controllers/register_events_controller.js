@@ -6,6 +6,7 @@ var registerEvents = require("./register_events_helpers/register_events_helper")
 
 var log = require("../modules/log");
 const c = require('../modules/constants');
+var sendEmail = require("../modules/entity_manager/utils/index");
 var _ = require("lodash");
 const DEFAULT_EVENT_NAME = "Install";
 
@@ -15,6 +16,24 @@ var processEvents = async function(params) {
       let retorno;
       let event = _.get(params, "event", DEFAULT_EVENT_NAME);
       let clickId = _.get(params, c.P_NAMES.click.CAMPAIGN_CLICK_GUID ,'');
+
+      // VALIDO FARUDE DE APPSFLYER
+      let blocked_reason = _.get(params, "blocked-reason", '');
+      let blocked_sub_reason = _.get(params, "blocked-sub-reason", '');
+      let blocked_reason_value = _.get(params, "blocked-reason-value", '');
+      if (blocked_reason!='') {
+        let Body = `TRACE_ID --> ${clickId}\n`;
+        Body += `blocked_reason --> ${blocked_reason}\n`;
+        Body += `blocked_sub_reason --> ${blocked_sub_reason}\n`;
+        Body += `blocked_reason_value --> ${blocked_reason_value}\n`;
+        const eMail = {
+          To: "nestor@diemp.net", 
+          Subject: 'POSTBACK AppsFlyers',
+          Body: Body
+        }
+        const x = await sendEmail.sendEmailFromAppsFlyer(eMail);
+      }
+      // FIN VALIDO FARUDE DE APPSFLYER
 
       let click = entityManager.getClickByID(clickId);
       let install = entityManager.getInstallByClickId(clickId);
