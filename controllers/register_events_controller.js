@@ -16,24 +16,7 @@ var processEvents = async function(params) {
       let retorno;
       let event = _.get(params, "event", DEFAULT_EVENT_NAME);
       let clickId = _.get(params, c.P_NAMES.click.CAMPAIGN_CLICK_GUID ,'');
-
-      // VALIDO FARUDE DE APPSFLYER
-      let blocked_reason = _.get(params, "blocked-reason", '');
-      let blocked_sub_reason = _.get(params, "blocked-sub-reason", '');
-      let blocked_reason_value = _.get(params, "blocked-reason-value", '');
-      if (blocked_reason!='') {
-        let Body = `TRACE_ID --> ${clickId}\n`;
-        Body += `blocked_reason --> ${blocked_reason}\n`;
-        Body += `blocked_sub_reason --> ${blocked_sub_reason}\n`;
-        Body += `blocked_reason_value --> ${blocked_reason_value}\n`;
-        const eMail = {
-          To: "nestor@diemp.net", 
-          Subject: 'POSTBACK AppsFlyers',
-          Body: Body
-        }
-        const x = await sendEmail.sendEmailFromAppsFlyer(eMail);
-      }
-      // FIN VALIDO FARUDE DE APPSFLYER
+      if (event=='') event = DEFAULT_EVENT_NAME;
 
       let click = entityManager.getClickByID(clickId);
       let install = entityManager.getInstallByClickId(clickId);
@@ -62,6 +45,33 @@ var processEvents = async function(params) {
         offer: offer,
         params: params
       };
+
+      // VALIDO FARUDE DE APPSFLYER ********************************************************************************
+      let blocked_reason = _.get(params, "blocked-reason", '');
+      let blocked_sub_reason = _.get(params, "blocked-sub-reason", '');
+      let blocked_reason_value = _.get(params, "blocked-reason-value", '');
+      if (blocked_reason!='') {
+        const reason = c.Reject_reasons[blocked_reason] || 'undetermined reason';
+        let Body = `TRACE_ID --> ${clickId}\n`;
+        Body += `blocked_reason --> ${blocked_reason}\n`;
+        Body += `blocked_sub_reason --> ${blocked_sub_reason}\n`;
+        Body += `blocked_reason_value --> ${blocked_reason_value}\n`;
+        Body += `Reason --> ${reason}\n\n`;
+        Body += `Campaign --> ${offer.Campaign.Campaign}\n`;
+        Body += `SubPubID --> ${context.click.SubPubID}\n`; 
+        Body += `ClickID --> ${context.click.ClickID}\n`; 
+        const eMail = {
+          To: "nestor@diemp.net", 
+          Subject: 'POSTBACK AppsFlyers',
+          Body: Body
+        }
+        const x = await sendEmail.sendEmailFromAppsFlyer(eMail);
+
+        // cambio el evento como fraude 
+        event = "fraud";
+        params.tr_sub1 = "fraud";
+      }
+      // FIN VALIDO FARUDE DE APPSFLYER *****************************************************************************
 
       // Obtengo Totales de Install y Eventos para validar KPI
       const OfferID = _.get(result[0], "OfferID");

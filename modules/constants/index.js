@@ -43,5 +43,20 @@ module.exports = {
             name:'click',
             EVENT: 'event'
         }        
+    },
+
+    Reject_reasons: {
+        ctit_anomalies: "CTIT anomalies are attributed clicks that have been blocked based on unreasonable CTIT (click to install time).",
+        store_install_validation: "Installs that failed validation from the App Store",
+        site_blacklist: "Installs coming from Site IDs that AppsFlyer blocked due to a high density of fraudulent activity. Determined by our internal algorithms.",
+        install_validation_rules: "nstalls are defined as invalid by the advertiser using user-defined validation rules. For example, the advertiser defines that they would like to promote their app only in the United States. Installs coming from outside of the United States, are considered invalid and are not attributed.",
+        bots: "Blocked install attempts made by Bots",
+        click_flood: "Installs coming from clusters blocked by AppsFlyer due to a large number of installs with a high CTIT and low conversion rate.",
+        behavioral_anomalies: "Behavioral anomalies being install fraud blocked due to inconsistent and abnormal post-install behavior.",
+        install_hijacking: "Install hijacking being attributed clicks blocked based on unreasonable click and install time, based on Google Play Server-Side API.",
+        validation_bots: "Customer-defined rule.",
+        validation_hijacking: "Customer-defined rule.",
+        inapps_bots: "AppsFlyer algorithm detects fraud",
+        validation_inapps: "Based on requested or manually defined validation rule"
     }
 }
