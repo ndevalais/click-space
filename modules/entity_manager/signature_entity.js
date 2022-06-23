@@ -14,7 +14,7 @@ var log = require("../log");
 // Expire the signature horas
 const EXPIRATION_TTL = 24;
 // "Minutos que deben pasar sin consultarse un objeto en la caché antes de olvidarse de el",
-const CACHE_TTK_ELEMENT_NO_ACTIVITY = 60; // * EXPIRATION_TTL; // 4 horas
+const CACHE_TTK_ELEMENT_NO_ACTIVITY = 5; // * EXPIRATION_TTL; // 4 horas
 // "Tiempo de refresco de caché para cada elemento, en segundos.",
 const CACHE_TTL = 3600; //3600 * EXPIRATION_TTL;
 const MINUTES_TTL = 10;
