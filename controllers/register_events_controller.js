@@ -61,7 +61,7 @@ var processEvents = async function(params) {
         Body += `SubPubID --> ${context.click.SubPubID}\n`; 
         Body += `ClickID --> ${context.click.ClickID}\n`; 
         const eMail = {
-          To: "nestor@diemp.net", 
+          To: "nestor@diemp.net;sofia@laikad.com;info@laikad.com", 
           Subject: 'POSTBACK AppsFlyers',
           Body: Body
         }
