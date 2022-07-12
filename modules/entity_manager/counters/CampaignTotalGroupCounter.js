@@ -13,7 +13,7 @@ const setTag="setObject";
 
 function initFlushBufferTimer(){
     setInterval(function(){
-        log("----------------->>>>>>>>> Writing to DB CampaignTotalSubPub <<<<<<<<<-----------------");
+        log("----------------->>>>>>>>> Writing to DB CampaignTotalGroup <<<<<<<<<-----------------");
         writeOutToDB();        
       }, config.WRITE_OUT_TIMER);
 }

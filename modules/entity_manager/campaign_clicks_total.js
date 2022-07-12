@@ -453,6 +453,11 @@ var addOneEvents = async function (params, offer) {
       CountTrackingProxy = 0;
       Cost = 0;
     }
+    TrackingCost.Revenue = Revenue;
+    TrackingCost.Cost = Cost;
+    TrackingCost.Profit = Profit;
+    TrackingCost.CountTrackingProxy = CountTrackingProxy;
+
     if (CampaignTypeID == "CP2") {
       //if (Revenue > Cost) Profit = Revenue - Cost;
       incs = JSON.parse(`{"$inc":{ 
@@ -598,7 +603,7 @@ var addOneEvents = async function (params, offer) {
       }
     );
 
-    addOneTotalGroupEvents(params, offer);
+    addOneTotalGroupEvents(params, offer, TrackingCost);
 
     //Actualizo Prepay del Advertiser
     if (CampaignTypeID=='CP2') {
@@ -713,7 +718,7 @@ var addOneTotalGroupInstall = async function (param, offer) {
   );
 };
 
-var addOneTotalGroupEvents = async function (param, offer) {
+var addOneTotalGroupEvents = async function (param, offer, TrackingCost) {
   let simpleDateYMDT = moment().format("YYYY-MM-DDT00:00:00Z");
   let DateYMDT = new Date(simpleDateYMDT);
   let OfferID = parseInt(_.get(param, "context.click.OfferID"));
@@ -739,19 +744,19 @@ var addOneTotalGroupEvents = async function (param, offer) {
 
   let incs = JSON.parse(`{"$inc":{
     "TrackingEvent":1,
-    "TrackingProxy":${CountTrackingProxy},
-    "TotalRevenue":${Revenue},
-    "TotalCost":${Cost},
-    "TotalProfit":${Profit},
+    "TrackingProxy":${TrackingCost.CountTrackingProxy},
+    "TotalRevenue":${TrackingCost.Revenue},
+    "TotalCost":${TrackingCost.Cost},
+    "TotalProfit":${TrackingCost.Profit},
     "${hora}.e":1,
-    "${hora}.p":${CountTrackingProxy}
+    "${hora}.p":${TrackingCost.CountTrackingProxy}
   }}`);
 
   incs.$set = getOffer(offer);
   incs.$set.SearchIndex = SearchIndex;
   incs.$set.SubPubID = SubPubID;
   incs.$set.P2 = p2;
-
+ 
   db.connection().collection("CampaignTotalGroup").updateOne(
     {
       OfferID: OfferID,
