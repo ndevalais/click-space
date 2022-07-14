@@ -295,11 +295,13 @@ var addOneInstall = async function (param, offer) {
     if (!TrackingProxy) {
       CountTrackingProxy = 0;
       Cost = 0;
+    } 
+    if (CampaignTypeID == "CPC" || CampaignTypeID == "CP2") {
+      Cost = 0;
+      Revenue = 0;
+      Profit = 0;
     }
     if (CampaignTypeID == "CPC") {
-      Revenue = 0;
-      Cost = 0;
-      Profit = 0;
       incs = JSON.parse(`{"$inc":{ 
               "${events}.T":1,
               "${events}.TrackingProxy":${CountTrackingProxy},
@@ -660,11 +662,12 @@ var addOneTotalGroupInstall = async function (param, offer) {
   let CountTrackingProxy = 1;
   const hora = moment().format("HH");
 
-  if (CampaignTypeID == "CP2") {
+  // SACO CP2 (Eventos) no debe contar
+  /*if (CampaignTypeID != "CPC" && CampaignTypeID != "CP2") { 
     Revenue = _.get(offer, "Campaign.eventPayOut1", 0);
     if (Revenue == 0) Revenue = _.get(offer, "Campaign.eventPayOut2", 0);
     if (Revenue == 0) Revenue = _.get(offer, "Campaign.eventPayOut3", 0);
-  }
+  }*/
   if (Revenue == null) Revenue = 0;
   Revenue = parseFloat(Revenue);
   if (Cost == null) Cost = 0;
@@ -675,7 +678,7 @@ var addOneTotalGroupInstall = async function (param, offer) {
     CountTrackingProxy = 0;
     Cost = 0;
   }
-  if (CampaignTypeID == "CPC") {
+  if (CampaignTypeID == "CPC" || CampaignTypeID == "CP2") {
     Revenue = 0;
     Cost = 0;
     Profit = 0;
@@ -727,13 +730,11 @@ var addOneTotalGroupEvents = async function (param, offer, TrackingCost) {
   const SubPubHash = _.get(param, "context.click.SubPubHash");
   const p2hash = _.get(param, "context.click.p2hash", "");
 
-  let TrackingProxy = _.get(param, "context.params.TrackingProxyEvent", false);
+  //let TrackingProxy = _.get(param, "context.params.TrackingProxyEvent", false);
   let CampaignTypeID = _.get(param, "context.offer.CampaignHead.CampaignTypeID");
-  let Revenue = parseFloat(
-    _.get(param, "context.click.TrackingCost.Revenue", 0)
-  );
-  let Cost = parseFloat(_.get(param, "context.click.TrackingCost.Cost", 0));
-  let Profit = parseFloat(_.get(param, "context.click.TrackingCost.Profit", 0));
+  //let Revenue = parseFloat(_.get(param, "context.click.TrackingCost.Revenue", 0));
+  //let Cost = parseFloat(_.get(param, "context.click.TrackingCost.Cost", 0));
+  //let Profit = parseFloat(_.get(param, "context.click.TrackingCost.Profit", 0));
   let CountTrackingProxy = parseFloat(
     _.get(param, "context.click.TrackingCost.CountTrackingProxy", 0)
   );

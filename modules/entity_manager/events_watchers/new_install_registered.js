@@ -80,7 +80,7 @@ module.exports = {
             CountTrackingProxy = 0;
             Cost = 0;
         }
-        if (CampaignTypeID == 'CPC') {
+        if (CampaignTypeID == 'CPC' || CampaignTypeID == 'CP2' ) {
             Revenue = 0;
             Cost = 0;
             Profit = 0;

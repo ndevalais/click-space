@@ -123,13 +123,16 @@ var eventCost = async function (event, TrackingProxy, offer, existingEventInstal
       if (CampaignTypeID=='CP2') {
         if (event == eventsName1) {
             Revenue = parseFloat(_.get(offer, "Campaign.eventPayOut1", 0));
-            Cost = parseFloat(_.get(offer, "Campaign.eventCost1", 0));
+            //Cost = parseFloat(_.get(offer, "Campaign.eventCost1", 0));
+            Cost = parseFloat(_.get(offer, "Cost", 0));
         } else if (event == eventsName2) {
             Revenue = parseFloat(_.get(offer, "Campaign.eventPayOut2", 0));
-            Cost = parseFloat(_.get(offer, "Campaign.eventCost2", 0));
+            //Cost = parseFloat(_.get(offer, "Campaign.eventCost2", 0));
+            Cost = parseFloat(_.get(offer, "Cost", 0));
         } else if (event == eventsName3) {
             Revenue = parseFloat(_.get(offer, "Campaign.eventPayOut3", 0));
-            Cost = parseFloat(_.get(offer, "Campaign.eventCost3", 0));
+            //Cost = parseFloat(_.get(offer, "Campaign.eventCost3", 0));
+            Cost = parseFloat(_.get(offer, "Cost", 0));
         } 
         if (!TrackingProxy) {
           CountTrackingProxy = 0;
