@@ -40,8 +40,8 @@ var getParamsFromRequest = function (req) {
 
     let ip = _.get(req, config.HEADER_TO_GET_IP_FROM) || _.get(req, 'headers.x-forwarded-for') || _.get(req, 'ip') || _.get(req, 'headers.sourceip') ;
     params.SourceIP = ip.split(",")[0];
-    log(`************IP FOR REQUEST: ${ip} *************`);
-
+    //log(`************IP FOR REQUEST: ${ip} *************`);
+    log('new click.....');
     if (params.SourceIP.split(":")[0]=="") params.SourceIP = _.get(req, 'headers.sourceip') ;
     params.UserAgent = _.get(req, 'headers.user-agent');    
 

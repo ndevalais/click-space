@@ -109,7 +109,7 @@ async function getGlobalCounters(){
                     elem = await readFromSharedMemory(key);
                     //console.log("key:",key," elem:", elem);
                 }catch(e){  
-                    console.log("error:", e);              
+                    console.log("error getGlobalCounters: ", e);              
                     elem = {};
                 }
                 res.push(elem);
