@@ -28,7 +28,7 @@ var registerClick = async function (params) {
         const subpubid = _.get(params,c.P_NAMES.click.SUBPUBID,"").replace(/\./g, ''); 
         const subpubhash = stringToHash( subpubid );
         const offerguid =  _.get(params, c.P_NAMES.click.OFFER_GUID);
-
+        log('Click registerd for offer: ' + offerguid + ' subpubid: ' + subpubid + ' subpubhash: ' + subpubhash + ' - ********************* ' );
         try{
             pIP = _.get(params, params,c.P_NAMES.click.IP_NUM, 0)
             IPLong = parseInt( pIP );
@@ -45,6 +45,7 @@ var registerClick = async function (params) {
         params.evento = c.P_NAMES.click.name;
         params.offerguid = offerguid;
         params.offerid = offer.OfferID;
+        log('>>>>>>> 1 Click OfferID: ' + offer.OfferID + ' - ********************* ' );
 
         if (!offer) {
             // Si no existe, debo enviar al rotador. CREO OFFERTA
@@ -70,6 +71,7 @@ var registerClick = async function (params) {
         // Valido el click contra los validadores
         validatorEngine.validate(validatorEngine.VALIDATORS.CLICK_VALIDATOR, params, context).then(function (validatorsResult) {
             //Prepares click to be saved
+            log('>>>>>>> 2 Click OfferID: ' + params.offerid + ' VALIDATION OK- ********************* ' );
             let click = entityManager.clickEntity.createNewClickStructFromInput(params, context, validatorsResult);
 
             // Saves click
@@ -77,9 +79,9 @@ var registerClick = async function (params) {
                 //Informs of new click to EntityManager publishing event
                 res.offer = context.offer;
                 
-                
                 // Adds insertedClickId to params for later use if needed.
                 params.insertedClickId = res.insertedId.toHexString();
+                log('>>>>>>> 3 Click OfferID: ' + params.offerid + ' SAVE OK CLICKID: ' + params.insertedClickId + ' - ********************* ' );
                 // Actualizo el  CampaignClickGUID
                 entityManager.clickEntity.updateClick( params.insertedClickId );
                 res.ops[0].CampaignClickGUID = params.insertedClickId;
