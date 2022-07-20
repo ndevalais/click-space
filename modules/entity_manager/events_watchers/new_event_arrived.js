@@ -90,8 +90,8 @@ module.exports = {
  
         //When this watcher is triggered we calculate totals
         registerEventsTotals(events, offer);
-        if (conf.REPORT_TO_ELASTIC_SEARCH === "true") {
-            postToElastic(click);
-        }
+        //if (conf.REPORT_TO_ELASTIC_SEARCH === "true") {
+        //    postToElastic(click);
+        //}
     }
 };

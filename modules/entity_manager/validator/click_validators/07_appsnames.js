@@ -56,6 +56,7 @@ var validator = {
                 var CountryCode = _.get(objectToValidate, "AdditionalIPInfo.CountryCode", '');
                 var tr_sub3 = _.get(objectToValidate, "tr_sub3","");
                 var tr_sub4 = _.get(objectToValidate, "tr_sub4","");
+                const debug_validation = _.get(objectToValidate, "debug_validation", false);
                 if (DeviceID=='AND') DeviceID = 'Android';
                 if (DeviceID=='IOS') DeviceID = 'iOS';
 
@@ -99,7 +100,7 @@ var validator = {
                     objectToValidate.tr_sub4 = tr_sub4;
                 }
 
-                log(`-- Valido 07-${NAME}: AppsNames WhiteList = ${AppsNamesWL.length} - BlackList = ${AppsNamesBL.length} - tr_sub3 = ${tr_sub3} - tr_sub4 = ${tr_sub4}`);
+                if (debug_validation) log(`-- Valido 07-${NAME}: AppsNames WhiteList = ${AppsNamesWL.length} - BlackList = ${AppsNamesBL.length} - tr_sub3 = ${tr_sub3} - tr_sub4 = ${tr_sub4}`);
                 resolve({
                     name: NAME,
                     rotator: false,
@@ -107,7 +108,7 @@ var validator = {
                     AppsNames: AppsNames
                 });
             } catch (e) {
-                log(`ERROR - Running validation ${NAME} -> ${e}`)
+                if (debug_validation) log(`ERROR - Running validation ${NAME} -> ${e}`)
                 resolve({
                     name: NAME,
                     rotator: false,

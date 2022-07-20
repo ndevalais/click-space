@@ -141,7 +141,7 @@ module.exports = class CacheHelper {
             if (value) {
                 logger(`Returning matching element in NodeCache for key ${key}.`);
                 counters.addOneCacheMatch();
-                log('CACHE retono valor = ' + value);
+                //log('CACHE retono valor = ' + value);
                 retValue = value;
             } else {
                 try {
@@ -165,7 +165,7 @@ module.exports = class CacheHelper {
                     //    writeToPersistentStore(key, value, ttl)
                     //];
                     writeToPersistentStore(key, value, ttl);
-                    log('CACHE - creo con key: ' + key + ' - ttl: ' + ttl + ' - value: ' + value);
+                    //log('CACHE - creo con key: ' + key + ' - ttl: ' + ttl + ' - value: ' + value);
                     //counters.addOneCacheElem();
                     //cacheElements++;
                     //}

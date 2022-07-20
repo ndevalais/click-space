@@ -26,6 +26,7 @@ var validator = {
                 const DailyAmount = _.get(contextToValidateWith, "offer.Campaign.DailyAmount", 0);
                 const DailyQuantityHead = _.get(contextToValidateWith, "offer.CampaignHead.DailyQuantity", 0);
                 const DailyAmountHead = _.get(contextToValidateWith, "offer.CampaignHead.DailyAmount", 0);
+                const debug_validation = _.get(objectToValidate, "debug_validation", false);
 
                 let CountCampaign = 0; 
                 let RevenueCampaign = 0; 
@@ -74,14 +75,14 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido ${mensaje}`)
+                    if (debug_validation) log(`-- Valido ${mensaje}`)
                     resolve({ 
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     });
                 } else {
-                    log(`** ${mensaje}`)
+                    if (debug_validation) log(`** ${mensaje}`)
                     reject({ 
                         name: NAME,
                         rotator: true,
@@ -89,7 +90,7 @@ var validator = {
                     });
                 }
             } catch (e) {
-                log(`ERROR - Running validation ${NAME} -> ${e}`)
+                if (debug_validation) log(`ERROR - Running validation ${NAME} -> ${e}`)
                 resolve({
                     name: NAME,
                     rotator: false,

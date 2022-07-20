@@ -22,6 +22,7 @@ var validator = {
                     _.get(objectToValidate, "AdditionalUserAgentInfo.os.patch"); 
                 const DeviceVersion = _.get(contextToValidateWith, "offer.Campaign.DeviceVersion", 0);
                 const mensaje = `06-${NAME}: DeviceID Campaign = ${DeviceID} - DeviceVersion = ${DeviceVersion} | Click OSfamily = ${OSfamily} - OSVersionClick = ${OSVersionClick}`;
+                const debug_validation = _.get(objectToValidate, "debug_validation", false);
                 let lOK = false;
 
                 if ((DeviceID=='AND' || DeviceID=='BTH' || DeviceID.toUpperCase()=='ANDROID') && OSfamily.toUpperCase() == 'ANDROID' ) lOK = true;
@@ -35,14 +36,14 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido ${mensaje}`);
+                    if (debug_validation) log(`-- Valido ${mensaje}`);
                     resolve({ 
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     }); 
                 } else {
-                    log(`** ERROR ${mensaje}`);
+                    if (debug_validation) log(`** ERROR ${mensaje}`);
                     reject({ 
                         name: NAME,
                         rotator: false,
@@ -50,7 +51,7 @@ var validator = {
                     }); 
                 }
             } catch (e) {
-                log(`ERROR - Running validation ${NAME} -> ${e}`)
+                if (debug_validation) log(`ERROR - Running validation ${NAME} -> ${e}`)
                 resolve({
                     name: NAME,
                     rotator: true,

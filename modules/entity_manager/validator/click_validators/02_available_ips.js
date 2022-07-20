@@ -21,6 +21,7 @@ var validator = {
                 const IP2Long = parseInt( _.get(objectToValidate, "AdditionalIPInfo.IP_No"),0 );
                 const CountIPS = _.get(contextToValidateWith,`offer.Totals.Offers[${OfferID}].IPs[${IP2Long}].T`,0);
                 const MaxIPs = parseInt(_.get(config, "MAX_IPs", 2));
+                const debug_validation = _.get(objectToValidate, "debug_validation", false);
                 // "Offers.${OfferID}.IPs.${IP2Long}.T":1
                 let lOK = true;
                 const mensaje = `02-${NAME}: IP = ${IP2Long} - CountIPS = ${CountIPS} - Max IP = ${MaxIPs}`;
@@ -29,14 +30,14 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido ${mensaje}`);
+                    if (debug_validation) log(`-- Valido ${mensaje}`);
                     resolve({ 
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     }); 
                 } else {
-                    log(`** ERROR - ${mensaje}`);
+                    if (debug_validation) log(`** ERROR - ${mensaje}`);
                     reject({ 
                         name: NAME,
                         rotator: false,
@@ -44,7 +45,7 @@ var validator = {
                     }); 
                 }
             } catch (e) {
-                log(`ERROR - Running validation ${NAME} -> ${e}`)
+                if (debug_validation) log(`ERROR - Running validation ${NAME} -> ${e}`)
                 resolve({
                     name: NAME,
                     rotator: true,

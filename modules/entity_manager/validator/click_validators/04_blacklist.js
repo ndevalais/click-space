@@ -30,6 +30,7 @@ var validator = {
                 const p2hash = _.get(objectToValidate, "p2hash");
                 const p2 = _.get(objectToValidate, "p2");
                 const SubPubHash = _.get(objectToValidate, "subpubhash");
+                const debug_validation = _.get(objectToValidate, "debug_validation", false);
                 let lOK = true;
                 let countBlackListSubPubID = 0;
 
@@ -45,7 +46,7 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido 04-${NAME}: countBlackList = ${countBlackList} - countBlackListSubPubID = ${countBlackListSubPubID}`);
+                    if (debug_validation) log(`-- Valido 04-${NAME}: countBlackList = ${countBlackList} - countBlackListSubPubID = ${countBlackListSubPubID}`);
                     resolve({
                         name: NAME,
                         balcklist: false,
@@ -74,7 +75,7 @@ var validator = {
                         SubPubID: SubPubID,
                         p2: p2
                      };
-                    log(`** ERROR - ${NAME} - countBlackList = ${countBlackList} - countBlackListSubPubID = ${countBlackListSubPubID}`)
+                     if (debug_validation) log(`** ERROR - ${NAME} - countBlackList = ${countBlackList} - countBlackListSubPubID = ${countBlackListSubPubID}`)
                     reject({
                         name: NAME,
                         rotator: true,
@@ -83,7 +84,7 @@ var validator = {
                     entityManager.emitEvent(c.EVENTS_KEY_NAMES.NEW_BLACKLIST_REGISTERED, blacklist);                    
                 }
             } catch (e) {
-                log(`ERROR - Running validation ${NAME} -> ${e}`)
+                if (debug_validation) log(`ERROR - Running validation ${NAME} -> ${e}`)
                 resolve({
                     name: NAME,
                     rotator: false,

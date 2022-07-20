@@ -15,21 +15,22 @@ var validator = {
                 let lOK = true;
                 let VPNProxyType = _.get(objectToValidate, "AdditionalProxyInfo.VPNProxyType");
                 let VPNCheck = _.get(contextToValidateWith, "offer.CampaignHead.VPNCheck");
-                
+                const debug_validation = _.get(objectToValidate, "debug_validation", false);
+
                 if (VPNCheck == 1) {
                     if (VPNProxyType != '') lOK = false;
                 } else lOK = true;
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido 12-${NAME}: VPNCheck = ${VPNCheck} - VPNProxyType = ${VPNProxyType}`);
+                    if (debug_validation) log(`-- Valido 12-${NAME}: VPNCheck = ${VPNCheck} - VPNProxyType = ${VPNProxyType}`);
                     resolve({
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     });
                 } else {
-                    log(`** ERROR 12-${NAME}: VPNCheck = ${VPNCheck} - VPNProxyType = ${VPNProxyType}`);
+                    if (debug_validation) log(`** ERROR 12-${NAME}: VPNCheck = ${VPNCheck} - VPNProxyType = ${VPNProxyType}`);
                     reject({
                         name: NAME,
                         rotator: true,
@@ -38,7 +39,7 @@ var validator = {
                 }
 
             } catch (e) {
-                log(`ERROR - Running validation ${NAME} -> ${e}`)
+                if (debug_validation) log(`ERROR - Running validation ${NAME} -> ${e}`)
                 resolve({
                     name: NAME,
                     rotator: false,

@@ -56,8 +56,8 @@ module.exports = {
         click.SupplierID = _.get(param, "offer.Supplier.SupplierID",0);  
         click.TrackingCost = { CountTrackingProxy: 0, Cost: 0, Revenue: 0, Profit: 0 };
         
-        if (conf.REPORT_TO_ELASTIC_SEARCH === "true") {
-            postToElastic(click);
-        }
+        //if (conf.REPORT_TO_ELASTIC_SEARCH === "true") {
+        //    postToElastic(click);
+        //}
     }
 };

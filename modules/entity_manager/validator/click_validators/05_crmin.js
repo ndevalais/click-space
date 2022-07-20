@@ -38,6 +38,7 @@ var validator = {
                 const offer = _.get(contextToValidateWith, "offer");
                 let CRMin = _.get(contextToValidateWith, "offer.CampaignHead.CRMin");
                 let CR = _.get(contextToValidateWith, "offer.CampaignHead.CR");
+                const debug_validation = _.get(objectToValidate, "debug_validation", false);
                 let lOK = true;
 
                 // Valido si existe para el Advertiser, Campaign u Offers alguna blacklist
@@ -55,14 +56,14 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido 05-${NAME}: CR MIN InstallCount = ${InstallCount} - ClickCountSubPub = ${ClickCountSubPub} - CRMin ${CRMin}`)
+                    if (debug_validation) log(`-- Valido 05-${NAME}: CR MIN InstallCount = ${InstallCount} - ClickCountSubPub = ${ClickCountSubPub} - CRMin ${CRMin}`)
                     resolve({ 
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     }); 
                 } else {
-                    log(`** ERROR - ${NAME} - CR MIN InstallCount = ${InstallCount} - ClickCountSubPub = ${ClickCountSubPub} - CRMin ${CRMin}`);
+                    if (debug_validation) log(`** ERROR - ${NAME} - CR MIN InstallCount = ${InstallCount} - ClickCountSubPub = ${ClickCountSubPub} - CRMin ${CRMin}`);
 
                     const blacklist = { SubPubID: SubPubID, 
                         OfferID: OfferID, 
@@ -88,7 +89,7 @@ var validator = {
                     }); 
                 }
             } catch (e) {
-                log(`ERROR - Running validation ${NAME} -> ${e}`)
+                if (debug_validation) log(`ERROR - Running validation ${NAME} -> ${e}`)
                 resolve({
                     name: NAME,
                     rotator: false,

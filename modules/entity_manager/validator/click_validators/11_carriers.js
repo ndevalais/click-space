@@ -20,6 +20,7 @@ var validator = {
                 const CarriersTypes = _.get(contextToValidateWith, "offer.Campaign.CarriersTypes", '');
                 const MobileBrand = _.get(objectToValidate, "AdditionalIPInfo.MobileBrand", '').toUpperCase();
                 const CountryCode = _.get(objectToValidate, "AdditionalIPInfo.CountryCode", '');
+                const debug_validation = _.get(objectToValidate, "debug_validation", false);
                 let lOK = false;
 
                 if (CampaignTypeID == 'CPA') {
@@ -34,14 +35,14 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido 11-${NAME}: CampaignTypeID = ${CampaignTypeID} - CarriersTypes = ${CarriersTypes} - MobileBrand = ${CountryCode} ${MobileBrand}`);
+                    if (debug_validation) log(`-- Valido 11-${NAME}: CampaignTypeID = ${CampaignTypeID} - CarriersTypes = ${CarriersTypes} - MobileBrand = ${CountryCode} ${MobileBrand}`);
                     resolve({
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     });
                 } else {
-                    log(`** ERROR 11-${NAME}: CampaignTypeID = ${CampaignTypeID} - CarriersTypes = ${CarriersTypes} - MobileBrand = ${CountryCode} ${MobileBrand}`);
+                    if (debug_validation) log(`** ERROR 11-${NAME}: CampaignTypeID = ${CampaignTypeID} - CarriersTypes = ${CarriersTypes} - MobileBrand = ${CountryCode} ${MobileBrand}`);
                     reject({
                         name: NAME,
                         rotator: true,
@@ -49,7 +50,7 @@ var validator = {
                     });
                 }
             } catch (e) {
-                log(`ERROR - Running validation ${NAME} -> ${e}`)
+                if (debug_validation) log(`ERROR - Running validation ${NAME} -> ${e}`)
                 resolve({
                     name: NAME,
                     rotator: false,

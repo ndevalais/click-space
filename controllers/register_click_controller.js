@@ -5,6 +5,7 @@ const c = require('../modules/constants');
 var _ = require('lodash');
 var hash = require('object-hash');
 let performance = require('perf_hooks').performance;
+var BEGUB_VALIDATION_CLICK = false;
 //var CrearOffer = require('./offers_controllers');
 
 function stringToHash(str) {
@@ -49,6 +50,7 @@ var registerClick = async function (params) {
         params.evento = c.P_NAMES.click.name;
         params.offerguid = offerguid;
         params.offerid = offer.OfferID;
+        params.debug_validation = BEGUB_VALIDATION_CLICK;
         log('>>>>>>> 1 Click OfferID: ' + offer.OfferID + ' - ********************* ' );
 
         if (!offer) {
@@ -149,6 +151,7 @@ var registerClick = async function (params) {
             }
             /* ESTO LO AGREGO DE FORMA TEMPORAL */
             // AGREGO INSERT DEL CLICK DEL ROTADOR ********
+            log('>>>>>>> 2 Click OfferID: ' + params.offerid + ' ROTADOR OK- --------------------- ' );
             let click = entityManager.clickEntity.createNewClickStructFromInput(params, context, error);
             entityManager.clickEntity.saveClick(click).then(function (res) {
                 //Informs of new click to EntityManager publishing event
@@ -157,6 +160,8 @@ var registerClick = async function (params) {
                 
                 // Adds insertedClickId to params for later use if needed.
                 params.insertedClickId = res.insertedId.toHexString();
+                log('>>>>>>> 3 Click OfferID: ' + params.offerid + ' SAVE ROTADOR CLICKID: ' + params.insertedClickId + ' - --------------------- ' );
+                
                 // Actualizo el  CampaignClickGUID
                 entityManager.clickEntity.updateClick( params.insertedClickId );
                 res.ops[0].CampaignClickGUID = params.insertedClickId;

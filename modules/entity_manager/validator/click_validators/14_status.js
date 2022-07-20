@@ -15,13 +15,14 @@ var validator = {
             try {
                 const OfferStatusID = _.get(contextToValidateWith, "offer.StatusID");
                 const CampaignStatusID = _.get(contextToValidateWith, "offer.Campaign.StatusID");
+                const debug_validation = _.get(objectToValidate, "debug_validation", false);
 
                 if (OfferStatusID != 'A')  lOK = false;
                 if (CampaignStatusID != 'A')  lOK = false;
 
                 //lOK = await validClick.validClickCount( contextToValidateWith, lOK );
                 if (OfferStatusID != 'A') {
-                    log(`** ERROR - ${NAME} Offer - Not Active = ${OfferStatusID} `)
+                    if (debug_validation) log(`** ERROR - ${NAME} Offer - Not Active = ${OfferStatusID} `)
                     reject({ 
                         name: NAME,
                         Status: 'Inactive',
@@ -29,7 +30,7 @@ var validator = {
                         rotatorReason: `** ERROR - ${NAME} Offer - Not Active = ${OfferStatusID} `
                     });
                 } else if (CampaignStatusID != 'A')  {
-                    log(`** ERROR - ${NAME} Campaign - Not Active = ${CampaignStatusID} `)
+                    if (debug_validation) log(`** ERROR - ${NAME} Campaign - Not Active = ${CampaignStatusID} `)
                     reject({ 
                         name: NAME,
                         Status: 'Inactive',
@@ -37,7 +38,7 @@ var validator = {
                         rotatorReason: `** ERROR - ${NAME} Offer - Not Active = ${CampaignStatusID} `
                     });
                 } else {
-                    log(`-- Status Offer 14-${NAME}: Active`)
+                    if (debug_validation) log(`-- Status Offer 14-${NAME}: Active`)
                     resolve({
                         name: NAME,
                         rotator: false,
@@ -45,7 +46,7 @@ var validator = {
                     });
                 }
             } catch (e) {
-                log(`ERROR - Running validation ${NAME} -> ${e}`)
+                if (debug_validation) log(`ERROR - Running validation ${NAME} -> ${e}`)
                 resolve({
                     name: NAME,
                     rotator: false,

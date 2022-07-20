@@ -21,6 +21,7 @@ var validator = {
                 const CountryCode = _.get(objectToValidate, "AdditionalIPInfo.CountryCode", '');
                 const CodeLanguage = _.get(contextToValidateWith, "offer.Campaign.Languages", '');
                 const LanguageCheck = _.get(contextToValidateWith, "offer.CampaignHead.LanguageCheck", '');
+                const debug_validation = _.get(objectToValidate, "debug_validation", false);
                 let lOK = false;
 
                 if (CodeLanguage!='') {
@@ -32,14 +33,14 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido 09-${NAME}: CodeLanguage = ${CodeLanguage} - Headers Language = ${Language}`);
+                    if (debug_validation) log(`-- Valido 09-${NAME}: CodeLanguage = ${CodeLanguage} - Headers Language = ${Language}`);
                     resolve({
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     });
                 } else {
-                    log(`** ERROR 09-${NAME}: Invalid CodeLanguage = ${CodeLanguage} - Headers Language = ${Language}`);
+                    if (debug_validation) log(`** ERROR 09-${NAME}: Invalid CodeLanguage = ${CodeLanguage} - Headers Language = ${Language}`);
                     reject({
                         name: NAME,
                         rotator: true,
@@ -47,7 +48,7 @@ var validator = {
                     });
                 }
             } catch (e) {
-                log(`ERROR - Running validation ${NAME} -> ${e}`)
+                if (debug_validation) log(`ERROR - Running validation ${NAME} -> ${e}`)
                 resolve({
                     name: NAME,
                     rotator: false,

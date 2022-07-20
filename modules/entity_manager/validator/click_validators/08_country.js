@@ -23,6 +23,7 @@ var validator = {
                 const CityName = _.get(objectToValidate, "AdditionalIPInfo.CityName", '');
                 const CitiesTypes = _.get(contextToValidateWith, "offer.Campaign.CitiesTypes");
                 const mensaje = `08-${NAME}: Campaign Country = ${Countrys} - CitiesTypes = ${CitiesTypes} | Click CountryCode = ${CountryCode}-${RegionName}-${CityName}`;
+                const debug_validation = _.get(objectToValidate, "debug_validation", false);
                 let lOK = false;
                 let isCities = true;
 
@@ -43,14 +44,14 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido ${mensaje}`);
+                    if (debug_validation) log(`-- Valido ${mensaje}`);
                     resolve({
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     });
                 } else {
-                    log(`** ERROR - ${mensaje}`);
+                    if (debug_validation) log(`** ERROR - ${mensaje}`);
                     reject({
                         name: NAME,
                         rotator: true,
@@ -58,7 +59,7 @@ var validator = {
                     });
                 }
             } catch (e) {
-                log(`ERROR - Running validation ${NAME} -> ${e}`)
+                if (debug_validation) log(`ERROR - Running validation ${NAME} -> ${e}`)
                 resolve({
                     name: NAME,
                     rotator: false,

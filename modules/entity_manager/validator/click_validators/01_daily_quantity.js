@@ -23,20 +23,21 @@ var validator = {
                 let CountDailyClick = _.get(contextToValidateWith,`offer.Totals.Campaigns[${CampaignID}].clicks[${simpleDateYMD}].T`,0);
                 let lOK = true;
                 const ip = _.get(objectToValidate, "SourceIP"); //params.SourceIP
+                const debug_validation = _.get(objectToValidate, "debug_validation", false);
 
                 if (DailyQuantityClick > 0 && DailyQuantityClick < CountDailyClick)  lOK = false;
                 //if (ClickCounOffer != undefined && ClickCounOffer < ClickCountValid) lOK = true;
 
                 lOK = await validClick.validClickCount( contextToValidateWith, lOK );
                 if (lOK) {
-                    log(`-- Valido 01-${NAME}: ${OfferID} ** ip=${ip} ** DailyQuantityClick = ${DailyQuantityClick} - Total CountDailyClick ${CountDailyClick} by OfferID/Date`)
+                    if (debug_validation) log(`-- Valido 01-${NAME}: ${OfferID} ** ip=${ip} ** DailyQuantityClick = ${DailyQuantityClick} - Total CountDailyClick ${CountDailyClick} by OfferID/Date`)
                     resolve({ 
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     });
                 } else {
-                    log(`** ERROR - ${OfferID} ** ${ip} ** Daily Click ${NAME} - DailyQuantityClick = ${DailyQuantityClick} - Total CountDailyClick ${CountDailyClick} by OfferID/Date`)
+                    if (debug_validation) log(`** ERROR - ${OfferID} ** ${ip} ** Daily Click ${NAME} - DailyQuantityClick = ${DailyQuantityClick} - Total CountDailyClick ${CountDailyClick} by OfferID/Date`)
                     reject({ 
                         name: NAME,
                         rotator: true,
@@ -44,7 +45,7 @@ var validator = {
                     });
                 }
             } catch (e) {
-                log(`ERROR - ${OfferID} Running validation ${NAME} -> ${e}`)
+                if (debug_validation) log(`ERROR - ${OfferID} Running validation ${NAME} -> ${e}`)
                 resolve({
                     name: NAME,
                     rotator: false,

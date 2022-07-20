@@ -24,6 +24,7 @@ var validator = {
                 const OfferID = _.get(contextToValidateWith, "offer.OfferID");
                 const SubPubID = _.get(objectToValidate, "subpubid");
                 const ControlIP = _.get(contextToValidateWith, "SourceIP");
+                const debug_validation = _.get(objectToValidate, "debug_validation", false);
                 let lOK = true;
                 let countWhiteListSubPubID = 0;
                 

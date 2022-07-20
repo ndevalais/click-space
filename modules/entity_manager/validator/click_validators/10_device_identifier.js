@@ -22,6 +22,7 @@ var validator = {
                 const tr_sub2 = _.get(objectToValidate, "tr_sub2");
                 const IDFA = _.get(objectToValidate, "idfa");
                 const DeviceIdentifier = _.get(contextToValidateWith, "offer.Campaign.DeviceIdentifier", '');
+                const debug_validation = _.get(objectToValidate, "debug_validation", false);
                 let lOK = false;
                 var DeviceID = '';
 
@@ -41,14 +42,14 @@ var validator = {
 
                 lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
-                    log(`-- Valido 10-${NAME}: DeviceID = ${DeviceID} - Family = ${OSfamily}`);
+                    if (debug_validation) log(`-- Valido 10-${NAME}: DeviceID = ${DeviceID} - Family = ${OSfamily}`);
                     resolve({
                         name: NAME,
                         rotator: false,
                         rotatorReason: ''
                     });
                 } else {
-                    log(`** ERROR 10-${NAME}: DeviceID = ${DeviceID} - Family = ${OSfamily}`);
+                    if (debug_validation) log(`** ERROR 10-${NAME}: DeviceID = ${DeviceID} - Family = ${OSfamily}`);
                     reject({
                         name: NAME,
                         rotator: true,
@@ -56,7 +57,7 @@ var validator = {
                     });
                 }
             } catch (e) {
-                log(`ERROR - Running validation ${NAME} -> ${e}`)
+                if (debug_validation) log(`ERROR - Running validation ${NAME} -> ${e}`)
                 resolve({
                     name: NAME,
                     rotator: false,
