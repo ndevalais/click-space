@@ -28,8 +28,11 @@ var registerClick = async function (params) {
         const subpubid = _.get(params,c.P_NAMES.click.SUBPUBID,"").replace(/\./g, ''); 
         const subpubhash = stringToHash( subpubid );
         const offerguid =  _.get(params, c.P_NAMES.click.OFFER_GUID);
+        log(' ');
+        log(' ');
+        log(' ');
         log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-        log('Click registerd for offer: ' + offerguid + ' subpubid: ' + subpubid + ' subpubhash: ' + subpubhash + ' - ********************* ' );
+        log('>>>>>>> Click registerd for offer: ' + offerguid + ' subpubid: ' + subpubid + ' subpubhash: ' + subpubhash + ' - ********************* ' );
         try{
             pIP = _.get(params, params,c.P_NAMES.click.IP_NUM, 0)
             IPLong = parseInt( pIP );
