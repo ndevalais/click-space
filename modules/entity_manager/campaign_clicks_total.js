@@ -537,7 +537,27 @@ var addOneEvents = async function (params, offer) {
               "Offers.${OfferID}.SubPub.${SubPubHash}.events.${event}.${simpleDateYMD}.T":1
           }}`);
     }
+    // VALIDO SI EL EVENTO SE DEBE CONTAR 
+    //if (TrackingCost.EventPayable) {
+    log(`addOneInstall for install.CampaignHeadID:  ${CampaignHeadID}`);
+    db.connection().collection(COLLECTION_NAME).updateOne(
+      {
+        CampaignHeadID: CampaignHeadID,
+        Date: simpleDateYMD,
+      },
+      incs,
+      {
+        upsert: true,
+      }
+    );
 
+    addOneTotalGroupEvents(params, offer, TrackingCost);
+    
+    //Actualizo Prepay del Advertiser
+    if (CampaignTypeID=='CP2') {
+      OfferAdvertiser.saveAdvertiserPrePay(params, Revenue);
+      Advertiser.updateAdvertiserPrePay(params, Revenue);
+    }
     /*
     "events.T":1,
     "events.TotalRevenue":${Revenue},
@@ -592,26 +612,6 @@ var addOneEvents = async function (params, offer) {
     "Campaigns.${CampaignID}.SubPub.${SubPubHash}.events.${event}.T":1,  
     "Campaigns.${CampaignID}.SubPub.${SubPubHash}.events.${event}.${simpleDateYMD}.T":1,   
     */
-
-    log(`addOneInstall for install.CampaignHeadID:  ${CampaignHeadID}`);
-    db.connection().collection(COLLECTION_NAME).updateOne(
-      {
-        CampaignHeadID: CampaignHeadID,
-        Date: simpleDateYMD,
-      },
-      incs,
-      {
-        upsert: true,
-      }
-    );
-
-    addOneTotalGroupEvents(params, offer, TrackingCost);
-
-    //Actualizo Prepay del Advertiser
-    if (CampaignTypeID=='CP2') {
-      OfferAdvertiser.saveAdvertiserPrePay(params, Revenue);
-      Advertiser.updateAdvertiserPrePay(params, Revenue);
-    }
   } catch (error) {
     log('Error TOTALES' + error + ' rows');
   }
@@ -758,18 +758,22 @@ var addOneTotalGroupEvents = async function (param, offer, TrackingCost) {
   incs.$set.SubPubID = SubPubID;
   incs.$set.P2 = p2;
  
-  db.connection().collection("CampaignTotalGroup").updateOne(
-    {
-      OfferID: OfferID,
-      SubPubHash: SubPubHash,
-      p2hash: p2hash,
-      Date: DateYMDT,
-    },
-    incs,
-    {
-      upsert: true,
-    }
-  );
+  // Valido que el evento sea PAGABLE, sino no lo agrego en los totales.
+  //if (TrackingCost.EventPayable) {
+    db.connection().collection("CampaignTotalGroup").updateOne(
+      {
+        OfferID: OfferID,
+        SubPubHash: SubPubHash,
+        p2hash: p2hash,
+        Date: DateYMDT,
+      },
+      incs,
+      {
+        upsert: true,
+      }
+    );
+  //}
+
 };
 
 var addOneTotalGroupBlackList = async function (param, offer) {

@@ -58,6 +58,7 @@ function createNewBlackListStructFromInput(data) {
     //TODO: Fill data
     return clickStructure;
 }
+
 var saveBlackList = async function (ListType, SubPubID, AdvertiserID, CampaignID, OfferID, SupplierID, Status) {
     try {
         const CreationDate = new Date();
@@ -184,6 +185,7 @@ var pauseBlackListID = async function (ID, Status) {
         //throw Error('Blacklist CanNotBeDeleted');
     }
 }
+
 var addBlackListTotal = async function (blacklist) {
     const simpleDateYMD = moment().format('YYYYMMDD');
     const SubPubID = _.get(blacklist, "SubPubID");

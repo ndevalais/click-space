@@ -110,6 +110,7 @@ var eventCost = async function (event, TrackingProxy, offer, existingEventInstal
     let Cost = 0; 
     let Profit = 0;
     let CountTrackingProxy = 0;
+    let EventPayable = false;
 
     if (existingEventInstall==0) {
       CountTrackingProxy = 1;
@@ -117,7 +118,8 @@ var eventCost = async function (event, TrackingProxy, offer, existingEventInstal
         CountTrackingProxy: CountTrackingProxy,
         Cost: Cost,
         Revenue: Revenue,
-        Profit: Profit
+        Profit: Profit,
+        EventPayable: EventPayable
       };
 
       if (CampaignTypeID=='CP2') {
@@ -125,14 +127,17 @@ var eventCost = async function (event, TrackingProxy, offer, existingEventInstal
             Revenue = parseFloat(_.get(offer, "Campaign.eventPayOut1", 0));
             //Cost = parseFloat(_.get(offer, "Campaign.eventCost1", 0));
             Cost = parseFloat(_.get(offer, "Cost", 0));
+            EventPayable = true;
         } else if (event == eventsName2) {
             Revenue = parseFloat(_.get(offer, "Campaign.eventPayOut2", 0));
             //Cost = parseFloat(_.get(offer, "Campaign.eventCost2", 0));
             Cost = parseFloat(_.get(offer, "Cost", 0));
+            EventPayable = true;
         } else if (event == eventsName3) {
             Revenue = parseFloat(_.get(offer, "Campaign.eventPayOut3", 0));
             //Cost = parseFloat(_.get(offer, "Campaign.eventCost3", 0));
             Cost = parseFloat(_.get(offer, "Cost", 0));
+            EventPayable = true;
         } 
         if (!TrackingProxy) {
           CountTrackingProxy = 0;
@@ -145,7 +150,8 @@ var eventCost = async function (event, TrackingProxy, offer, existingEventInstal
       CountTrackingProxy: CountTrackingProxy,
       Cost: Cost,
       Revenue: Revenue,
-      Profit: Profit
+      Profit: Profit,
+      EventPayable: EventPayable
     };
     return TrackingCost;
   }  catch (error) {

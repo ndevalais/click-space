@@ -216,33 +216,32 @@ let httpProccessServiceApi = async function (req, res, next, route) {
         params.SourceIP = "18.231.122.0"; //125.26.7.183
     }
 
-    fillWithAditionalData(params).then(async function (result) {
-        params = _.merge(params, result);
+    let result = await fillWithAditionalData(params);
+    params = _.merge(params, result);
 
-        // Obtengo lenguaje del Pais
-        if (params.Language == '') {
-            const code = _.get(params, "AdditionalIPInfo.CountryCode", "");
-            let Lang = CountryLanguage.getCountryLanguages(code);
-            params.Language = _.get(Lang[0], "iso639_1", "EN").toUpperCase();
-        }
-        const isValid = route.schema(params);
-        if (isValid) {
-            return route.controller(params)
-                .then(result => 
-                    onControllerFinalized(res, undefined, result)
-                )
-                .catch(error => 
-                    onControllerFinalized(res, error, undefined)
-                )
+    // Obtengo lenguaje del Pais
+    if (params.Language == '') {
+        const code = _.get(params, "AdditionalIPInfo.CountryCode", "");
+        let Lang = CountryLanguage.getCountryLanguages(code);
+        params.Language = _.get(Lang[0], "iso639_1", "EN").toUpperCase();
+    }
+    const isValid = route.schema(params);
+    if (isValid) {
+        return route.controller(params)
+            .then(result => 
+                onControllerFinalized(res, undefined, result)
+            )
+            .catch(error => 
+                onControllerFinalized(res, error, undefined)
+            )
+    } else {
+        //Send to rotator                    
+        if (needsToBeSentToRotator(params)) {
+            //TODO: Send to rotator
         } else {
-            //Send to rotator                    
-            if (needsToBeSentToRotator(params)) {
-                //TODO: Send to rotator
-            } else {
-                helpers.send400Error(res);
-            }
+            helpers.send400Error(res);
         }
-    });
+    }    
 }
 
 module.exports = {
