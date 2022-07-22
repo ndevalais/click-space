@@ -759,7 +759,7 @@ var addOneTotalGroupEvents = async function (param, offer, TrackingCost) {
   incs.$set.P2 = p2;
  
   // Valido que el evento sea PAGABLE, sino no lo agrego en los totales.
-  //if (TrackingCost.EventPayable) {
+  if (TrackingCost.EventPayable) {
     db.connection().collection("CampaignTotalGroup").updateOne(
       {
         OfferID: OfferID,
@@ -772,7 +772,7 @@ var addOneTotalGroupEvents = async function (param, offer, TrackingCost) {
         upsert: true,
       }
     );
-  //}
+  }
 
 };
 

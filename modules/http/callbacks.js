@@ -48,7 +48,7 @@ async function parseURLFromContext(context){
         // AGREGO LA FIRMA DE APPFLYER
         if (url.indexOf('app.appsflyer.com')>0){
             url = await signature.getSignature(url);
-            log('URL APPSFLYER: ' + url);
+            //log('URL APPSFLYER: ' + url);
         }
     }catch(e){
         log(`ERROR: parseURL() - [${e}]`);
