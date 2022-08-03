@@ -129,7 +129,8 @@ var reportsCampaignTotal = function (DateFrom, DateTo, AdvertiserID, SupplierID,
               project.$project.totalProfit = { $round: [ "$totalProfit", 2 ] };
               project.$project.totalProxy = { $round: [ "$totalProxy", 0 ] };
               project.$project.totalEvent = { $round: [ "$totalEvent", 0 ] };
-              project.$project.totalSource = { $round: [ "$totalSource", 0 ] };
+              project.$project.totalSource = { $round: [ "$totalSource", 0 ] }; 
+              project.$project.CR = { $cond: [{ $eq: ["$totalClick", 0] }, 0, { $divide: [{ $multiply: ["$totalInstall", 100] }, "$totalClick"] }] },
 
               db.connection().collection(COLLECTION_NAME).aggregate([
                       filterMatch
