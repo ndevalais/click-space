@@ -67,6 +67,16 @@ var send500Error = function (res, body) {
     res.flushHeaders();
 }
 
+var send204NoContent = function (res, body) {
+    res.writeHead(204);
+    res.end();
+    //res.send({
+    //    code: 204,
+    //    body: body
+    //});
+    res.flushHeaders();
+}
+
 var response401 = function (module, moduleError) {
     var emptyResponse = {
         code: 401,
@@ -127,5 +137,6 @@ module.exports = {
     sendOkResponseJSON: sendOkResponseJSON,
     send500Error: send500Error,
     sendJSONResponse: sendJSONResponse,
-    send400Error: send400Error
+    send400Error: send400Error,
+    send204NoContent: send204NoContent
 }

@@ -109,6 +109,10 @@ function needNoRedirect(controllerResult) {
     return _.get(controllerResult, "noredirect");
 }
 
+function needNoContent(controllerResult) {
+    return _.get(controllerResult, "no_content");
+}
+
 /**
  * Evaluates if request chain needs to be callback url Suppplier.
  * 
@@ -152,6 +156,8 @@ let onControllerFinalized = async function (res, err, controllerResult) {
             const debug = _.get(controllerResult,'param.debug',false);
             if (debug) helpers.sendJSONResponse(res, controllerResult);
             else helpers.send500Error(res);
+        } else if(needNoContent(controllerResult)){
+            helpers.send204NoContent(res, controllerResult.status);
         } else if(needPostack(controllerResult)){
             // Valido si la URL viene vacia
             let url = _.get(controllerResult,'param.PostBackURL','');

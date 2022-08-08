@@ -120,21 +120,28 @@ var addOneEvents = async function (params, context, event2) {
         "events.${simpleDateYMD}.${event}.T":1
     }}`);
 
-    log(`addOneInstall for install._id:  ${id}`);
-    if (id!=0) {
-        db.connection().collection(COLLECTION_NAME).updateOne(
-            {
-                "_id": id,
-            },
-            incs,
-            {
-                upsert: true
-            }
-        );
-    }
+    /**
+     * GUARDO EL EVENTO SOLO SI ES UN EVENTO QUE ES PAGABLE
+     */
+    if (TrackingCost.EventPayable) {
+        log(`addOneInstall for install._id:  ${id}`);
+        if (id!=0) {
+            db.connection().collection(COLLECTION_NAME).updateOne(
+                {
+                    "_id": id,
+                },
+                incs,
+                {
+                    upsert: true
+                }
+            );
+        }
 
-    // Agrego el evento en el documento Events
-    saveInstall(event2);
+        // Agrego el evento en el documento Events
+        saveInstall(event2);
+    } else {
+        log(`EVENT NOT PAYABLE ===>>>addOneInstall for install._id:  ${id}`);
+    }
 
 }
 

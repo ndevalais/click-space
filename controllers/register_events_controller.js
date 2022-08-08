@@ -14,6 +14,7 @@ var processEvents = async function(params) {
   return new Promise(async (resolve, reject) => {
     try {
       let retorno;
+      let mensaje = "";
       let event = _.get(params, "event", DEFAULT_EVENT_NAME);
       let clickId = _.get(params, c.P_NAMES.click.CAMPAIGN_CLICK_GUID ,'');
       if (event=='') event = DEFAULT_EVENT_NAME;
@@ -122,7 +123,7 @@ var processEvents = async function(params) {
 
       context.params.PROCESAR = PROCESAR;
       context.params.PostBackURL = _.get(context, "offer.Supplier.PostBackURL", "");
-
+           
       //Valido el install contra los validadores
       if (PROCESAR == "INSTALL" || PROCESAR == "AMBOS") {
         retorno = await registerInstall.saveInstall(
@@ -132,13 +133,25 @@ var processEvents = async function(params) {
         );
       }
 
+      ///********************************************************************************************************
+      const CampaignTypeID = _.get(context, "offer.CampaignHead.CampaignTypeID", ''); //context.offer.CampaignHead.CampaignTypeID
+      const eventPayable = _.get(context, "offer.Campaign.eventsName1", '').toUpperCase(); //context.offer.CampaignHead.EventPayable
+      ///********************************************************************************************************
+      
       if (PROCESAR == "EVENTS" || PROCESAR == "AMBOS") {
-        retorno = await registerEvents.saveEvent(
-          validatorEngine.VALIDATORS.EVENTS_VALIDATORS,
-          context,
-          params,
-          PROCESAR
-        );
+        // Valido si el evento es PAGABLE ************************************************************************
+        if (event.toUpperCase() == eventPayable) {
+          retorno = await registerEvents.saveEvent(
+            validatorEngine.VALIDATORS.EVENTS_VALIDATORS,
+            context,
+            params,
+            PROCESAR
+          );
+        } else {
+          // Si no es PAGABLE no lo registro *****************************************************************
+          resolve({status: "non_payable_event", no_content: true});
+          return;
+        }
       }
 
       resolve(retorno);
