@@ -21,6 +21,9 @@ var validator = {
             const OfferID = _.get(objectToValidate, "offer.OfferID");
             const simpleDateYMD = moment().format('YYYYMMDD');
 
+            // Obtengo CampaignType y valido solo si es CP2 (para campañas con conversion por eventos)
+            const CampaignTypeID = _.get(objectToValidate, "offer.CampaignHead.CampaignTypeID",'');
+            
             const TrackingCount = _.get(objectToValidate, `offer.Totals.Offers[${OfferID}].installs[${simpleDateYMD}].T`, 0);
             //const CantClicksCount = _.get(objectToValidate,`offer.Totals.Offers[${OfferID}].clicks[${simpleDateYMD}].T`,0);
             const CantTrackingCount = _.get(objectToValidate, `offer.Totals.Offers[${OfferID}].installs[${simpleDateYMD}].TrackingProxy`, 0);
@@ -72,6 +75,9 @@ var validator = {
                         if (TotalRevenueCountCampaign > (DailyAmountHead * MargenDaily)) TrackingProxy = false;
                     }
                 }
+
+                // SI LA CAMPAÑA ES CP2 ENTONCES NO ENVIO EL INSTALL Y PONGO EL MISMO COMO PROXY
+                if ( CampaignTypeID == 'CP2' ) TrackingProxy = false;
 
                 //objectToValidate.TrackingProxy = TrackingProxy;
                 if (objectToValidate.params.TrackingProxy == false) TrackingProxy == false;

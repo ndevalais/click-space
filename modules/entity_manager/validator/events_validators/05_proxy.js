@@ -76,7 +76,7 @@ var validator = {
                 // Si el Evento ya ingreso en el install no lo genero
                 if (existingEventInstall > 0) TrackingProxy = false;
 
-                /* COMO VALIDO EL DAILY EN EL EVENTO
+                // COMO VALIDO EL DAILY EN EL EVENTO
                 if (CantTrackingCount > 0 && TrackingProxy) {
                     if (DailyQuantity >= 1) {
                         if (InstallCountCampaign > (DailyQuantity * MargenDaily)) TrackingProxy = false;
@@ -93,7 +93,7 @@ var validator = {
                     if (DailyAmountHead >= 1) {
                         if (TotalRevenueCountCampaign > (DailyAmountHead * MargenDaily)) TrackingProxy = false;
                     }
-                }*/
+                }
 
                 //objectToValidate.TrackingProxy = TrackingProxy;
                 if (objectToValidate.params.TrackingProxyEvent == false) TrackingProxy == false;
