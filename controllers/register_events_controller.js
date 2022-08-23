@@ -148,9 +148,11 @@ var processEvents = async function(params) {
             PROCESAR
           );
         } else {
-          // Si no es PAGABLE no lo registro *****************************************************************
-          resolve({status: "non_payable_event", no_content: true});
-          return;
+          // Si no es PAGABLE no lo registro, solo si es CP ******************************************************
+          if (CampaignTypeID=='CP2') {
+            resolve({status: "non_payable_event", no_content: true});
+            return;
+          }
         }
       }
 
