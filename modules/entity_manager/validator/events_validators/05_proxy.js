@@ -50,9 +50,9 @@ var validator = {
             CantTrackingCount = _.get(objectToValidate, `offer.Totals.Offers[${OfferID}].events[${event}][${simpleDateYMD}].TrackingProxy`, 0);
 
             // Obtengo el proxy segun el evento
-            if (event==event1) proxy = _.get(objectToValidate, "offer.Campaign.eventProxy1", 0);
-            if (event==event2) proxy = _.get(objectToValidate, "offer.Campaign.eventProxy2", 0);
-            if (event==event3) proxy = _.get(objectToValidate, "offer.Campaign.eventProxy3", 0);
+            //if (event==event1) proxy = _.get(objectToValidate, "offer.Campaign.eventProxy1", 0);
+            //if (event==event2) proxy = _.get(objectToValidate, "offer.Campaign.eventProxy2", 0);
+            //if (event==event3) proxy = _.get(objectToValidate, "offer.Campaign.eventProxy3", 0);
             if (proxy==0) proxy = _.get(objectToValidate, "offer.Proxy", 0);
 
             // CantTrackingCount     _.get(objectToValidate, `offer.Totals.Offers[${OfferID}].events[${event}][${simpleDateYMD}].TrackingProxy`, 0);
@@ -101,6 +101,7 @@ var validator = {
 
                 resolve({ name: NAME, proxy: TrackingProxy, result: result }); // proxy = false no envia postback al supplier
             } else {
+                objectToValidate.params.TrackingProxyEvent = false;
                 resolve({ name: NAME, proxy: false, result: result }); // proxy = false no envia postback al supplier
             }
         });
