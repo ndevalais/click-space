@@ -85,7 +85,8 @@ var validClickCount = async function (contextToValidateWith, lOK) {
   const OfferID = _.get(contextToValidateWith, "offer.OfferID");
   let ClickCountValid = parseInt(_.get(config, "CLICK_COUNT_VALID", 0))
   let ClickCounOffer = _.get(contextToValidateWith, `offer.Totals.Offers[${OfferID}].clicks[${simpleDateYMD}].T`, 0);
-
+  let AdvertiserID = _.get(contextToValidateWith, 'offer.Advertiser.AdvertiserID', 0);
+  if (AdvertiserID==1) lOK = true;
   if (!lOK)
     return ( ClickCountValid > ClickCounOffer);
   else 
