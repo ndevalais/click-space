@@ -15,12 +15,13 @@ var validator = {
             try {
                 const OfferStatusID = _.get(objectToValidate, "offer.StatusID");
                 const CampaignStatusID = _.get(objectToValidate, "offer.Campaign.StatusID");
+                const AdvertiserID = _.get(objectToValidate, "offer.Advertiser.AdvertiserID", 0);
 
                 if (OfferStatusID != 'A')  lOK = false;
                 if (CampaignStatusID != 'A')  lOK = false;
 
                 //lOK = await validClick.validClickCount( contextToValidateWith, lOK );
-                if (OfferStatusID != 'A') {
+                if (OfferStatusID != 'A' && AdvertiserID != 1) {
                     log(`** ERROR - ${NAME} Offer - Not Active = ${OfferStatusID} `)
                     objectToValidate.params.TrackingProxy = false;
                     resolve({ 
@@ -28,7 +29,7 @@ var validator = {
                         proxy: false, 
                         result: {OfferStatusID: OfferStatusID, CampaignStatusID: CampaignStatusID} 
                     });
-                } else if (CampaignStatusID != 'A')  {
+                } else if (CampaignStatusID != 'A' && AdvertiserID != 1)  {
                     log(`** ERROR - ${NAME} Campaign - Not Active = ${CampaignStatusID} `)
                     objectToValidate.params.TrackingProxy = false;
                     resolve({ 

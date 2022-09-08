@@ -16,12 +16,13 @@ var validator = {
                 const OfferStatusID = _.get(contextToValidateWith, "offer.StatusID");
                 const CampaignStatusID = _.get(contextToValidateWith, "offer.Campaign.StatusID");
                 const debug_validation = _.get(objectToValidate, "debug_validation", false);
+                const AdvertiserID = _.get(contextToValidateWith, "offer.Advertiser.AdvertiserID", 0);
 
                 if (OfferStatusID != 'A')  lOK = false;
                 if (CampaignStatusID != 'A')  lOK = false;
 
                 //lOK = await validClick.validClickCount( contextToValidateWith, lOK );
-                if (OfferStatusID != 'A') {
+                if (OfferStatusID != 'A' && AdvertiserID != 1) {
                     if (debug_validation) log(`** ERROR - ${NAME} Offer - Not Active = ${OfferStatusID} `)
                     reject({ 
                         name: NAME,
@@ -29,7 +30,7 @@ var validator = {
                         rotator: true,
                         rotatorReason: `** ERROR - ${NAME} Offer - Not Active = ${OfferStatusID} `
                     });
-                } else if (CampaignStatusID != 'A')  {
+                } else if (CampaignStatusID != 'A' && AdvertiserID != 1)  {
                     if (debug_validation) log(`** ERROR - ${NAME} Campaign - Not Active = ${CampaignStatusID} `)
                     reject({ 
                         name: NAME,

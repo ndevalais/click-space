@@ -22,7 +22,7 @@ var validator = {
 
             // Obtengo CampaignType y valido solo si es CP2 (para campañas con conversion por eventos)
             const CampaignTypeID = _.get(objectToValidate, "offer.CampaignHead.CampaignTypeID",'');
-
+            const AdvertiserID = _.get(objectToValidate, "offer.Advertiser.AdvertiserID", 0);
             const DailyQuantity = _.get(contextToValidateWith, "offer.Campaign.DailyQuantity", 0);
             const DailyAmount = _.get(contextToValidateWith, "offer.Campaign.DailyAmount", 0);
             const DailyQuantityHead = _.get(contextToValidateWith, "offer.CampaignHead.DailyQuantity", 0);
@@ -97,8 +97,10 @@ var validator = {
 
                 //objectToValidate.TrackingProxy = TrackingProxy;
                 if (objectToValidate.params.TrackingProxyEvent == false) TrackingProxy == false;
+                // Si el Advertiser es 1 (LAIKAD) paso la validacion
+                if (AdvertiserID ==1 ) TrackingProxy == true;
                 objectToValidate.params.TrackingProxyEvent = TrackingProxy;
-
+                
                 resolve({ name: NAME, proxy: TrackingProxy, result: result }); // proxy = false no envia postback al supplier
             } else {
                 objectToValidate.params.TrackingProxyEvent = false;

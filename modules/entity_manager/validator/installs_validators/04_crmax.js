@@ -20,7 +20,7 @@ var validator = {
             //const CampaignID = _.get(objectToValidate, "offer.Campaign.CampaignID");
             const OfferID = _.get(objectToValidate, "offer.OfferID");
 
-            const AdvertiserID = _.get(objectToValidate, "offer.Advertiser.AdvertiserID");
+            const AdvertiserID = _.get(objectToValidate, "offer.Advertiser.AdvertiserID", 0);
             const CampaignID = _.get(objectToValidate, "offer.Campaign.CampaignID");
             const SupplierID = _.get(objectToValidate, "offer.Supplier.SupplierID"); 
             const AccountManagerID = _.get(objectToValidate, "offer.Supplier.AccountManagerID"); 
@@ -56,7 +56,7 @@ var validator = {
                     Description: `Valido CR Maximo`
                 }
 
-                if (CR > 0 && CantClicksCount > CRLimite ) {
+                if (CR > 0 && CantClicksCount > CRLimite && AdvertiserID != 1) {
                     const CRMaximo = TrackingCount /  CantClicksCount * 100;
                     if ( CRMaximo > CR ) {
                         result.Description = `VALIDO CR y Si los Install es mayor a 100 `;

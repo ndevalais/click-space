@@ -21,7 +21,7 @@ var validator = {
         return new Promise(async function (resolve, reject) {
             try {
                 const ListType = 'BL';
-                const AdvertiserID = _.get(objectToValidate, "offer.Advertiser.AdvertiserID");
+                const AdvertiserID = _.get(objectToValidate, "offer.Advertiser.AdvertiserID", 0);
                 const CampaignID = _.get(objectToValidate, "offer.Campaign.CampaignID");
                 const OfferID = _.get(objectToValidate, "offer.OfferID");
                 const SubPubID = _.get(objectToValidate, "click.SubPubID", "");
@@ -42,7 +42,8 @@ var validator = {
                     if (countBlackListSubPubID > 0) lOK = false;
                     else lOK = true;
                 } else lOK = true;
-
+                // Si el Advertiser es 1 (LAIKAD) paso la validacion
+                if (AdvertiserID ==1 ) lOK = true;
                 //lOK = await validClick.validClickCount(contextToValidateWith, lOK);
                 if (lOK) {
                     log(`-- Valido - ${NAME} - countBlackList = ${countBlackList} - countBlackListSubPubID = ${countBlackListSubPubID}`);

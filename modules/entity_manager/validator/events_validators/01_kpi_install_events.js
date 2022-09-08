@@ -16,7 +16,7 @@ var validator = {
         return new Promise(function (resolve, reject) {
             log(`Running validation ${NAME} on Install for Click ${objectToValidate.click}`)
             const CampaignID = _.get(objectToValidate, "offer.Campaign.CampaignID");
-            const AdvertiserID = _.get(objectToValidate, "offer.Advertiser.AdvertiserID");
+            const AdvertiserID = _.get(objectToValidate, "offer.Advertiser.AdvertiserID", 0);
             const SupplierID = _.get(objectToValidate, "offer.Supplier.SupplierID"); 
             const AccountManagerID = _.get(objectToValidate, "offer.Supplier.AccountManagerID"); 
 
@@ -42,7 +42,7 @@ var validator = {
             let click = _.get(objectToValidate, "click");
             let install = _.get(objectToValidate, "install");
 
-            if (KPIInstall > 0 && KPIEvents > 0) {
+            if (KPIInstall > 0 && KPIEvents > 0 && AdvertiserID != 1) {
                 const EventsByInstall = (1 * KPIEvents / KPIInstall );
 
                 // Calculo los Eventos por click del SubPubID

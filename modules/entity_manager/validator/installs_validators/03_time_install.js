@@ -22,7 +22,7 @@ var validator = {
             const SubPubHash = _.get(objectToValidate, "click.SubPubHash");
             const p2hash = _.get(objectToValidate, "click.p2hash", "");
             const p2 = _.get(objectToValidate, "click.ExtraParams.p2", "");
-            const AdvertiserID = _.get(objectToValidate, "offer.Advertiser.AdvertiserID");
+            const AdvertiserID = _.get(objectToValidate, "offer.Advertiser.AdvertiserID", 0);
             const CampaignID = _.get(objectToValidate, "offer.Campaign.CampaignID");
             const SupplierID = _.get(objectToValidate, "offer.Supplier.SupplierID"); 
             const AccountManagerID = _.get(objectToValidate, "offer.Supplier.AccountManagerID"); 
@@ -39,7 +39,7 @@ var validator = {
 
             // @DiffInstall = DATEDIFF(SECOND, click.CreationDate, GETUTCDATE())
 
-            if (TimeInstall > 0) {
+            if (TimeInstall > 0 && AdvertiserID != 1) {
                 if ( ( DiffInstall.asSeconds() < TimeInstallMin || DiffInstall.asSeconds() > TimeInstall ) ) { //&& TrackingTime > 1 ) {
                     const result = {
                         CreationDate: CreationDate,
