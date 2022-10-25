@@ -362,6 +362,10 @@ var getByUUID = function (uuid, SubPubID, IPLong, event ) {
                 "Campaigns.${CampaignID}.SubPub.${SubPubID}.events.T": 1,
                 "Campaigns.${CampaignID}.SubPub.${SubPubID}.installs.${simpleDateYMD}.T": 1
             }}`);
+            /*
+                Offers[${OfferID}].events[${event}][${simpleDateYMD}].T`, 0);
+                Offers[${OfferID}].events[${event}][${simpleDateYMD}].TrackingProxy`, 0);
+            */
             /**
              * TOTALES POR EVENTOS QUE NO LOS NECESITO POR AHORA RECUPERAR ****
             "Campaigns.${CampaignID}.events.${simpleDateYMD}.TrackingProxy": 1,
@@ -407,6 +411,8 @@ var getByUUID = function (uuid, SubPubID, IPLong, event ) {
 
 var getRotator = function (SupplierID, DeviceID) {
     var arrSuppliersID = [19, 8]; // AGRAGAR SUPPLIERS PARA ROTADORES
+    var Device = (DeviceID=='AND') ? 'Android' : 'IOS';
+    var arrDevice = [Device, 'BTH', 'NON'];
     var pos = arrSuppliersID.indexOf(SupplierID);
     if (pos >= 0) var del = arrSuppliersID.splice(pos, 1)
     return new Promise(function (resolve, reject) {
@@ -416,10 +422,10 @@ var getRotator = function (SupplierID, DeviceID) {
                     "Supplier.SupplierID": { $in: arrSuppliersID },
                     "StatusID": "A",
                     "Campaign.StatusID": "A",
-                    //"Campaign.DeviceID": { $in: ['IOS', 'BTH', 'NON'] }
+                    "CampaignHead.Device": { $in: arrDevice }
                 }
             },
-            { $sort: { CreationDate: -1 } },
+            { $sort: { _id: -1 } },
             { $limit: 1 }
         ], function (err, data) {
             let doc;
