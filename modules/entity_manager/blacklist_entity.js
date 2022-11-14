@@ -230,7 +230,7 @@ var addBlackListTotal = async function (blacklist) {
             utils.sendMailBlackList({
                 To: 'laikad2021@gmail.com;delfina@laikad.com;sofia@laikad.com', 
                 Subject: `BlackList Θ SubPub ${SubPubID}`,
-                Body: `Offer: ${Offer} \nReason: ${blackListReason}\nDate: ${ (new Date()).toString() }`
+                Body: `Supplier: ${Supplier} (${SupplierID}) \nOffer: ${Offer} \nReason: ${blackListReason}\nDate: ${ (new Date()).toString() }`
             })
         }
         

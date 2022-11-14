@@ -31,6 +31,9 @@ var validator = {
                 const p2 = _.get(objectToValidate, "p2");
                 const SubPubHash = _.get(objectToValidate, "subpubhash");
                 const debug_validation = _.get(objectToValidate, "debug_validation", false);
+                const SupplierID = _.get(contextToValidateWith, "offer.Supplier.SupplierID");
+                const Supplier = _.get(contextToValidateWith, "offer.Supplier.Supplier");
+                const Campaign = _.get(contextToValidateWith, "offer.Campaign.Campaign");
                 let lOK = true;
                 let countBlackListSubPubID = 0;
 
@@ -73,7 +76,10 @@ var validator = {
                         p2hash: p2hash,
                         SubPubHash: SubPubHash,
                         SubPubID: SubPubID,
-                        p2: p2
+                        p2: p2,
+                        SupplierID: SupplierID,
+                        Supplier: Supplier,
+                        Campaign: Campaign
                      };
                      if (debug_validation) log(`** ERROR - ${NAME} - countBlackList = ${countBlackList} - countBlackListSubPubID = ${countBlackListSubPubID}`)
                     reject({
