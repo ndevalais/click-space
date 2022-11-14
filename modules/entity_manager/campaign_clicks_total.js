@@ -227,6 +227,7 @@ function getOffer(offer) {
     Countries: Countries,
   };
 }
+
 var addOneClick = async function (click, offer) {
   let simpleDateYMD = moment().format("YYYYMMDD");
   let SubPubID = _.get(click, "SubPubID");
