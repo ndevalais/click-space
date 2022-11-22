@@ -410,7 +410,7 @@ var getByUUID = function (uuid, SubPubID, IPLong, event ) {
 }
 
 var getRotator = function (SupplierID, DeviceID) {
-    var arrSuppliersID = [19, 8]; // AGRAGAR SUPPLIERS PARA ROTADORES
+    var arrSuppliersID = [19]; // AGRAGAR SUPPLIERS PARA ROTADORES
     var Device = (DeviceID=='AND') ? 'Android' : 'IOS';
     var arrDevice = [Device, 'BTH', 'NON'];
     var pos = arrSuppliersID.indexOf(SupplierID);
