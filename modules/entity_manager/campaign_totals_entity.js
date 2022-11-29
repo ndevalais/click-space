@@ -333,7 +333,7 @@ var reportsCampaignTotal = function (DateFrom, DateTo, AdvertiserID, SupplierID,
 
                 filterMatch = { $match: { "CreationDate": { "$gte": new Date(DateFrom), "$lte": new Date(DateTo) } } };
                 if (OfferID != 0) {
-                    filterMatch = filterMatch + ` "OfferID": ${OfferID},`;
+                    //filterMatch = filterMatch + ` "OfferID": ${OfferID},`;
                     filterMatch.$match.OfferID = OfferID;
 
                 } else {
