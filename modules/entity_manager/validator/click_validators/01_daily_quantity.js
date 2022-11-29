@@ -18,12 +18,17 @@ var validator = {
                 const simpleDateYMD = moment().format('YYYYMMDD');
                 const OfferID = _.get(contextToValidateWith, "offer.OfferID");
                 const CampaignID = _.get(contextToValidateWith, "offer.Campaign.CampaignID");
-                let DailyQuantityClick = _.get(contextToValidateWith, "offer.Campaign.DailyQuantityClick", 0);
+                const DailyQuantityClick = _.get(contextToValidateWith, "offer.Campaign.DailyQuantityClick", 0);
                 //let CountDailyClick = _.get(contextToValidateWith,`offer.Totals.Offers[${OfferID}].clicks[${simpleDateYMD}].T`,0);
-                let CountDailyClick = _.get(contextToValidateWith,`offer.Totals.Campaigns[${CampaignID}].clicks[${simpleDateYMD}].T`,0);
+                const DailyCapClickOffer = _.get(contextToValidateWith, "offer.DailyCapClick", 0);
+                const CountDailyClick = _.get(contextToValidateWith,`offer.Totals.Campaigns[${CampaignID}].clicks[${simpleDateYMD}].T`,0);
+                const CountDailyClickOffer = _.get(contextToValidateWith,`offer.Totals.Offers[${OfferID}].clicks[${simpleDateYMD}].T`,0);
                 let lOK = true;
                 const ip = _.get(objectToValidate, "SourceIP"); //params.SourceIP
                 const debug_validation = _.get(objectToValidate, "debug_validation", false);
+
+                // AGREGO NUEVA Validacion de Clicks por OFFER - DailyCapClickOffer ************************************ 20-11-2022
+                if (DailyCapClickOffer > 0 && DailyCapClickOffer < CountDailyClickOffer)  lOK = false;
 
                 if (DailyQuantityClick > 0 && DailyQuantityClick < CountDailyClick)  lOK = false;
                 //if (ClickCounOffer != undefined && ClickCounOffer < ClickCountValid) lOK = true;

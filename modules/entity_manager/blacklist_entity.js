@@ -193,6 +193,8 @@ var addBlackListTotal = async function (blacklist) {
     const ListType = _.get(blacklist, "ListType");
     const blackListReason = _.get(blacklist, "blackListReason", "");
     const Status = _.get(blacklist, "Status", true);
+    const Supplier = _.get(blacklist, "Supplier", '');
+    const SupplierID = _.get(blacklist, "SupplierID", '');
     const CreationDate = new Date();
     let incs;
 
