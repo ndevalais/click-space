@@ -125,9 +125,10 @@ var registerClick = async function (params) {
            
             const SupplierID = _.get(context, "offer.Supplier.SupplierID", 0);
             const DeviceID = _.get(params, "AdditionalUserAgentInfo.os.family", '').toUpperCase().substr(0, 3);
+            const CountryCode = _.get(params, "AdditionalIPInfo.CountryCode", '');
             //console.log("Rotador:");
 
-            var rotador = await entityManager.getRotator(SupplierID, DeviceID);
+            var rotador = await entityManager.getRotator(SupplierID, DeviceID, CountryCode);
             if (rotador) {
                 params.offerguid = _.get(rotador,"OfferGUID");
                 context.SourceOffer = context.offer;

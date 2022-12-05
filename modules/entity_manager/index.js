@@ -39,11 +39,11 @@ async function getOfferByUUID(uuid, SubPubID, IPLong, event) {
     }
 }
 
-async function getRotator(SupplierID, DeviceID) {
-    let uuid = hash({ SupplierID: SupplierID, DeviceID: DeviceID });
+async function getRotator(SupplierID, DeviceID, CountryCode) {
+    let uuid = hash({ SupplierID: SupplierID, DeviceID: DeviceID, CountryCode: CountryCode });
     //Gets the function that call the mongo DB
     var f = async function () {
-        var elem = await oe.getRotator(SupplierID, DeviceID);
+        var elem = await oe.getRotator(SupplierID, DeviceID, CountryCode);
         return elem;
     }
     //Tell cache helper to manage this object

@@ -409,10 +409,10 @@ var getByUUID = function (uuid, SubPubID, IPLong, event ) {
     });
 }
 
-var getRotator = function (SupplierID, DeviceID) {
+var getRotator = function (SupplierID, DeviceID, CountryCode) {
     var arrSuppliersID = [19]; // AGRAGAR SUPPLIERS PARA ROTADORES
     var Device = (DeviceID=='AND') ? 'Android' : 'IOS';
-    var arrDevice = [Device, 'BTH', 'NON'];
+    var arrDevice = [Device, 'BTH', 'NON', 'All', 'ALL'];
     var pos = arrSuppliersID.indexOf(SupplierID);
     if (pos >= 0) var del = arrSuppliersID.splice(pos, 1)
     return new Promise(function (resolve, reject) {
@@ -426,12 +426,28 @@ var getRotator = function (SupplierID, DeviceID) {
                 }
             },
             { $sort: { _id: -1 } },
-            { $limit: 1 }
+            //{ $limit: 1 }
         ], function (err, data) {
             let doc;
+            let i = 0;
+            let lOKCountry = false;
+            let lOK = false;
             //Warning, this could for reasons bring more that one doc.
             data.forEach(function (result) {
-                doc = result;
+                const Countrys = _.get(result, "Campaign.Countrys",'');
+                // Obtengo la primer campaign
+                if (i==0) doc = result;
+                i++
+                // busco si existe una con el pais 
+                if (Countrys.indexOf(CountryCode) >= 0) {
+                    doc = result;
+                    lOKCountry = true;
+                }
+                // Si no existe el pais y 
+                if (Countrys.indexOf('11') >= 0 && !lOKCountry && !lOK) {
+                    doc = result;
+                    lOK = true;
+                }
             }).then(function () {
                 resolve(doc);
             });
